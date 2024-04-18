@@ -70,8 +70,10 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+
     .btn-container {
       display: inline-flex;
       justify-content: center;
@@ -82,6 +84,7 @@
 
       color: #fff;
     }
+
     .btn-lg-container {
       display: inline-flex;
       padding: 8px 15px;
@@ -93,6 +96,7 @@
       border: 1px solid var(--Landing-Page---Text-1, #161616);
       background: #fff;
     }
+
     .layout-text-container {
       width: 219.845px;
       height: 36px;
@@ -101,6 +105,7 @@
       border-radius: 6px;
       background: #ffefe0;
     }
+
     .rectangle12 {
       width: 13px;
       height: 13px;
@@ -108,6 +113,7 @@
       flex-shrink: 0;
       background: #ffefe0;
     }
+
     .demo {
       display: inline-flex;
       padding: 6px 15px;
@@ -117,6 +123,7 @@
       border-radius: 12px;
       background: #ffefe0;
     }
+
     .input {
       width: 363px;
       height: 60px;
@@ -125,6 +132,7 @@
       border: 1.5px solid #ebebeb;
       background: #fff;
     }
+
     .eye-layout {
       display: flex;
       width: 20px;
@@ -135,6 +143,7 @@
       flex-shrink: 0;
       opacity: 0.5;
     }
+
     .checkbox {
       width: 32px;
       height: 32px;
@@ -144,6 +153,7 @@
       border: 1.5px solid #ebebeb;
       background: #fff;
     }
+
     .lg-gg {
       border-radius: 12px;
       border: 1.5px solid #ebebeb;
@@ -154,6 +164,7 @@
 
       color: #161616;
     }
+
     .lg {
       width: 363px;
       height: 60px;
@@ -163,11 +174,18 @@
 
       color: #fff;
     }
+
     .error-message {
       color: #ff0000;
     }
+
     .rounded-md-px {
       border-radius: 12px;
     }
+  }
+
+  input[type='password'].hide-password-icon::-ms-reveal,
+  input[type='password'].hide-password-icon::-ms-clear {
+    display: none;
   }
 }

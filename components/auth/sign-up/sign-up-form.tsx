@@ -22,7 +22,7 @@ import "@/app/globals.css";
 import { Input } from "@/components/ui/input";
 import AuthButton from "../../ui/auth-button";
 import LgButton from "../../ui/lg-button";
-import { LoginButton } from "../sign-in/sign-in-button";
+import { SignInButton } from "../sign-in/sign-in-button";
 import ImageLogo from "../image-logo";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
@@ -71,10 +71,11 @@ const SignUpForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        method: 'POST',
+        method: "POST",
       }
     ).then((res) => res.json());
     console.log(result);
+    location.href = "/sign-in";
   }
 
   return (
@@ -85,11 +86,11 @@ const SignUpForm = () => {
           <p className="pt-[8px] font-normal text-right">
             Already have an account?
           </p>
-          <LoginButton>
+          <SignInButton>
             <LgButton className="font-semibold w-[84.9px] h-[40px]">
               Sign in
             </LgButton>
-          </LoginButton>
+          </SignInButton>
         </div>
         <div className="pl-[90px] pr-[90px]">
           <div className="text-center max-w-[363px] pt-[60px] text-[36px] font-semibold leading-normal text-gray-[#1D1D1F]">

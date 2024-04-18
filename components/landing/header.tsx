@@ -3,7 +3,7 @@ import "@/app/globals.css";
 import Link from "next/link";
 import BuildButton from "@/components/ui/build-button";
 import LgButton from "../ui/lg-button";
-import { LoginButton } from "../auth/sign-in/sign-in-button";
+import { SignInButton } from "../auth/sign-in/sign-in-button";
 import { SignUpButton } from "../auth/sign-up/sign-up-button";
 
 const menuLinks = [
@@ -40,9 +40,9 @@ const Header = () => {
           pt-[38px] pr-[65px] text-[14px]
           font-medium leading-[24px] "
         >
-          <LoginButton>
+          <SignInButton>
             <LgButton className="text-[#161616] max-w-[68px]">Login</LgButton>
-          </LoginButton>
+          </SignInButton>
           <SignUpButton>
             <BuildButton className="p-[8px] px-[15px]  max-w-[173px] ">
               Build a Brain for free

@@ -64,32 +64,32 @@ const SignInForm = () => {
   // 2. Define a submit handler.
   async function onSubmit(values: SignInBodyType) {
     try {
-      // const result = await fetch(
-      //   `${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/auth/sign-in`,
-      //   {
-      //     body: JSON.stringify(values),
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     method: "POST",
-      //   }
-      // ).then(async (res) => {
-      //   const payload = await res.json();
-      //   const data = {
-      //     status: res.status,
-      //     payload,
-      //   };
-      //   if (!res.ok) {
-      //     throw data;
-      //   }
-      //   return data;
-      // });
-      // toast({
-      //   description: "Thành công",
-      // });
+      const result = await fetch(
+        `${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/auth/sign-in`,
+        {
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+        }
+      ).then(async (res) => {
+        const payload = await res.json();
+        const data = {
+          status: res.status,
+          payload,
+        };
+        if (!res.ok) {
+          throw data;
+        }
+        return data;
+      });
+      toast({
+        description: "Thành công",
+      });
       const resultFromNextServer = await fetch("/api/auth/[...nextauth]", {
         method: "POST",
-        body: JSON.stringify(values),
+        body: JSON.stringify(result),
         headers: {
           "Content-Type": "application/json",
         },
@@ -105,6 +105,7 @@ const SignInForm = () => {
         return data;
       });
       console.log(resultFromNextServer);
+      location.href = "/admin-home";
     } catch (error: any) {
       const errors = (error as any).payload.errors as {
         field: string;
@@ -144,12 +145,12 @@ const SignInForm = () => {
           </SignUpButton>
         </div>
         <div className="pl-[90px] pr-[90px]">
-          <div className="max-w-[363px] pt-[60px]">
+          <div className="max-w-[335px] pt-[60px]">
             <h1 className="text-center  text-[36px] font-semibold leading-normal text-gray-[#1D1D1F]">
               Sign in to Ally AI
             </h1>
           </div>
-          <div className="pt-[12px] max-w-[363px]">
+          <div className="pt-[12px] max-w-[335px]">
             <p className="text-center text-[16px] font-normal leading-[26px] text-gray-[#2C2C2C]">
               Welcome to Ally AI, please enter your login details below to
               using.
@@ -243,7 +244,7 @@ const SignInForm = () => {
                 <div className=" flex items-center justify-between text-[16px] leading-[26px] ">
                   <AuthButton
                     type="submit"
-                    className="max-w-[363px] font-semibold"
+                    className="max-w-[335px] font-semibold"
                   >
                     Sign in
                   </AuthButton>

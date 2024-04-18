@@ -26,7 +26,7 @@ export const Social = () => {
           <div className="flex pl-[87px] gap-[10px] flex-shrink-0">
             <Image src="/new 1.svg" alt="new 1" width={24} height={24}></Image>
           </div>
-          <p className="flex pr-[87px] ">Sign in with Google</p>
+          <p className="flex pr-[57px] ">Sign in with Google</p>
         </AuthGGButton>
       </Link>
     </div>

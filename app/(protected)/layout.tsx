@@ -21,7 +21,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="max-w-[1440px] max-h-[810px] bg-[#FFF]">
+    <html lang="en" className="h-full max-w-[1440px] max-h-[810px] bg-[#FFF]">
       <body className={poppins.className}>{children}</body>
     </html>
   );
