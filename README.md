@@ -34,3 +34,37 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+##### 4. Project directory structure
+
+```
+
+📦Your-Project-Name
+ ┣ 📂app
+ ┃ ┣ 📜layout.tsx
+ ┃ ┣ 📜page.tsx
+ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂ui
+ ┃ ┃ ┃ ┣ 📜alert-dialog.tsx
+ ┃ ┃ ┃ ┣ 📜button.tsx
+ ┃ ┃ ┃ ┣ 📜dropdown-menu.tsx
+ ┃ ┃ ┃ ┗ 📜...
+ ┃ ┃ ┣ 📜main-nav.tsx
+ ┃ ┃ ┗ 📜page-header.tsx
+ ┃ ┣ 📂lib
+ ┃ ┃ ┗ 📜utils.ts
+ ┃ ┗ 📂styles
+ ┃ ┃ ┗ 📜globals.css
+ ┣ 📜next.config.js
+ ┣ 📜package.json
+ ┣ 📜postcss.config.js
+ ┣ 📜tailwind.config.js
+ ┗ 📜tsconfig.json
+```
+
+###### `In which:`
+
+- I place the UI components in the `components/ui` folder.
+- The rest of the components such as <PageHeader /> and <MainNav /> are placed in the `components` folder.
+- The `lib` folder contains all the utility functions. I have a `utils.ts` where I define the `cn` helper.
+- The `styles` folder contains the global CSS.
