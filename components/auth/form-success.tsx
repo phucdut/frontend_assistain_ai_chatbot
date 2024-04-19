@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import "@/styles/globals.scss";
+import "@/app/globals.css";
 import Link from "next/link";
 
 const FormSuccess = () => {

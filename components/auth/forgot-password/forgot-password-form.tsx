@@ -78,7 +78,45 @@ const ForgotPasswordForm = () => {
 
   return (
     <CardWrapperPorgotPassword>
-      aaaaa
+      <div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
+            <div className="pt-[24px] ">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your email"
+                        {...field}
+                        disabled={isPending}
+                        className="pl-[20px] text-[16px] font-normal leading-[26px]"
+                        type="email"
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {/* This is your public display email. */}
+                    </FormDescription>
+                    <FormMessage className="text-red-500 text-[14px] font-normal leading-[26px]" />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="pb-3 pt-3">
+              <FormError message={error} />
+              <FormSuccess message={success} />
+            </div>
+            <div className=" flex items-center justify-between  text-[16px] leading-[26px] ">
+              <AuthButton type="submit" className="max-w-[363px] font-semibold">
+                Submit
+              </AuthButton>
+            </div>
+          </form>
+        </Form>
+      </div>
     </CardWrapperPorgotPassword>
   );
 };
