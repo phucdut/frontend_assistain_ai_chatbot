@@ -19,6 +19,11 @@ const config = {
     },
     extend: {
       colors: {
+        'custom-gray': '#1D1D1F',
+        'custom-gray-1': '#2C2C2C;',
+        gray: {
+          170: '#1D1D1F', // your desired color
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

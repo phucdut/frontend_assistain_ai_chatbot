@@ -182,6 +182,28 @@
     .rounded-md-px {
       border-radius: 12px;
     }
+
+    .img-step {
+      color: #fff;
+
+      text-align: center;
+      font-family: Poppins;
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 40px;
+      /* 133.333% */
+    }
+    
+    .line {
+      stroke-width: 1px;
+      stroke: var(--Admin---Line-White, #D2D9E8)
+    }
+
+    .yourImageClass {
+      object-fit: cover;
+      object-position: center;
+    }
   }
 
   input[type='password'].hide-password-icon::-ms-reveal,

@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   // const session = await db.user.findMany;
   return (
-    <html lang="en" className="max-w-[1440px] max-h-[6939] bg-[#FFF]">
+    <html lang="en" className=" bg-[#FFF]">
       <body className={poppins.className}>{children}</body>
     </html>
   );

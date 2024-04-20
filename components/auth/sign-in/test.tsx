@@ -106,7 +106,7 @@ const SignInForm1 = () => {
         return data;
       });
       console.log(resultFromNextServer);
-      location.href = "/admin-home";
+      location.href = "/dashboard";
     } catch (error: any) {
       const errors = (error as any).payload.errors as {
         field: string;

@@ -22,5 +22,12 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/sign-in', '/sign-up']
+  matcher: ['/sign-in', '/sign-up',     
+  // Exclude files with a "." followed by an extension, which are typically static files.
+  // Exclude files in the _next directory, which are Next.js internals.
+
+  "/((?!.+\\.[\\w]+$|_next).*)",
+  // Re-include any files in the api or trpc folders that might have an extension
+  "/(api|trpc)(.*)",]
+
 }
