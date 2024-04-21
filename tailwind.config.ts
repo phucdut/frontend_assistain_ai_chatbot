@@ -20,7 +20,9 @@ const config = {
     extend: {
       colors: {
         'custom-gray': '#1D1D1F',
-        'custom-gray-1': '#2C2C2C;',
+        'custom-gray-1': '#2C2C2C',
+        'custom-gray-2': '#666',
+        'custom-gray-3': '#D2D9E8',
         gray: {
           170: '#1D1D1F', // your desired color
         },

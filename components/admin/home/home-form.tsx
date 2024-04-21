@@ -3,6 +3,7 @@ import AuthButton from "@/components/ui/auth-button";
 import Image from "next/image";
 import "@/app/globals.css";
 import React from "react";
+import { CreatBrainButton } from "./button-creat-brain";
 
 const HomeForm: React.FC = () => {
   return (
@@ -141,7 +142,9 @@ const HomeForm: React.FC = () => {
       </div>
       <div className="flex flex-col justify-between items-center h-full pt-14">
         <div className=" flex items-center justify-between text-[16px] leading-[26px] ">
-          <AuthButton className="font-semibold">Create now</AuthButton>
+          <CreatBrainButton>
+            <AuthButton className="font-semibold">Create now</AuthButton>
+          </CreatBrainButton>
         </div>
       </div>
     </div>

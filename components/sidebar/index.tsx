@@ -25,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const { isMinimal } = useSidebarStore();
   // const { user } = useUser();
   return (
-    <div className={cn("text-white bg-[#1D1D1F]", clasName)}>
+    <div className={cn("text-white", clasName)}>
       <div className="h-20 pl-7 pr-6">
         <div className="flex items-center justify-between w-full">
           {!isMinimal && <Logo />}

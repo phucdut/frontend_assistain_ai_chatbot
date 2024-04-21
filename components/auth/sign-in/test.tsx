@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-import { z } from "zod";
+import { set, z } from "zod";
 import { SignInSchema, SignInBodyType } from "@/schemas";
 
 import {
@@ -34,9 +34,11 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import envConfig from "@/app/config";
 import { CardWrapperSignIn } from "../card-wrapper-sign-in";
+import { useAppContext } from "@/app/app-provider";
 
 const SignInForm1 = () => {
   const { toast } = useToast();
+  const {setSessionToken} = useAppContext();
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -105,8 +107,9 @@ const SignInForm1 = () => {
         }
         return data;
       });
-      console.log(resultFromNextServer);
-      location.href = "/dashboard";
+      setSessionToken(resultFromNextServer.payload.token);
+      // const token = resultFromNextServer.payload.token;
+      // location.href = `/home?token=${encodeURIComponent(token)}`;
     } catch (error: any) {
       const errors = (error as any).payload.errors as {
         field: string;
@@ -135,7 +138,10 @@ const SignInForm1 = () => {
     <CardWrapperSignIn>
       <div className="">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 space-x-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 space-x-6"
+          >
             <div>
               <div>
                 <FormField

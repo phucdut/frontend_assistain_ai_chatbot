@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "@/app/globals.css";
+import AppProvider from "@/app/app-provider";
+import { cookies } from 'next/headers'
 // import { db } from "@/lib/db";
 
 const poppins = Poppins({
@@ -19,13 +21,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  const sessionToken = cookieStore.get("sessionToken");
   // const session = await db.user.findMany;
   return (
-    <html
-      lang="en"
-      className="h-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] bg-[#fff] "
-    >
-      <body className={poppins.className}>{children}</body>
+    <html lang="en" className=" h-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] bg-[#fff]">
+      <body className={poppins.className}>
+        <AppProvider inititalSessionToken={sessionToken?.value}>
+          {children}
+        </AppProvider>
+      </body>
     </html>
   );
 }

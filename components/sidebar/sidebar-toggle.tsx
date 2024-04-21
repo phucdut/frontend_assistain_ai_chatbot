@@ -7,7 +7,7 @@ import { useSidebarStore } from "@/stores/sidebar-stores";
 import { Button } from "@/components/ui/button";
 
 const SidebarToggle = () => {
-  const { isMinimal, hendleChangeSideBar, hendleOpenOrClose } =
+  const { isMinimal, handleChangeSideBar, handleOpenOrClose } =
     useSidebarStore();
 
   return (
@@ -15,7 +15,7 @@ const SidebarToggle = () => {
       <div
         className="cursor-pointer hidden lg:block"
         is-navbar-minimal={isMinimal ? "true" : undefined}
-        onClick={hendleChangeSideBar}
+        onClick={handleChangeSideBar}
       >
         <Image
           src={`/icons/menu-${isMinimal ? "open" : "close"}.svg`}
@@ -28,7 +28,7 @@ const SidebarToggle = () => {
       <Button
         variant="ghost"
         className="lg:hidden"
-        onClick={hendleOpenOrClose}
+        onClick={handleOpenOrClose}
         size="icon"
       >
         <X />

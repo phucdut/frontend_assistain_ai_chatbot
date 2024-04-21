@@ -1,11 +1,9 @@
 import HomeForm from "@/components/admin/home/home-form"
 
-const HomePage = () => {
+export default async function HomePage() {
   return (
     <div>
       <HomeForm />
     </div>
   )
 }
-
-export default HomePage

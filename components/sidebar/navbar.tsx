@@ -7,23 +7,22 @@ import Image from "next/image";
 import { NAVIGATIONSs } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useSidebarStore } from "@/stores/sidebar-stores";
+import { Separator } from "../ui/separator";
 
 const Navbar = () => {
   const pathname = usePathname();
-  const { isMinimal, hendleClose } = useSidebarStore();
+  const { isMinimal, handleClose } = useSidebarStore();
 
   return (
     <div className="px-4 bg-[#1D1D1F]">
-      <div className="line flex-shrink-0">
-        <Image src="/Line 2.png" alt="Line2" width={347} height={0} />
-      </div>
+      <Separator className=" bg-[#303034]" />
       <div className="pb-4 pt-7">
         <p>Main</p>
       </div>
       <div>
         {NAVIGATIONSs.map(({ title, url, icon }, index) => (
           <div key={index} className="mb-2">
-            <Link href={url}>
+            <Link href={url} onClick={handleClose}>
               <div
                 className={cn(
                   "flex items-center py-1 rounded-lg px-5 opacity-70",

@@ -29,7 +29,7 @@ export default function AuthLayout({
           <header>
             <Topbar />
           </header>
-          <main className="lg:bg-gray-170 lg:overflow-hidden lg:pl-80 [&:has([is-navbar-minimal])]:lg:pl-20 lg:pr-7 lg:py-7">
+          <main className="lg:bg-gray-170 lg:overflow lg:pl-80 [&:has([is-navbar-minimal])]:lg:pl-20 lg:pr-7 lg:py-7">
             <Sidebar
               isProPlan={false}
               userLimitCount={0}
