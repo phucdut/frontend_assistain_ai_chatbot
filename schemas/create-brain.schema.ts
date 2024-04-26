@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const CreatBrainRes = z
+export const CreateBrainRes = z
   .object({
     name: z
       .string()
@@ -20,6 +20,8 @@ export const CreatBrainRes = z
       }),
     openAIKey: z.string(),
     model: z.string(),
+    temperature: z.string(),
+    maxTokens: z.string(),
     promptTitle: z
       .string()
       .min(6, {
@@ -39,4 +41,4 @@ export const CreatBrainRes = z
   })
   .strict();
 
-export type CreatBrainResType = z.TypeOf<typeof CreatBrainRes>;
+export type CreateBrainResType = z.TypeOf<typeof CreateBrainRes>;

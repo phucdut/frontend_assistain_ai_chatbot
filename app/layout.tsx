@@ -23,10 +23,10 @@ export default function RootLayout({
 }>) {
   const cookieStore = cookies();
   const sessionToken = cookieStore.get("sessionToken");
-  console.log(sessionToken);
+  // console.log(sessionToken);
   // const session = await db.user.findMany;
   return (
-    <html lang="en" className=" bg-[#FFF]">
+    <html lang="en" className="bg-[#FFF] lg:overflow-auto">
       <body className={poppins.className}>
         <AppProvider inititalSessionToken={sessionToken?.value}>
           {children}

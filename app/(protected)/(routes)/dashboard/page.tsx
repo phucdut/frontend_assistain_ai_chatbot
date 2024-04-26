@@ -1,9 +1,9 @@
-import UpgradeProModal from "@/components/admin/dashboard/upgrade-pro-modal"
+import DashBoardForm from "@/components/admin/dashboard/dashboard-form"
 
 const DashBoardPage = () => {
   return (
     <div>
-      <UpgradeProModal />
+      <DashBoardForm />
     </div>
   )
 }

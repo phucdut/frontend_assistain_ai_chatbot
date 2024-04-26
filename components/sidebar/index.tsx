@@ -32,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           <SidebarToggle />
         </div>
       </div>
-      <div className="grow overflow-y-auto scroll-smooth scrollbar-none">
+      <div className="grow  scroll-smooth scrollbar-none">
         <Navbar />
       </div>
       <div

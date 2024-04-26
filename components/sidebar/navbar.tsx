@@ -8,6 +8,19 @@ import { NAVIGATIONSs } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useSidebarStore } from "@/stores/sidebar-stores";
 import { Separator } from "../ui/separator";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from "../ui/drawer";
+import CombonentCreat from "../admin/home/component-create";
+import { Button } from "../ui/button";
+import AllChatbots from "./get-all-chatbots";
+import AllVersionChatGPTs from "./get-all-select-versions-chatGPT";
+import CreateChatbot from "./create_chatbot";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -16,7 +29,14 @@ const Navbar = () => {
   return (
     <div className="px-4 bg-[#1D1D1F]">
       <Separator className=" bg-[#303034]" />
-      <div className="pb-4 pt-7">
+      {/* <AllVersionChatGPTs /> */}
+      <Separator className=" bg-[#303034]" />
+      <div
+        className={cn(
+          "flex items-center py-1 rounded-lg px-5 opacity-70 pb-4 pt-7",
+          isMinimal && "px-1"
+        )}
+      >
         <p>Main</p>
       </div>
       <div>
@@ -43,6 +63,8 @@ const Navbar = () => {
           </div>
         ))}
       </div>
+      <CreateChatbot />
+      <AllChatbots />
     </div>
   );
 };

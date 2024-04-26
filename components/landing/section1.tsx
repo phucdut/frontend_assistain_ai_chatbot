@@ -34,25 +34,22 @@ const Section1 = () => {
             </p>
           </div>
           <div className="pt-[41px] ">
-            <Link href="/">
-              <Image
-                src="/Rectangle50.svg"
-                alt="Rectangle"
-                width={452}
-                height={339}
-              ></Image>
-            </Link>
+            <Image
+              src="/Rectangle50.svg"
+              alt="Rectangle"
+              width={452}
+              height={339}
+            ></Image>
           </div>
         </div>
         <div>
-          <Link href="/" className=" flex pt-[121px] flex-shrink-0 ">
-            <Image
-              src="/Rectangle49.svg"
-              alt="Rectangle"
-              width={491}
-              height={557}
-            ></Image>
-          </Link>
+          <Image
+            src="/Rectangle49.svg"
+            alt="Rectangle"
+            width={491}
+            height={557}
+            className=" flex pt-[121px]"
+          ></Image>
         </div>
       </div>
     </section>

@@ -28,7 +28,7 @@ const AllChatbotForm = () => {
         }
         return data;
       });
-      console.log(result);
+      console.log(result.payload.results);
     };
 
     fetchRequest();

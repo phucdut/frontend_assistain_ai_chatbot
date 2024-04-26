@@ -2,6 +2,7 @@
 import Image from "next/image";
 import "@/app/globals.css";
 
+
 const Section3 = () => {
   return (
     <div>

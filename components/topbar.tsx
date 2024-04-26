@@ -9,7 +9,7 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 
 const Topbar = () => {
-  const { hendleOpenOrClose } = useSidebarStore();
+  const { handleOpenOrClose } = useSidebarStore();
 
   return (
     <div
@@ -19,7 +19,7 @@ const Topbar = () => {
       )}
     >
       <Logo />
-      <Button variant="ghost" size="icon" onClick={hendleOpenOrClose}>
+      <Button variant="ghost" size="icon" onClick={handleOpenOrClose}>
         <Menu />
       </Button>
     </div>

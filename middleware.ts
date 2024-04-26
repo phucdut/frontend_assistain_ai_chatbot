@@ -9,6 +9,7 @@ const authPaths = ['/sign-in', '/sign-up']
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const sessionToken = request.cookies.get('sessionToken')?.value
+  // console.log('sessionToken', sessionToken)
   // Chưa đăng nhập thì không cho vào private paths
   if (privatePaths.some((path) => pathname.startsWith(path)) && !sessionToken) {
     return NextResponse.redirect(new URL('/sign-in', request.url))
@@ -29,5 +30,4 @@ export const config = {
   "/((?!.+\\.[\\w]+$|_next).*)",
   // Re-include any files in the api or trpc folders that might have an extension
   "/(api|trpc)(.*)",]
-
 }
