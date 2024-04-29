@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import CreateKnowledgeBase from "./create-knowledge-base";
 
 const invoices = [
   {
@@ -36,40 +37,7 @@ const KnowledgeBase = () => {
         "lg:rounded-3xl lg:p-7"
       )}
     >
-      <div className="flex items-center justify-between">
-        <div className="pl-8 pb-0 relative">
-          <div className="text-[16px] font-normal leading-[18px] relative w-[820px]">
-            <Input
-              placeholder="Write your message"
-              type="email"
-              className="w-full inputChat pl-16"
-            />
-            <Image
-              src="/icons/search-normal.svg"
-              alt="search"
-              width={16}
-              height={16}
-              className="absolute inset-y-6 left-9 flex items-center justify-between flex-shrink-0"
-            />
-          </div>
-        </div>
-        <div>
-          <div className=" flex items-center justify-between text-[14px] pr-9 leading-[22px] ">
-            <BuildButton
-              type="submit"
-              className="btn-container font-semibold w-[134px] h-[50px]"
-            >
-              <Image
-                src="/Fill - Add - Plus.svg"
-                alt="x"
-                width={16}
-                height={16}
-              ></Image>
-              Create
-            </BuildButton>
-          </div>
-        </div>
-      </div>
+      <CreateKnowledgeBase />
       <div className="pt-5">
         <Table>
           <TableCaption></TableCaption>

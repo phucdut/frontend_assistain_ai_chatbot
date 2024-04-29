@@ -2,7 +2,6 @@
 
 import React from "react";
 import AllVersionChatGPTs from "./get-all-select-versions-chatGPT";
-import Headers from "./header";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Chat from "./chat";
@@ -17,13 +16,13 @@ const InfoChatbotForm = () => {
       <div className="text-[24px] font-semibold leading-[141.667%] text-custom-gray max-w-[151px]">
         <h1>Elon Musk AI</h1>
       </div>
-      <Tabs defaultValue="chatGPT" className="w-[700px] ">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="chatGPT" className="pr-28">
+      <Tabs defaultValue="chatGPT" className="w-[800px] ">
+        <TabsList className="grid w-full grid-cols-5 pl-10 ">
+          <TabsTrigger value="chatGPT" className="">
             <AllVersionChatGPTs />
           </TabsTrigger>
-          <TabsTrigger value="knowledgeBase">Knowledge base</TabsTrigger>
-          <TabsTrigger value="prompt">Prompt.</TabsTrigger>
+          <TabsTrigger value="knowledgeBase" >Knowledge base</TabsTrigger>
+          <TabsTrigger value="prompt">Prompt</TabsTrigger>
           <TabsTrigger value="customize">Customize</TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
         </TabsList>

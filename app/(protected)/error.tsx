@@ -2,7 +2,7 @@
 import React from "react";
 
 const DashBoardError = () => {
-  return <div>DashBoardError</div>;
+  return <div>PageError!!!!</div>;
 };
 
 export default DashBoardError;

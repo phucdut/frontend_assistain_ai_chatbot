@@ -44,16 +44,7 @@ export const TOOLS: ToolItemProps[] = [
   // },
 ];
 
-// export const NAVIGATIONS = [
-//   {
-//     title: "Dashboard",
-//     icon: "/icons/dashboard.svg",
-//     url: "/dashboard",
-//     slug: "dashboard"
-//   },
-//   ...TOOLS,
-// ];
-export const NAVIGATIONSs = [
+export const NAVIGATIONS = [
   {
     title: "HOME",
     icon: "/icons/Fill - Home.svg",

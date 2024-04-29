@@ -141,6 +141,12 @@
       background: #fff;
     }
 
+    .inputUpload {
+      border-radius: 6px;
+      border: 1px dashed var(--Admin---Line-White, #D2D9E8);
+      background: #F8F9FB;
+    }
+
     .eye-layout {
       display: flex;
       width: 20px;
@@ -202,7 +208,7 @@
       line-height: 40px;
       /* 133.333% */
     }
-    
+
     .line {
       stroke-width: 1px;
       stroke: var(--Admin---Line-White, #D2D9E8)

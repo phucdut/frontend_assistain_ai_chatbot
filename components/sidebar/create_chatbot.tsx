@@ -20,25 +20,21 @@ const CreateChatbot = () => {
   const { isMinimal, handleClose } = useSidebarStore();
   return (
     <Drawer>
-      <div className="">
+      <div>
         <Link
           href={"#"}
           onClick={handleClose}
-          className="flex items-center justify-between"
+          className="flex items-center justify-between px-1"
         >
-          <div
-            className={cn(
-              "flex items-center py-1 rounded-lg px-5 opacity-70",
-              !isMinimal && "px-1"
-            )}
-          ></div>
+          <div className={cn(!isMinimal && "px-1")}>
+          {isMinimal && (
+            <div className="text-[#8E98A4] text-[13px] font-semibold leading-[18px] uppercase pl-1">
+              <p>Chat</p>
+            </div>
+          )}
           {!isMinimal && (
-            <div className="flex items-center py-1 rounded-lg px-5 opacity-70">
-              <p
-                className={cn(
-                  "text-[#8E98A4] text-[13px] font-semibold leading-[18px] uppercase"
-                )}
-              >
+            <div className="flex items-center justify-start gap-[157px] py-1 rounded-lg  opacity-70">
+              <p className="text-[#8E98A4] text-[13px] w-[86px] font-semibold leading-[18px] uppercase">
                 Chat bot
               </p>
               <DrawerTrigger asChild>
@@ -52,6 +48,7 @@ const CreateChatbot = () => {
               </DrawerTrigger>
             </div>
           )}
+          </div>
         </Link>
       </div>
       <DrawerContent className="lg:overflow-auto ">
