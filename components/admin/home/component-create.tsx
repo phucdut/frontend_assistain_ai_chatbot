@@ -1,12 +1,17 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import * as SliderPrimitive from "@radix-ui/react-slider";
+import { cn } from "@/lib/utils";
 
 import { useState, useTransition, useEffect } from "react";
 import { useForm } from "react-hook-form";
-
+import * as React from "react";
 import { z } from "zod";
-import { CreateBrainRes, CreateBrainResType } from "@/schemas/create-brain.schema";
+import {
+  CreateChatbotRes,
+  CreateChatbotResType,
+} from "@/schemas/create-chatbot.schema";
 import {
   Select,
   SelectContent,
@@ -36,19 +41,22 @@ import { Slider } from "@/components/ui/slider";
 import { Slider1 } from "@/components/ui/slider1";
 import { Separator } from "@/components/ui/separator";
 
-const ComponentCreate = () => {
+const ComponentCreate = React.forwardRef<
+  React.ElementRef<typeof SliderPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+>(({ className, onValueChange, ...props }, ref) => {
   const [isPending, startTransition] = useTransition();
   const [isChecked, setIsChecked] = useState(false);
-  const [value, setValueTemperature] = useState(0);
-
+  const [sliderTemperatureValue, setTemperatureValue] = useState(0.5);
+  const [sliderMaxTokenValue, setMaxTokenValue] = useState(100);
   const {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<CreateBrainResType>();
+  } = useForm<CreateChatbotResType>();
 
-  const form = useForm<CreateBrainResType>({
-    resolver: zodResolver(CreateBrainRes),
+  const form = useForm<CreateChatbotResType>({
+    resolver: zodResolver(CreateChatbotRes),
     defaultValues: {
       name: "",
       description: "",
@@ -60,11 +68,26 @@ const ComponentCreate = () => {
       promptContent: "",
     },
   });
-  const handleChange = (event: any) => {
-    setValueTemperature(event.target.value);
+  const handleTemperatureValueChange = (newValue: number[]) => {
+    setTemperatureValue(newValue[0]);
+    // console.log(`Slider value has changed to: ${sliderValue}`);
+    form.setValue("temperature", newValue[0].toString());
+  };
+  const handleMaxTokenValueChange = (newValue: number[]) => {
+    setMaxTokenValue(newValue[0]);
+
+    form.setValue("maxTokens", newValue[0].toString());
   };
 
-  async function onSubmit(values: CreateBrainResType) {
+  useEffect(() => {
+    console.log(`Slider value has changed to: ${sliderMaxTokenValue}`);
+  }, [sliderMaxTokenValue]);
+
+  useEffect(() => {
+    console.log(`Slider value has changed to: ${sliderTemperatureValue}`);
+  }, [sliderTemperatureValue]);
+
+  async function onSubmit(values: CreateChatbotResType) {
     console.log(values);
   }
   return (
@@ -90,7 +113,6 @@ const ComponentCreate = () => {
                         <Input
                           placeholder="Enter"
                           {...field}
-                          disabled={isPending}
                           className="w-[400px] pl-[20px] text-[14px] font-normal leading-[20px]"
                         />
                       </FormControl>
@@ -115,7 +137,6 @@ const ComponentCreate = () => {
                         <Input
                           placeholder="Enter"
                           {...field}
-                          disabled={isPending}
                           className="w-[400px] pl-[20px] text-[14px] font-normal leading-[20px]"
                         />
                       </FormControl>
@@ -140,7 +161,6 @@ const ComponentCreate = () => {
                         <Input
                           placeholder="Enter"
                           {...field}
-                          disabled={isPending}
                           className="w-[400px] pl-[20px] text-[14px] font-normal leading-[20px]"
                         />
                       </FormControl>
@@ -199,14 +219,37 @@ const ComponentCreate = () => {
                       <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
                         Temperature
                       </FormLabel>
-                      <FormControl className="text-[14px] font-normal leading-[20px] pl-5 text-custom-gray-2">
-                        <Slider
+                      <FormControl className="text-[14px] font-normal leading-[20px] text-custom-gray-2">
+                        <SliderPrimitive.Root
+                          ref={ref}
+                          className={cn(
+                            "relative flex w-full touch-none select-none items-center",
+                            className
+                          )}
+                          onValueChange={handleTemperatureValueChange}
                           defaultValue={[0.5]}
+                          min={0}
                           max={1}
                           step={0.01}
-                          onChange={handleChange}
-                          className="w-[400px] bg-[#E5E5E5] mt-[10px] relative"
-                        />
+                          {...props}
+                        >
+                          <SliderPrimitive.Track className="relative h-[1px] w-full grow overflow-hidden rounded-full bg-[#D2D9E8]">
+                            <SliderPrimitive.Range className="absolute h-full" />
+                          </SliderPrimitive.Track>
+                          <SliderPrimitive.Thumb className="block h-3 w-3 rounded-full border-2 border-primary bg-[#2C2C2C] ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                            <div className="absolute top-[calc(-100% - 8px)] top-3 left-1/2 transform -translate-x-1/2 text-xs">
+                              {sliderTemperatureValue}
+                            </div>
+                          </SliderPrimitive.Thumb>
+                          <div className="absolute right-[1px] top-1/2 transform -translate-y-1/2 w-[10px] h-[10px] rounded-full border-2 border-[#D2D9E8] bg-[#fff]" />
+                          <div className="absolute left-[1px] top-1/2 transform -translate-y-1/2 w-[10px] h-[10px] rounded-full border-2 border-[#D2D9E8] bg-[#fff]" />
+                          <div className="absolute left-[2px] bottom-[-6px] transform translate-y-full text-xs">
+                            0
+                          </div>
+                          <div className="absolute right-1 bottom-[-6px] transform translate-y-full text-xs">
+                            1
+                          </div>
+                        </SliderPrimitive.Root>
                       </FormControl>
                       <FormDescription>
                         {/* This is your public display email. */}
@@ -225,15 +268,37 @@ const ComponentCreate = () => {
                       <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
                         Max tokens
                       </FormLabel>
-                      <FormControl className="text-[14px] font-normal leading-[20px] pl-5 text-custom-gray-2">
-                        <Slider1
+                      <FormControl className="text-[14px] font-normal leading-[20px]  text-custom-gray-2">
+                        <SliderPrimitive.Root
+                          ref={ref}
+                          className={cn(
+                            "relative flex w-full touch-none select-none items-center",
+                            className
+                          )}
+                          onValueChange={handleMaxTokenValueChange}
                           defaultValue={[100]}
-                          max={500}
                           min={10}
+                          max={500}
                           step={1}
-                          onChange={handleChange}
-                          className="w-[400px] bg-[#E5E5E5] mt-[10px] relative"
-                        />
+                          {...props}
+                        >
+                          <SliderPrimitive.Track className="relative h-[1px] w-full grow overflow-hidden rounded-full bg-[#D2D9E8]">
+                            <SliderPrimitive.Range className="absolute h-full" />
+                          </SliderPrimitive.Track>
+                          <SliderPrimitive.Thumb className="block h-3 w-3 rounded-full border-2 border-primary bg-[#2C2C2C] ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                            <div className="absolute top-[calc(-100% - 8px)] top-3 left-1/5 transform -translate-x-1/2 text-xs">
+                              {sliderMaxTokenValue}
+                            </div>
+                          </SliderPrimitive.Thumb>
+                          <div className="absolute right-[1px] top-1/2 transform -translate-y-1/2 w-[10px] h-[10px] rounded-full border-2 border-[#D2D9E8] bg-[#fff]" />
+                          <div className="absolute left-[1px] top-1/2 transform -translate-y-1/2 w-[10px] h-[10px] rounded-full border-2 border-[#D2D9E8] bg-[#fff]" />
+                          <div className="absolute left-[-4px] bottom-[-6px] transform translate-y-full text-xs">
+                            10
+                          </div>
+                          <div className="absolute right-[-1px] bottom-[-6px] transform translate-y-full text-xs">
+                            500
+                          </div>
+                        </SliderPrimitive.Root>
                       </FormControl>
                       <FormDescription>
                         {/* This is your public display email. */}
@@ -256,7 +321,6 @@ const ComponentCreate = () => {
                         <Input
                           placeholder="Enter"
                           {...field}
-                          disabled={isPending}
                           className="w-[400px] pl-[20px] text-[14px] font-normal leading-[20px]"
                         />
                       </FormControl>
@@ -281,7 +345,6 @@ const ComponentCreate = () => {
                         <Input
                           placeholder="Enter"
                           {...field}
-                          disabled={isPending}
                           className="w-[400px] pl-[20px] text-[14px] font-normal leading-[20px]"
                         />
                       </FormControl>
@@ -295,11 +358,7 @@ const ComponentCreate = () => {
               </div>
               <div className="flex items-center justify-between pt-5 text-[14px] font-normal leading-[24px] text-custom-gray-2">
                 <div className="flex items-center justify-between">
-                  <input
-                    type="checkbox"
-                    disabled={isPending}
-                    className="w-6 h-6 gap-[10px]"
-                  ></input>
+                  <input type="checkbox" className="w-6 h-6 gap-[10px] checkbox-set"></input>
                   <p className="pl-[10px] pr-6">Set as default brain</p>
                 </div>
               </div>
@@ -323,6 +382,6 @@ const ComponentCreate = () => {
       </div>
     </div>
   );
-};
-
-export default ComponentCreate;
+});
+ComponentCreate.displayName = SliderPrimitive.Root.displayName;
+export { ComponentCreate };

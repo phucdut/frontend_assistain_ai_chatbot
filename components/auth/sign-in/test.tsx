@@ -35,16 +35,22 @@ import { FormSuccess } from "@/components/form-success";
 import envConfig from "@/app/config";
 import { CardWrapperSignIn } from "../card-wrapper-sign-in";
 import { useAppContext } from "@/app/app-provider";
+import authApiRequest from "@/app/apiRequests/auth";
+import { useRouter } from "next/navigation";
+import { handleErrorApi } from "@/lib/utils";
 
 const SignInForm1 = () => {
-  const { toast } = useToast();
-  const {setSessionToken} = useAppContext();
+  const { setSessionToken } = useAppContext();
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
+
+  const { toast } = useToast();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -66,71 +72,48 @@ const SignInForm1 = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: SignInBodyType) {
+    if (loading) return;
+    setLoading(true);
     try {
-      const result = await fetch(
-        `${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/auth/sign-in`,
-        {
-          body: JSON.stringify(values),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-        }
-      ).then(async (res) => {
-        const payload = await res.json();
-        const data = {
-          status: res.status,
-          payload,
-        };
-        if (!res.ok) {
-          throw data;
-        }
-        return data;
-      });
+      const result = await authApiRequest.signIn(values);
       toast({
-        description: "Thành công",
+        title: "Success",
+        description: "Đăng nhập thành công",
       });
-      const resultFromNextServer = await fetch("/api/auth/[...nextauth]", {
-        method: "POST",
-        body: JSON.stringify(result),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then(async (res) => {
-        const payload = await res.json();
-        const data = {
-          status: res.status,
-          payload,
-        };
-        if (!res.ok) {
-          throw data;
-        }
-        return data;
-      });
-      setSessionToken(resultFromNextServer.payload.token);
-      // const token = resultFromNextServer.payload.token;
-      // location.href = `/home?token=${encodeURIComponent(token)}`;
+      // const resultFromNextServer = await fetch("/api/auth/[...nextauth]", {
+      //   method: "POST",
+      //   body: JSON.stringify(result),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // }).then(async (res) => {
+      //   const payload = await res.json();
+      //   const data = {
+      //     status: res.status,
+      //     payload,
+      //   };
+      //   if (!res.ok) {
+      //     throw data;
+      //   }
+      //   return data;
+      // });
+      // setSessionToken(resultFromNextServer.payload.token);
+
+      // router.push("/home");
+      console.log("result", result);
+      // router.refresh();
     } catch (error: any) {
-      const errors = (error as any).payload.errors as {
-        field: string;
-        message: string;
-        detail: string;
-      }[];
-      const status = error.status as number;
-      if (status === 422) {
-        errors.forEach((error) => {
-          form.setError(error.field as "email" | "password", {
-            type: "server",
-            message: error.detail,
-          });
-        });
-      } else {
-        toast({
-          title: "error",
-          description: error.payload.detail,
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: "Error",
+        description: "Lỗi",
+        variant: "destructive",
+      });
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      });
+    } finally {
+      setLoading(false);
     }
   }
 

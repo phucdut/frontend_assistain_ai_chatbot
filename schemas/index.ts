@@ -91,11 +91,11 @@ export type SignUpBodyType = z.infer<typeof SignUpSchema>;
 export const SignUpRes = z.object({
   data: z.object({
     token: z.string(),
-    expiresAt: z.string(),
-    account: z.object({
-      id: z.number(),
-      email: z.string(),
-    }),
+    // expiresAt: z.string(),
+    // account: z.object({
+    //   id: z.number(),
+    //   email: z.string(),
+    // }),
   }),
   message: z.string(),
 });

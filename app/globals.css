@@ -167,7 +167,15 @@
       border: 1.5px solid #ebebeb;
       background: #fff;
     }
-
+    .checkbox-set {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      opacity: 0.5;
+      border-radius: 6px;
+      border: 1.5px solid #ebebeb;
+      background: #161616;
+    }
     .lg-gg {
       border-radius: 12px;
       border: 1.5px solid #ebebeb;

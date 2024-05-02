@@ -24,13 +24,25 @@ import AuthButton from "../../ui/auth-button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import envConfig from "@/app/config";
+import { useAppContext } from "@/app/app-provider";
 import { CardWrapperSignUp } from "../card-wrapper-sign-up";
+import authApiRequest from "@/app/apiRequests/auth";
+
+import { useToast } from '@/components/ui/use-toast'
+import { useRouter } from "next/navigation";
+import { handleErrorApi } from "@/lib/utils";
 
 const SignUpForm1 = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isPending, startTransition] = useTransition();
+
+  const [loading, setLoading] = useState(false)
+  const { toast } = useToast()
+  const router = useRouter()
+
+  const { setSessionToken } = useAppContext();
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -58,26 +70,28 @@ const SignUpForm1 = () => {
   });
 
   async function onSubmit(values: SignUpBodyType) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    const result = await fetch(
-      `${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/auth/sign-up`,
-      {
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      }
-    ).then((res) => res.json());
-    console.log(result);
-    location.href = "/sign-in";
+    if (loading) return;
+    setLoading(true);
+    try {
+      const result = await authApiRequest.signUp(values);
+      toast({
+        description: "Thành công",
+      });
+      // router.push("/sign-in");
+      router.refresh();
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <CardWrapperSignUp>
       <div className="">
-        
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
             <div className="">

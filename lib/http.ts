@@ -11,17 +11,17 @@ const ENTITY_ERROR_STATUS = 422
 const AUTHENTICATION_ERROR_STATUS = 401
 
 type EntityErrorPayload = {
-  message: string
+  detail: string
   errors: {
     field: string
-    message: string
+    detail: string
   }[]
 }
 
 export class HttpError extends Error {
   status: number
   payload: {
-    message: string
+    detail: string
     [key: string]: any
   }
   constructor({ status, payload }: { status: number; payload: any }) {
@@ -152,7 +152,7 @@ const request = async <Response>(
         const sessionToken = (options?.headers as any)?.Authorization.split(
           'Bearer '
         )[1]
-        redirect(`/signout?sessionToken=${sessionToken}`)
+        redirect(`/sign-out?sessionToken=${sessionToken}`)
       }
     } else {
       throw new HttpError(data)
@@ -161,12 +161,12 @@ const request = async <Response>(
   // Đảm bảo logic dưới đây chỉ chạy ở phía client (browser)
   if (typeof window !== 'undefined') {
     if (
-      ['auth/sign-in', 'auth/sign-up'].some(
+      ['/sign-in', '/sign-up'].some(
         (item) => item === normalizePath(url)
       )
     ) {
       clientSessionToken.value = (payload as SignInResType).data.token
-      clientSessionToken.expiresAt = (payload as SignInResType).data.expiresAt
+      // clientSessionToken.expiresAt = (payload as SignInResType).data.expiresAt
     } else if ('auth/logout' === normalizePath(url)) {
       clientSessionToken.value = ''
       clientSessionToken.expiresAt = new Date().toISOString()

@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const CreateBrainRes = z
+export const CreateChatbotRes = z
   .object({
     name: z
       .string()
@@ -41,4 +41,4 @@ export const CreateBrainRes = z
   })
   .strict();
 
-export type CreateBrainResType = z.TypeOf<typeof CreateBrainRes>;
+export type CreateChatbotResType = z.TypeOf<typeof CreateChatbotRes>;

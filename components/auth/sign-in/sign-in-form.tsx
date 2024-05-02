@@ -109,7 +109,7 @@ const SignInForm = () => {
       });
       setSessionToken(resultFromNextServer.payload.token);
       // const token = resultFromNextServer.payload.token;
-      // location.href = `/home?token=${encodeURIComponent(token)}`;
+      location.href = "/home";
     } catch (error: any) {
       const errors = (error as any).payload.errors as {
         field: string;
