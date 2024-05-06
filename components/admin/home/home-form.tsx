@@ -29,7 +29,7 @@ import Image from "next/image";
 import "@/app/globals.css";
 import AuthButton from "@/components/ui/auth-button";
 import HomeViewCreateBrain from "./home-view";
-import { ComponentCreate } from "./component-create";
+import { ComponentCreateChatbot } from "./component-create-chatbot";
 
 export function HomeForm() {
   const [isPending, startTransition] = useTransition();
@@ -89,7 +89,7 @@ export function HomeForm() {
               </DrawerClose>
             </div>
           </DrawerHeader>
-          <ComponentCreate />
+          <ComponentCreateChatbot />
           <DrawerFooter>
             <DrawerClose asChild>
               <Button variant="outline">Cancel</Button>

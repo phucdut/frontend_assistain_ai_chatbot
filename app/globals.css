@@ -6,7 +6,16 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
+    
+    --custom-gray: #1D1D1F;
+    --custom-gray-1: #2C2C2C;
+    --custom-gray-2: #666;
+    --custom-gray-3: #D2D9E8;
+    --custom-gray-4: #F8F9FB;
+    --custom-gray-6: #fff;
 
+    --gray-170: #1D1D1F;
+    
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
 
@@ -33,6 +42,18 @@
     --ring: 0 0% 3.9%;
 
     --radius: 0.5rem;
+  }
+  .system {
+    --color-primary: #1D1D1F; 
+    
+    --custom-gray: #1D1D1F;
+    --custom-gray-1: #2C2C2C;
+    --custom-gray-2: #666;
+    --custom-gray-3: #D2D9E8;
+    --custom-gray-4: #F8F9FB;
+    --custom-gray-6: #fff;
+
+    --gray-170: #1D1D1F;/* Giá trị màu khi chọn "System" */
   }
 
   .dark {
@@ -72,6 +93,7 @@
   }
 
   body {
+    background-color: var(--color-primary);
     @apply bg-background text-foreground;
 
     .btn-container {

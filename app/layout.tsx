@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import AppProvider from "./app-provider";
-import { cookies } from 'next/headers'
+import { cookies } from "next/headers";
+import { ThemeProvider } from "@/components/theme-provider";
 // import { db } from "@/lib/db";
 
 const poppins = Poppins({

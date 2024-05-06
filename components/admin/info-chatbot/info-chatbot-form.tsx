@@ -13,7 +13,7 @@ import Performance from "./performance";
 const InfoChatbotForm = () => {
   return (
     <div>
-      <div className="text-[24px] font-semibold leading-[141.667%] text-custom-gray max-w-[151px]">
+      <div className="text-[24px] font-semibold leading-[141.667%] max-w-[151px]">
         <h1>Elon Musk AI</h1>
       </div>
       <Tabs defaultValue="chatGPT" className="w-[800px] ">

@@ -25,7 +25,7 @@ export default function RootLayout({
   const sessionToken = cookieStore.get("sessionToken");
   // const session = await db.user.findMany;
   return (
-    <html lang="en" className="max-w-[1440px] h-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] bg-[#fff] ">
+    <html lang="en" className="max-w-[440px] h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] bg-[#fff] ">
       <body className={poppins.className}>
         <AppProvider inititalSessionToken={sessionToken?.value}>
           {children}

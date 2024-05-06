@@ -37,11 +37,10 @@ import "@/app/globals.css";
 import { Input } from "@/components/ui/input";
 
 import BuildButton from "@/components/ui/build-button";
-import { Slider } from "@/components/ui/slider";
 import { Slider1 } from "@/components/ui/slider1";
 import { Separator } from "@/components/ui/separator";
 
-const ComponentCreate = React.forwardRef<
+const ComponentCreateChatbot = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
 >(({ className, onValueChange, ...props }, ref) => {
@@ -92,14 +91,14 @@ const ComponentCreate = React.forwardRef<
   }
   return (
     <div>
-      <div className="-3">
+      <div className="px-3">
         <Separator className=" bg-[#303034]" />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6 space-x-6"
           >
-            <div className="px-3">
+            <div className="">
               <div className="pt-5 ">
                 <FormField
                   control={form.control}
@@ -383,5 +382,5 @@ const ComponentCreate = React.forwardRef<
     </div>
   );
 });
-ComponentCreate.displayName = SliderPrimitive.Root.displayName;
-export { ComponentCreate };
+ComponentCreateChatbot.displayName = SliderPrimitive.Root.displayName;
+export { ComponentCreateChatbot };

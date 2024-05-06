@@ -16,7 +16,7 @@ const AllVersionChatGPTs = () => {
   return (
     <div className="flex items-center justify-between pl-2 pb-0">
       <SelectGPT>
-        <SelectTrigger className="w-44 h-5 text-[16px] font-medium leading-[26px] text-[#000] pl-10 relative">
+        <SelectTrigger className="w-44 h-5 text-[16px] font-medium leading-[26px]  pl-10 relative">
           <Image
             width={24}
             height={24}

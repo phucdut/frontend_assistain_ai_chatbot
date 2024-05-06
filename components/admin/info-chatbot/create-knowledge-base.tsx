@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import React from "react";
-import ComponentCreate from "./component-create-knowleb-base";
+import ComponentCreateKnowledgeBase from "./component-create-knowlebge-base";
 import { Button } from "@/components/ui/button";
 
 const CreateKnowledgeBase = () => {
@@ -71,7 +71,7 @@ const CreateKnowledgeBase = () => {
                 </DrawerClose>
               </div>
             </DrawerHeader>
-            <ComponentCreate />
+            <ComponentCreateKnowledgeBase />
             <DrawerFooter>
               <DrawerClose asChild>
                 <Button variant="outline">Cancel</Button>
