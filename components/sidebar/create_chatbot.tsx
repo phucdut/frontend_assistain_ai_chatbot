@@ -13,24 +13,24 @@ import { cn } from "@/lib/utils";
 import { useSidebarStore } from "@/stores/sidebar-stores";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import ComponentCreate from "../admin/home/component-create";
 import Link from "next/link";
+import { ComponentCreateChatbot } from "../admin/home/component-create-chatbot";
 
 const CreateChatbot = () => {
   const { isMinimal, handleClose } = useSidebarStore();
   return (
     <Drawer>
-      <div>
-        <Link
-          href={"#"}
-          onClick={handleClose}
-          className="flex items-center justify-between px-1"
-        >
-          <div className={cn(!isMinimal && "px-1")}>
+      <div
+        onClick={handleClose}
+        className="flex items-center justify-between px-1"
+      >
+        <div className={cn(!isMinimal && "px-1")}>
           {isMinimal && (
-            <div className="text-[#8E98A4] text-[13px] font-semibold leading-[18px] uppercase pl-1">
-              <p>Chat</p>
-            </div>
+            <DrawerTrigger asChild>
+              <div className="text-[#8E98A4] text-[13px] font-semibold leading-[18px] uppercase pl-1 my-3">
+                <p>Chat</p>
+              </div>
+            </DrawerTrigger>
           )}
           {!isMinimal && (
             <div className="flex items-center justify-start gap-[157px] py-1 rounded-lg  opacity-70">
@@ -48,8 +48,7 @@ const CreateChatbot = () => {
               </DrawerTrigger>
             </div>
           )}
-          </div>
-        </Link>
+        </div>
       </div>
       <DrawerContent className="lg:overflow-auto ">
         <div className="max-w-lg">
@@ -69,7 +68,7 @@ const CreateChatbot = () => {
               </DrawerClose>
             </div>
           </DrawerHeader>
-          <ComponentCreate />
+          <ComponentCreateChatbot />
           <DrawerFooter>
             <DrawerClose asChild>
               <Button variant="outline">Cancel</Button>

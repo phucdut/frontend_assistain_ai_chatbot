@@ -3,7 +3,6 @@ import AuthButton from "@/components/ui/auth-button";
 import Image from "next/image";
 import "@/app/globals.css";
 import React from "react";
-import { CreatBrainButton } from "./button-creat-brain";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -149,7 +148,6 @@ const HomeViewCreateBrain: React.FC = () => {
             </span>
           </div>
         </div>
-        
       </div>
     </Drawer>
   );

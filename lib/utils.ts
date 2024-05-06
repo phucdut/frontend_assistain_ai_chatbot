@@ -13,6 +13,7 @@ export const handleErrorApi = ({
   setError,
   duration,
 }: {
+  
   error: any;
   setError?: UseFormSetError<any>;
   duration?: number;
@@ -21,7 +22,7 @@ export const handleErrorApi = ({
     error.payload.errors.forEach((item) => {
       setError(item.field, {
         type: "server",
-        message: item.message,
+        message: item.detail,
       });
     });
   } else {

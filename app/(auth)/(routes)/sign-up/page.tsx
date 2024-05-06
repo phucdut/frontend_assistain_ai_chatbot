@@ -3,7 +3,7 @@ import SignUpForm from "@/components/auth/sign-up/sign-up-form";
 import SignUpForm1 from "@/components/auth/sign-up/test";
 
 const SignUpPage = () => {
-  return <SignUpForm />;
+  return <SignUpForm1 />;
 };
 
 export default SignUpPage;

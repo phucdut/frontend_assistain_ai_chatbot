@@ -11,15 +11,6 @@ import {
   CreateKnowledgeBaseResType,
 } from "@/schemas/create-knowledge-base.schema";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Form,
   FormControl,
   FormDescription,
@@ -35,17 +26,13 @@ import "@/app/globals.css";
 import { Input } from "@/components/ui/input";
 
 import BuildButton from "@/components/ui/build-button";
-import { Slider } from "@/components/ui/slider";
-import { Slider1 } from "@/components/ui/slider1";
 import { Separator } from "@/components/ui/separator";
-import { SignInButton } from "@/components/auth/sign-in/sign-in-button";
 import LgButton from "@/components/ui/lg-button";
 import { Button } from "@/components/ui/button";
 
-const ComponentCreate = () => {
+const ComponentCreateKnowledgeBase = () => {
   const [isPending, startTransition] = useTransition();
   const [isChecked, setIsChecked] = useState(false);
-  const [value, setValueTemperature] = useState(0);
 
   const {
     handleSubmit,
@@ -60,9 +47,6 @@ const ComponentCreate = () => {
       upload: "",
     },
   });
-  const handleChange = (event: any) => {
-    setValueTemperature(event.target.value);
-  };
 
   async function onSubmit(values: CreateKnowledgeBaseResType) {
     console.log(values);
@@ -225,4 +209,4 @@ const ComponentCreate = () => {
   );
 };
 
-export default ComponentCreate;
+export default ComponentCreateKnowledgeBase;

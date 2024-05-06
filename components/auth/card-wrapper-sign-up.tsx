@@ -14,7 +14,7 @@ interface CardWrapperProps {
 
 export const CardWrapperSignUp = ({ children }: CardWrapperProps) => {
   return (
-    <Card className="w-[400px] shadow-md ">
+    <Card className="w-[440px] shadow-md ">
       <CardHeader>
         <HeaderSignUp />
       </CardHeader>

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "@/app/globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,6 +26,12 @@ export default function AuthLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
+      <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
         <div>
           <header>
             <Topbar />
@@ -50,6 +57,7 @@ export default function AuthLayout({
             </div>
           </main>
         </div>
+        </ThemeProvider>
       </body>
     </html>
   );

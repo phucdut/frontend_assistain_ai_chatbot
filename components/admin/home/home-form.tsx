@@ -21,15 +21,15 @@ import { useForm } from "react-hook-form";
 
 import { z } from "zod";
 import {
-  CreateBrainRes,
-  CreateBrainResType,
-} from "@/schemas/create-brain.schema";
+  CreateChatbotRes,
+  CreateChatbotResType,
+} from "@/schemas/create-chatbot.schema";
 
 import Image from "next/image";
 import "@/app/globals.css";
 import AuthButton from "@/components/ui/auth-button";
 import HomeViewCreateBrain from "./home-view";
-import ComponentCreate from "./component-create";
+import { ComponentCreateChatbot } from "./component-create-chatbot";
 
 export function HomeForm() {
   const [isPending, startTransition] = useTransition();
@@ -40,10 +40,10 @@ export function HomeForm() {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<CreateBrainResType>();
+  } = useForm<CreateChatbotResType>();
 
-  const form = useForm<CreateBrainResType>({
-    resolver: zodResolver(CreateBrainRes),
+  const form = useForm<CreateChatbotResType>({
+    resolver: zodResolver(CreateChatbotRes),
     defaultValues: {
       name: "",
       description: "",
@@ -57,7 +57,7 @@ export function HomeForm() {
     setValueTemperature(event.target.value);
   };
 
-  async function onSubmit(values: CreateBrainResType) {
+  async function onSubmit(values: CreateChatbotResType) {
     console.log(values);
   }
 
@@ -89,7 +89,7 @@ export function HomeForm() {
               </DrawerClose>
             </div>
           </DrawerHeader>
-          <ComponentCreate />
+          <ComponentCreateChatbot />
           <DrawerFooter>
             <DrawerClose asChild>
               <Button variant="outline">Cancel</Button>
