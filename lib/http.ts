@@ -1,3 +1,4 @@
+// apiRequests/chatbot.ts
 import envConfig from '@/app/config'
 import { normalizePath } from '@/lib/utils'
 import { SignInResType } from '@/schemas'
@@ -98,9 +99,6 @@ const request = async <Response>(
             ? `Bearer ${clientSessionToken.value}`
             : ''
         }
-  // Nếu không truyền baseUrl (hoặc baseUrl = undefined) thì lấy từ envConfig.NEXT_PUBLIC_API_ENDPOINT
-  // Nếu truyền baseUrl thì lấy giá trị truyền vào, truyền vào '' thì đồng nghĩa với việc chúng ta gọi API đến Next.js Server
-
   const baseUrl =
     options?.baseUrl === undefined
       ? envConfig.NEXT_PUBLIC_API_ENDPOINT
@@ -115,14 +113,15 @@ const request = async <Response>(
       ...options?.headers
     } as any,
     body,
-    method
+    method,
+    credentials: 'include', // Thêm dòng này để gửi cookie kèm request
   })
+
   const payload: Response = await res.json()
   const data = {
     status: res.status,
     payload
   }
-  // Interceptor là nời chúng ta xử lý request và response trước khi trả về cho phía component
   if (!res.ok) {
     if (res.status === ENTITY_ERROR_STATUS) {
       throw new EntityError(
@@ -134,12 +133,13 @@ const request = async <Response>(
     } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
       if (typeof window !== 'undefined') {
         if (!clientLogoutRequest) {
-          clientLogoutRequest = fetch('/api/v1/auth/logout', {
+          clientLogoutRequest = fetch('/api/v1/auth/log-out', {
             method: 'POST',
             body: JSON.stringify({ force: true }),
             headers: {
               ...baseHeaders
-            } as any
+            } as any,
+            credentials: 'include', // Thêm dòng này để gửi cookie kèm request
           })
 
           await clientLogoutRequest
@@ -148,29 +148,30 @@ const request = async <Response>(
           clientLogoutRequest = null
           location.href = '/sign-in'
         }
-      } else {
-        const sessionToken = (options?.headers as any)?.Authorization.split(
-          'Bearer '
-        )[1]
-        redirect(`/sign-out?sessionToken=${sessionToken}`)
-      }
+      } 
+      // else {
+      //   const sessionToken = (options?.headers as any)?.Authorization.split(
+      //     'Bearer '
+      //   )[1]
+      //   redirect(`/sign-out?sessionToken=${sessionToken}`)
+      // }
     } else {
       throw new HttpError(data)
     }
   }
-  // Đảm bảo logic dưới đây chỉ chạy ở phía client (browser)
   if (typeof window !== 'undefined') {
     if (
-      ['/sign-in', '/sign-up'].some(
+      ['/api/v1/auth/sign-in', '/api/v1/auth/sign-up'].some(
         (item) => item === normalizePath(url)
       )
     ) {
-      clientSessionToken.value = (payload as SignInResType).data.token
+      clientSessionToken.value = (payload as SignInResType).access_token
       // clientSessionToken.expiresAt = (payload as SignInResType).data.expiresAt
-    } else if ('auth/logout' === normalizePath(url)) {
-      clientSessionToken.value = ''
-      clientSessionToken.expiresAt = new Date().toISOString()
     }
+    //  else if ('/api/v1/auth/log-out' === normalizePath(url)) {
+    //   clientSessionToken.value = ''
+    //   clientSessionToken.expiresAt = new Date().toISOString()
+    // }
   }
   return data
 }
@@ -200,7 +201,7 @@ const http = {
     url: string,
     options?: Omit<CustomOptions, 'body'> | undefined
   ) {
-    return request<Response>('DELETE', url, { ...options })
+    return request<Response>('DELETE', url, options)
   }
 }
 

@@ -11,6 +11,7 @@ import Navigations from "./navigations";
 import ProfileComponent from "./profile-component";
 import UpgradeMembershipComponent from "./upgrade-membership-component";
 import Profile from "./profile-info";
+import GetAllChatbot from "../all-chatbot";
 // import { ModeToggle } from "./mode-toggle";
 
 const Navbar = () => {

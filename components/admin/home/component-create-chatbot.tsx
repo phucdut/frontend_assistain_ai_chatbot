@@ -2,15 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { cn } from "@/lib/utils";
+import { cn, handleErrorApi } from "@/lib/utils";
 
 import { useState, useTransition, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as React from "react";
 import { z } from "zod";
 import {
-  CreateChatbotRes,
-  CreateChatbotResType,
+  CreateChatbotSchema,
+  CreateChatbotBodyType,
 } from "@/schemas/create-chatbot.schema";
 import {
   Select,
@@ -37,8 +37,13 @@ import "@/app/globals.css";
 import { Input } from "@/components/ui/input";
 
 import BuildButton from "@/components/ui/build-button";
-import { Slider1 } from "@/components/ui/slider1";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import chatbotApiRequest from "@/app/apiRequests/chatbot";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
 
 const ComponentCreateChatbot = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
@@ -46,25 +51,29 @@ const ComponentCreateChatbot = React.forwardRef<
 >(({ className, onValueChange, ...props }, ref) => {
   const [isPending, startTransition] = useTransition();
   const [isChecked, setIsChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+  const router = useRouter();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
   const [sliderTemperatureValue, setTemperatureValue] = useState(0.5);
   const [sliderMaxTokenValue, setMaxTokenValue] = useState(100);
   const {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<CreateChatbotResType>();
+  } = useForm<CreateChatbotBodyType>();
 
-  const form = useForm<CreateChatbotResType>({
-    resolver: zodResolver(CreateChatbotRes),
+  const form = useForm<CreateChatbotBodyType>({
+    resolver: zodResolver(CreateChatbotSchema),
     defaultValues: {
-      name: "",
+      chatbot_name: "",
       description: "",
       model: "",
-      temperature: "",
-      maxTokens: "",
-      openAIKey: "",
-      promptTitle: "",
-      promptContent: "",
+      temperature: "0.5",
+      max_tokens: "100",
+      prompt:
+        "You are a helpful assistant. The first prompt will be a long text, and any messages that you get be regarding that. Please answer any questions and requests having in mind the first prompt.",
     },
   });
   const handleTemperatureValueChange = (newValue: number[]) => {
@@ -74,20 +83,42 @@ const ComponentCreateChatbot = React.forwardRef<
   };
   const handleMaxTokenValueChange = (newValue: number[]) => {
     setMaxTokenValue(newValue[0]);
-
-    form.setValue("maxTokens", newValue[0].toString());
+    form.setValue("max_tokens", newValue[0].toString());
   };
 
   useEffect(() => {
-    console.log(`Slider value has changed to: ${sliderMaxTokenValue}`);
+    // console.log(`Slider value has changed to: ${sliderMaxTokenValue}`);
   }, [sliderMaxTokenValue]);
 
   useEffect(() => {
-    console.log(`Slider value has changed to: ${sliderTemperatureValue}`);
+    // console.log(`Slider value has changed to: ${sliderTemperatureValue}`);
   }, [sliderTemperatureValue]);
 
-  async function onSubmit(values: CreateChatbotResType) {
-    console.log(values);
+  async function onSubmit(values: CreateChatbotBodyType) {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const result = await chatbotApiRequest.createChatbot(values);
+      toast({
+        title: "Success",
+        description: "Chatbot added successfully!",
+      });
+      await chatbotApiRequest.setCookieConverSationId({
+        conversation_id: "99bc0984-f8de-407a990c-41651230e539",
+        // expiresAt: result.payload.data.expiresAt,
+      });
+      console.log(result);
+      // router.push("/info-chatbot");
+      router.push(`/chatbots/${result.payload.id}`);
+      router.refresh();
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      });
+    } finally {
+      setLoading(false);
+    }
   }
   return (
     <div>
@@ -102,7 +133,7 @@ const ComponentCreateChatbot = React.forwardRef<
               <div className="pt-5 ">
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="chatbot_name"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
@@ -112,6 +143,7 @@ const ComponentCreateChatbot = React.forwardRef<
                         <Input
                           placeholder="Enter"
                           {...field}
+                          disabled={isPending}
                           className="w-[400px] pl-[20px] text-[14px] font-normal leading-[20px]"
                         />
                       </FormControl>
@@ -136,6 +168,7 @@ const ComponentCreateChatbot = React.forwardRef<
                         <Input
                           placeholder="Enter"
                           {...field}
+                          disabled={isPending}
                           className="w-[400px] pl-[20px] text-[14px] font-normal leading-[20px]"
                         />
                       </FormControl>
@@ -147,57 +180,33 @@ const ComponentCreateChatbot = React.forwardRef<
                   )}
                 />
               </div>
-              <div className="pt-5">
-                <FormField
-                  control={form.control}
-                  name="openAIKey"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
-                        Open AI Key
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter"
-                          {...field}
-                          className="w-[400px] pl-[20px] text-[14px] font-normal leading-[20px]"
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        {/* This is your public display email. */}
-                      </FormDescription>
-                      <FormMessage className="text-red-500 text-[14px] font-normal leading-[26px]" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="pt-5 pr-3">
+              <div className="pt-5 ">
                 <FormField
                   control={form.control}
                   name="model"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold ">
                         Model
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
-                        <FormControl className="text-[14px] font-normal leading-[20px] pl-5 text-custom-gray-2">
+                        <FormControl className="text-[14px] font-normal leading-[20px] pl-5 text-custom-gray-2 ">
                           <SelectTrigger>
                             <SelectValue placeholder="Select" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="m@example.com">
-                            m@example.com
+                          <SelectItem value="GPT-3.5-Turbo">
+                            GPT-3.5-Turbo
                           </SelectItem>
-                          <SelectItem value="m@google.com">
-                            m@google.com
+                          <SelectItem value="GPT-4.0-Turbo">
+                          gpt-4
                           </SelectItem>
-                          <SelectItem value="m@support.com">
-                            m@support.com
+                          <SelectItem value="GPT-4.0-TurboPlus">
+                            GPT-4.0-TurboPlus
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -213,7 +222,7 @@ const ComponentCreateChatbot = React.forwardRef<
                 <FormField
                   control={form.control}
                   name="temperature"
-                  render={({ field }) => (
+                  render={({ field }, disabled={isPending}) => (
                     <FormItem>
                       <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
                         Temperature
@@ -261,7 +270,7 @@ const ComponentCreateChatbot = React.forwardRef<
               <div className="pt-8">
                 <FormField
                   control={form.control}
-                  name="maxTokens"
+                  name="max_tokens"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
@@ -310,41 +319,19 @@ const ComponentCreateChatbot = React.forwardRef<
               <div className="pt-8">
                 <FormField
                   control={form.control}
-                  name="promptTitle"
+                  name="prompt"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold ">
                         Prompt title
                       </FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Enter"
+                        <Textarea
+                          placeholder="You are a helpful assistant. The first prompt will be a long text, and any messages that you get be regarding that. Please answer any questions and requests having in mind the first prompt."
+                          defaultValue="You are a helpful assistant. The first prompt will be a long text, and any messages that you get be regarding that. Please answer any questions and requests having in mind the first prompt."
                           {...field}
-                          className="w-[400px] pl-[20px] text-[14px] font-normal leading-[20px]"
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        {/* This is your public display email. */}
-                      </FormDescription>
-                      <FormMessage className="text-red-500 text-[14px] font-normal leading-[26px]" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="pt-5">
-                <FormField
-                  control={form.control}
-                  name="promptContent"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
-                        Prompt content
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter"
-                          {...field}
-                          className="w-[400px] pl-[20px] text-[14px] font-normal leading-[20px]"
+                          disabled={isPending}
+                          className="w-[400px] h-[108px] px-[15px] py-3 bg-white rounded-md border border-slate-300 text-[14px] font-normal leading-[20px] text-slate-900  "
                         />
                       </FormControl>
                       <FormDescription>
@@ -357,10 +344,22 @@ const ComponentCreateChatbot = React.forwardRef<
               </div>
               <div className="flex items-center justify-between pt-5 text-[14px] font-normal leading-[24px] text-custom-gray-2">
                 <div className="flex items-center justify-between">
-                  <input type="checkbox" className="w-6 h-6 gap-[10px] checkbox-set"></input>
+                  <input
+                    type="checkbox"
+                    disabled={isPending}
+                    checked={form.getValues("is_default")}
+                    onChange={(e) =>
+                      form.setValue("is_default", e.target.checked)
+                    }
+                    className="w-6 h-6 gap-[10px] checkbox-set"
+                  ></input>
                   <p className="pl-[10px] pr-6">Set as default brain</p>
                 </div>
               </div>
+              <div className="pb-3 pt-3">
+                  <FormError message={error} />
+                  <FormSuccess message={success} />
+                </div>
               <div className=" flex items-center justify-between pt-5 text-[14px] leading-[22px] ">
                 <BuildButton
                   type="submit"

@@ -3,9 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useState, useTransition, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 
-import { set, z } from "zod";
+import { z } from "zod";
 import { SignInSchema, SignInBodyType } from "@/schemas";
 
 import {
@@ -33,16 +33,17 @@ import { Social } from "../social";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import envConfig from "@/app/config";
-import { CardWrapperSignIn } from "../card-wrapper-sign-in";
-import { useAppContext } from "@/app/app-provider";
+import authApiRequest from "@/app/apiRequests/auth";
+import { handleErrorApi } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
-const SignInForm = () => {
+const SignInForm1 = () => {
   const { toast } = useToast();
-  const { setSessionToken } = useAppContext();
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isPending, startTransition] = useTransition();
-
+  const router = useRouter();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
@@ -66,71 +67,28 @@ const SignInForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: SignInBodyType) {
+    if (loading) return;
+    setLoading(true);
     try {
-      const result = await fetch(
-        `${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/auth/sign-in`,
-        {
-          body: JSON.stringify(values),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-        }
-      ).then(async (res) => {
-        const payload = await res.json();
-        const data = {
-          status: res.status,
-          payload,
-        };
-        if (!res.ok) {
-          throw data;
-        }
-        return data;
-      });
+      const result = await authApiRequest.signIn(values);
       toast({
-        description: "Thành công",
+        title: "Success",
+        description: "Logged in successfully!",
       });
-      const resultFromNextServer = await fetch("/api/auth/[...nextauth]", {
-        method: "POST",
-        body: JSON.stringify(result),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then(async (res) => {
-        const payload = await res.json();
-        const data = {
-          status: res.status,
-          payload,
-        };
-        if (!res.ok) {
-          throw data;
-        }
-        return data;
+      await authApiRequest.auth({
+        sessionToken: result.payload.access_token,
+        // expiresAt: result.payload.data.expiresAt,
       });
-      setSessionToken(resultFromNextServer.payload.token);
-      // const token = resultFromNextServer.payload.token;
-      location.href = "/home";
+      console.log(result);
+      router.push("/home");
+      router.refresh();
     } catch (error: any) {
-      const errors = (error as any).payload.errors as {
-        field: string;
-        message: string;
-        detail: string;
-      }[];
-      const status = error.status as number;
-      if (status === 422) {
-        errors.forEach((error) => {
-          form.setError(error.field as "email" | "password", {
-            type: "server",
-            message: error.detail,
-          });
-        });
-      } else {
-        toast({
-          title: "error",
-          description: error.payload.detail,
-          variant: "destructive",
-        });
-      }
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -161,12 +119,9 @@ const SignInForm = () => {
             </p>
           </div>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 space-x-6"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div>
-                <div>
+                <div className=" pt-[24px] ">
                   <FormField
                     control={form.control}
                     name="email"
@@ -177,7 +132,7 @@ const SignInForm = () => {
                             placeholder="Enter your email"
                             {...field}
                             disabled={isPending}
-                            className="input pl-[20px] text-[16px] font-normal leading-[26px]"
+                            className="pl-[20px] text-[16px] font-normal leading-[26px] input"
                             type="email"
                           />
                         </FormControl>
@@ -200,7 +155,7 @@ const SignInForm = () => {
                             <Input
                               placeholder="Enter your password"
                               {...field}
-                              className="input hide-password-icon pl-[20px] text-[16px] font-normal leading-[26px]"
+                              className="hide-password-icon pl-[20px] text-[16px] font-normal leading-[26px] input"
                               type={showPassword ? "text" : "password"}
                             />
                             <div
@@ -212,7 +167,7 @@ const SignInForm = () => {
                                 alt="Layer 16"
                                 width={20}
                                 height={12.45}
-                                className="absolute inset-y-6 right-5 flex items-center justify-between "
+                                className="absolute inset-y-6 right-5 flex items-center justify-between pr-0 "
                               ></Image>
                             </div>
                           </div>
@@ -236,7 +191,7 @@ const SignInForm = () => {
                         form.setValue("rememberMe", e.target.checked)
                       }
                     ></input>
-                    <p className="pl-[10px] pr-6">Remember me</p>
+                    <p className="pl-[10px] pr-[67px]">Remember me</p>
                     <div>
                       <Link href="/forgot-password">
                         <p className="underline">Forgot password</p>
@@ -249,13 +204,29 @@ const SignInForm = () => {
                   <FormSuccess message={success} />
                 </div>
                 <div className=" flex items-center justify-between text-[16px] leading-[26px] ">
-                  <AuthButton type="submit" className="font-semibold">
+                  <AuthButton
+                    type="submit"
+                    className="max-w-[363px] font-semibold"
+                  >
                     Sign in
                   </AuthButton>
                 </div>
                 <div className=" ">
                   <Social />
                 </div>
+              </div>
+              <div className="text-center text-[16px] font-normal leading-[26px]">
+                <p>
+                  New to Ally AI? Learn more&nbsp;
+                  <span className="font-medium underline ">here</span>
+                </p>
+              </div>
+              <div className="text-center  text-[14px] font-normal leading-[24px]">
+                <p>
+                  <span className="underline">Term of Service&nbsp;</span>
+                  <span className=" text-amber-[#2C2C2C] ">|&nbsp;</span>
+                  <span className="underline">Privacy Statement</span>
+                </p>
               </div>
             </form>
           </Form>
@@ -265,4 +236,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default SignInForm1;

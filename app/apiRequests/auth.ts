@@ -13,7 +13,7 @@ const authApiRequest = {
     http.post<SignInResType>("/api/v1/auth/sign-in", body),
   signUp: (body: SignUpBodyType) =>
     http.post<SignUpResType>("/api/v1/auth/sign-up", body),
-  auth: (body: { sessionToken: string; }) =>
+  auth: (body: { sessionToken: string }) =>
     http.post("/api/auth/[...nextauth]", body, {
       baseUrl: "",
     }),
@@ -41,22 +41,22 @@ const authApiRequest = {
         signal,
       }
     ),
-  // slideSessionFromNextServerToServer: (sessionToken: string) =>
-  //   http.post<SlideSessionResType>(
-  //     "/auth/slide-session",
-  //     {},
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${sessionToken}`,
-  //       },
-  //     }
-  //   ),
-  // slideSessionFromNextClientToNextServer: () =>
-  //   http.post<SlideSessionResType>(
-  //     "/api/auth/slide-session",
-  //     {},
-  //     { baseUrl: "" }
-  //   ),
+  //   slideSessionFromNextServerToServer: (sessionToken: string) =>
+  //     http.post<SlideSessionResType>(
+  //       '/auth/slide-session',
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${sessionToken}`
+  //         }
+  //       }
+  //     ),
+  //   slideSessionFromNextClientToNextServer: () =>
+  //     http.post<SlideSessionResType>(
+  //       '/api/auth/slide-session',
+  //       {},
+  //       { baseUrl: '' }
+  //     )
+  // }
 };
-
 export default authApiRequest;

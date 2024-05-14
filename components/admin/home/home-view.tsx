@@ -15,6 +15,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import GetAllChatbot from "@/components/all-chatbot";
 
 const HomeViewCreateBrain: React.FC = () => {
   return (
@@ -22,7 +23,7 @@ const HomeViewCreateBrain: React.FC = () => {
       <div>
         <div>
           <div className="pt-8">
-            <p className="text-center text-custom-gray text-[30px] leading-[40px] font-medium ">
+            <p className="text-center text:custom-gray text-[30px] leading-[40px] font-medium ">
               Let get started
             </p>
           </div>
@@ -109,7 +110,7 @@ const HomeViewCreateBrain: React.FC = () => {
             </span>
           </div>
           <div>
-            <span className="text-center">Train your brain</span>
+            <span className="text-center">Train your chat bot</span>
           </div>
           <div>
             <span className="pl-12 text-center">Deploy your AI</span>
@@ -117,7 +118,7 @@ const HomeViewCreateBrain: React.FC = () => {
         </div>
         <div className="flex items-center justify-start pt-5 gap-[145px] custom-gray-1 text-[14px] font-normal leading-[157.143%] pl-20">
           <div className="flex justify-center max-w-[270px]">
-            <span className="pl-16 text-center">Create/Name your brain(s)</span>
+            <span className="pl-16 text-center">Create/Name your chat bots(s)</span>
           </div>
           <div className="a">
             <span className="text-center">

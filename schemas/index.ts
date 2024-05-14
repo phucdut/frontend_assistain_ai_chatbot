@@ -1,4 +1,4 @@
-// import Email from "next-auth/providers/email";
+import Email from "next-auth/providers/email";
 import * as z from "zod";
 
 export const SettingsSchema = z
@@ -89,15 +89,17 @@ export const SignUpSchema = z
 export type SignUpBodyType = z.infer<typeof SignUpSchema>;
 
 export const SignUpRes = z.object({
-  data: z.object({
-    token: z.string(),
-    // expiresAt: z.string(),
-    // account: z.object({
-    //   id: z.number(),
-    //   email: z.string(),
-    // }),
-  }),
-  message: z.string(),
+  id: z.string(),
+  email: z.string(),
+  display_name: z.string(),
+  avatar_url: z.string(),
+  payment_information: z.string(),
+  is_verified: z.string(),
+  user_role: z.string(),
+  is_active: z.string(),
+  created_at: z.date(),
+  updated_at: z.date(),
+  deleted_at: z.string(),
 });
 
 export type SignUpResType = z.infer<typeof SignUpRes>;
@@ -110,11 +112,14 @@ export const SignInSchema = z.object({
     message: "Password must be at least 6 characters.",
   }),
   rememberMe: z.boolean(),
-  code: z.optional(z.string()),
 });
 export type SignInBodyType = z.infer<typeof SignInSchema>;
 
-export const SignInRes = SignUpRes;
+export const SignInRes = z.object({
+  access_token: z.string(),
+});
+
+// export const SignInRes = SignUpRes;
 
 export type SignInResType = z.TypeOf<typeof SignInRes>;
 export const SlideSessionBody = z.object({}).strict();

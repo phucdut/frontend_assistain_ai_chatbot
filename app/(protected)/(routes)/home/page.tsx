@@ -1,9 +1,10 @@
 import { HomeForm } from "@/components/admin/home/home-form";
 
-export default async function HomePage() {
+const HomePage = () => {
   return (
     <div>
       <HomeForm />
     </div>
   );
-}
+};
+export default HomePage;

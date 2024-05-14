@@ -21,35 +21,30 @@ import Image from "next/image";
 import "@/app/globals.css";
 import { Input } from "@/components/ui/input";
 import AuthButton from "../../ui/auth-button";
+import LgButton from "../../ui/lg-button";
+import { SignInButton } from "../sign-in/sign-in-button";
+import ImageLogo from "../image-logo";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import envConfig from "@/app/config";
-import { useAppContext } from "@/app/app-provider";
-import { CardWrapperSignUp } from "../card-wrapper-sign-up";
 import authApiRequest from "@/app/apiRequests/auth";
-
-import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 import { handleErrorApi } from "@/lib/utils";
-import ImageLogo from "../image-logo";
-import { SignInButton } from "../sign-in/sign-in-button";
-import LgButton from "@/components/ui/lg-button";
 
 const SignUpForm1 = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isPending, startTransition] = useTransition();
-
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
-  const router = useRouter();
-
-  const { setSessionToken } = useAppContext();
-
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
+  const [passwordMismatch, setPasswordMismatch] = useState(false);
+
+  const router = useRouter();
+  const { toast } = useToast();
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -75,18 +70,24 @@ const SignUpForm1 = () => {
   async function onSubmit(values: SignUpBodyType) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    const result = await fetch(
-      `${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/auth/sign-up`,
-      {
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      }
-    ).then((res) => res.json());
-    console.log(result);
-    location.href = "/sign-in";
+    if (loading) return;
+    setLoading(true);
+    try {
+      const result = await authApiRequest.signUp(values);
+      toast({
+        title: "Success",
+        description: "Đăng nhập thành công",
+      });
+      router.push("/sign-in");
+      router.refresh();
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -115,7 +116,7 @@ const SignUpForm1 = () => {
           </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
-              <div className="">
+              <div className="pt-[24px] ">
                 <FormField
                   control={form.control}
                   name="email"
@@ -126,7 +127,7 @@ const SignUpForm1 = () => {
                           placeholder="Enter your email"
                           {...field}
                           disabled={isPending}
-                          className="pl-[20px] text-[16px] font-normal leading-[26px] input"
+                          className="pl-[20px] text-[16px] font-normal leading-[26px]"
                           type="email"
                         />
                       </FormControl>
@@ -150,7 +151,7 @@ const SignUpForm1 = () => {
                             placeholder="Enter your password"
                             {...field}
                             disabled={isPending}
-                            className="hide-password-icon pl-[20px] text-[16px] font-normal leading-[26px] input"
+                            className="  pl-[20px] text-[16px] font-normal leading-[26px]"
                             type={showPassword ? "text" : "password"}
                           />
                           <div
@@ -162,7 +163,7 @@ const SignUpForm1 = () => {
                               alt="Layer 16"
                               width={20}
                               height={12.45}
-                              className="absolute inset-y-6 right-5 flex items-center justify-between"
+                              className="absolute inset-y-6 right-5 flex items-center justify-between pr-0 "
                             ></Image>
                           </div>
                         </div>
@@ -187,7 +188,7 @@ const SignUpForm1 = () => {
                             placeholder="Enter your password a second time"
                             {...field}
                             disabled={isPending}
-                            className="hide-password-icon pl-[20px] text-[16px]  font-normal leading-[26px] input"
+                            className="pl-[20px] text-[16px]  font-normal leading-[26px]"
                             type={showConfirmPassword ? "text" : "password"}
                           />
                           <div
@@ -199,7 +200,7 @@ const SignUpForm1 = () => {
                               alt="Layer 16"
                               width={20}
                               height={12.45}
-                              className="absolute inset-y-6 right-5 flex items-center justify-between"
+                              className="absolute inset-y-6 right-5 flex items-center justify-between pr-0"
                             ></Image>
                           </div>
                         </div>
@@ -217,9 +218,25 @@ const SignUpForm1 = () => {
                 <FormSuccess message={success} />
               </div>
               <div className=" flex items-center justify-between  text-[16px] leading-[26px] ">
-                <AuthButton type="submit" className="font-semibold">
+                <AuthButton
+                  type="submit"
+                  className="max-w-[363px] font-semibold"
+                >
                   Sign up
                 </AuthButton>
+              </div>
+              <div className="text-center pt-6 text-[16px] font-normal leading-[26px]">
+                <p>
+                  New to Ally AI? Learn more&nbsp;
+                  <span className="font-medium underline ">here</span>
+                </p>
+              </div>
+              <div className="text-center pt-14 text-[14px] font-normal leading-[24px]">
+                <p>
+                  <span className="underline">Term of Service&nbsp;</span>
+                  <span className=" text-amber-[#2C2C2C] ">|&nbsp;</span>
+                  <span className="underline">Privacy Statement</span>
+                </p>
               </div>
             </form>
           </Form>

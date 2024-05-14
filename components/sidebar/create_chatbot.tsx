@@ -33,7 +33,7 @@ const CreateChatbot = () => {
             </DrawerTrigger>
           )}
           {!isMinimal && (
-            <div className="flex items-center justify-start gap-[157px] py-1 rounded-lg  opacity-70">
+            <div className="flex items-center justify-start gap-[155px] py-1 rounded-lg  opacity-70">
               <p className="text-[#8E98A4] text-[13px] w-[86px] font-semibold leading-[18px] uppercase">
                 Chat bot
               </p>
