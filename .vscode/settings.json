@@ -1,6 +1,3 @@
 {
-  "editor.formatOnPaste": false,
-  "editor.formatOnSave": true,
-  "editor.suggest.showFolders": true,
   "explorer.compactFolders": false
 }

@@ -18,3 +18,4 @@ export const UpdateMeBody = z.object({
 })
 
 export type UpdateMeBodyType = z.TypeOf<typeof UpdateMeBody>
+

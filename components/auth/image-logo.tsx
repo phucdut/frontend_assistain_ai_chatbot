@@ -8,7 +8,7 @@ const ImageLogo = () => {
         src="/Rectangle 9.png"
         alt="Rectangle9"
         width={897}
-        height={810}
+        height={805}
       ></Image>
       <div className="absolute top-[30px] left-[30px] flex-shrink-0">
         <Image

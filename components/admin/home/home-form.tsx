@@ -32,35 +32,6 @@ import HomeViewCreateBrain from "./home-view";
 import { ComponentCreateChatbot } from "./component-create-chatbot";
 
 export function HomeForm() {
-  const [isPending, startTransition] = useTransition();
-  const [isChecked, setIsChecked] = useState(false);
-  const [value, setValueTemperature] = useState(0);
-
-  const {
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm<CreateChatbotResType>();
-
-  const form = useForm<CreateChatbotResType>({
-    resolver: zodResolver(CreateChatbotRes),
-    defaultValues: {
-      name: "",
-      description: "",
-      model: "",
-      openAIKey: "",
-      promptTitle: "",
-      promptContent: "",
-    },
-  });
-  const handleChange = (event: any) => {
-    setValueTemperature(event.target.value);
-  };
-
-  async function onSubmit(values: CreateChatbotResType) {
-    console.log(values);
-  }
-
   return (
     <Drawer>
       <HomeViewCreateBrain />

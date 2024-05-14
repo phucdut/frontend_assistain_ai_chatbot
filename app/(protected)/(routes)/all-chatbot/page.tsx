@@ -1,42 +1,24 @@
-import envConfig from "@/app/config";
-import AllChatbotForm from "@/components/all-chatbot-form";
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
+import envConfig from "@/app/config";
+import chatbotApiRequest from "@/app/apiRequests/chatbot";
+import GetAllChatbot from "@/components/all-chatbot";
 
-export default async function ProfilePage() {
+export const metadata: Metadata = {
+  title: "form admin",
+};
+
+export default async function AdminPage() {
   const cookieStore = cookies();
   const sessionToken = cookieStore.get("sessionToken");
-  //   console.log(sessionToken);
-  // Vì dùng cookie nên api này không được cached trên server
-  // https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating#opting-out-of-data-caching
-
-  const result = await fetch(
-    `${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/chatbot/get_all`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionToken?.value}`,
-      },
-    }
-  ).then(async (res) => {
-    const payload = await res.json();
-    const data = {
-      status: res.status,
-      payload,
-    };
-    if (!res.ok) {
-      throw data;
-    }
-    return data;
-  });
+  // const result = await chatbotApiRequest.chatbot(sessionToken?.value ?? '')
   return (
     <div>
-      <h1 className=" flex justify-center">PROFILE</h1>
+      <h1 className=" flex justify-center">Chat</h1>
       <span></span>
 
-      <div>
-        <p>Thông tin {result.payload.total}</p>
-      </div>
-      <AllChatbotForm />
+      <div>{/* <p>Thông tin {result.payload.total}</p> */}</div>
+      {/* <GetAllChatbot /> */}
     </div>
   );
 }

@@ -13,8 +13,8 @@ const Navigations = () => {
 
   return (
     <div>
-      <div className="py-1 px-1 opacity-70 pt-3">
-        <p className="text-[#8E98A4] text-[13px] font-semibold leading-[18px] uppercase pl-1">
+      <div className="py-1 px-1 opacity-70">
+        <p className="text-[#8E98A4] text-[13px] font-semibold leading-[18px] uppercase pl-1 py-3">
           Main
         </p>
       </div>

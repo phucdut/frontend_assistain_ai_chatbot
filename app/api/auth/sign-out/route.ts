@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   if (force) {
     return Response.json(
       {
-        message: 'Buộc đăng xuất thành công'
+        message: 'Logged out successfully!'
       },
       {
         status: 200,
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   const sessionToken = cookieStore.get('sessionToken')
   if (!sessionToken) {
     return Response.json(
-      { message: 'Không nhận được session token' },
+      { message: 'Unable to receive session token!' },
       {
         status: 401
       }
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     } else {
       return Response.json(
         {
-          message: 'Lỗi không xác định'
+          message: 'Undefined error!'
         },
         {
           status: 500

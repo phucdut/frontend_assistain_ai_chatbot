@@ -35,10 +35,9 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-##### 4. Project directory structure
 
+Here's how I structure my Next.js apps. You can use this as a reference:
 ```
-
 📦Your-Project-Name
  ┣ 📂app
  ┃ ┣ 📜layout.tsx
@@ -61,10 +60,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
  ┣ 📜tailwind.config.js
  ┗ 📜tsconfig.json
 ```
-
-###### `In which:`
-
-- I place the UI components in the `components/ui` folder.
-- The rest of the components such as <PageHeader /> and <MainNav /> are placed in the `components` folder.
-- The `lib` folder contains all the utility functions. I have a `utils.ts` where I define the `cn` helper.
-- The `styles` folder contains the global CSS.
+I place the UI components in the components/ui folder.
+The rest of the components such as <PageHeader /> and <MainNav /> are placed in the components folder.
+The lib folder contains all the utility functions. I have a utils.ts where I define the cn helper.
+The styles folder contains the global CSS.

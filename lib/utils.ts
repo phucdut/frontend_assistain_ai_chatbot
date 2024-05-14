@@ -13,7 +13,6 @@ export const handleErrorApi = ({
   setError,
   duration,
 }: {
-  
   error: any;
   setError?: UseFormSetError<any>;
   duration?: number;
@@ -27,8 +26,8 @@ export const handleErrorApi = ({
     });
   } else {
     toast({
-      title: "Lỗi",
-      description: error?.payload?.message ?? "Lỗi không xác định",
+      title: "Error",
+      description: error?.payload?.detail ?? "Undefined error!",
       variant: "destructive",
       duration: duration ?? 5000,
     });

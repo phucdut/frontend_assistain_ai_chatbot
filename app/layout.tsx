@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import AppProvider from "./app-provider";
-import { cookies } from "next/headers";
-import { ThemeProvider } from "@/components/theme-provider";
+import { cookies } from 'next/headers'
 // import { db } from "@/lib/db";
 
 const poppins = Poppins({
@@ -27,7 +26,7 @@ export default function RootLayout({
   // console.log(sessionToken);
   // const session = await db.user.findMany;
   return (
-    <html lang="en" className="bg-[#FFF] lg:overflow-auto">
+    <html lang="en" className="bg-[#FFF] lg:overflow-y-auto">
       <body className={poppins.className}>
         <AppProvider inititalSessionToken={sessionToken?.value}>
           {children}
