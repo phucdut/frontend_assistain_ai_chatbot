@@ -52,10 +52,12 @@ export default function AuthLayout({
               />
               {/* <MobileSidebar isProPlan={false} userLimitCount={0} />
         <UpgradeProModal isProPlan={false} /> */}
+
               <div
                 className={cn(
                   "bg-background h-[calc(100vh-56px)]",
-                  "lg:rounded-3xl lg:p-7"
+                  "lg:rounded-3xl "
+                  // styte cho giao diện: "lg:p-7"
                 )}
               >
                 <AppProvider inititalSessionToken={sessionToken?.value}>

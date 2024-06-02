@@ -103,50 +103,46 @@ const HomeViewCreateBrain: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-start gap-[150px] custom-gray-1 text-[16px] font-semibold leading-[137.5%] pl-20">
-          <div className="flex justify-center max-w-[270px]">
-            <span className="pl-[32px] text-center">
-              Create/Name your AI Assistant
-            </span>
+        <div className="flex items-center justify-center gap-20">
+          <div className="w-[250px] text-center text:custom-gray text-base font-semibold leading-snug">
+            Create/Name your AI Assistant
           </div>
-          <div>
-            <span className="text-center">Train your chat bot</span>
+          <div className="w-[250px] text-center text:custom-gray text-base font-semibold leading-snug">
+            Train <br /> your chat bot
           </div>
-          <div>
-            <span className="pl-12 text-center">Deploy your AI</span>
-          </div>
-        </div>
-        <div className="flex items-center justify-start pt-5 gap-[145px] custom-gray-1 text-[14px] font-normal leading-[157.143%] pl-20">
-          <div className="flex justify-center max-w-[270px]">
-            <span className="pl-16 text-center">Create/Name your chat bots(s)</span>
-          </div>
-          <div className="a">
-            <span className="text-center">
-              Add new knowledge base <br />
-            </span>
-          </div>
-          <div>
-            <span className="pl-3 text-center">Embed to websites</span>
+          <div className="w-[250px] text-center text:custom-gray text-base font-semibold leading-snug">
+            Deploy
+            <br />
+            your AI
           </div>
         </div>
-        <div className="flex items-center justify-end pt-2 gap-[160px] custom-gray-1 text-[14px] font-normal leading-[157.143%] pr-32">
-          <div>
-            <span className="text-center">Create prompt </span>
+        <div className="flex items-center justify-center pt-5 gap-20">
+          <div className="w-[250px] text-center text:custom-gray text-sm font-normal leading-snug">
+            Create/Name your chat bots(s)
           </div>
-          <div>
-            <span className="flex justify-center">
-              Intergrate to your applications
-            </span>
+          <div className="w-[250px] text-center text:custom-gray text-sm font-normal leading-snug">
+            Add new knowledge base
+          </div>
+          <div className="w-[250px] text-center text:custom-gray text-sm font-normal leading-snug">
+            Embed to websites
           </div>
         </div>
-        <div className="flex items-center justify-end pt-2 gap-[190px] custom-gray-1 text-[14px] font-normal leading-[157.143%] pr-40">
-          <div>
-            <span className="text-center">Customize</span>
+        <div className="flex items-center justify-center pt-5 gap-20">
+          <div className="w-[250px] text-center text:custom-gray text-sm font-normal leading-snug"></div>
+          <div className="w-[250px] text-center text:custom-gray text-sm font-normal leading-snug">
+            Create prompt
           </div>
-          <div>
-            <span className="flex justify-center">
-              <span className="text-center">Share your AI brain’s link </span>
-            </span>
+          <div className="w-[250px] text-center text:custom-gray text-sm font-normal leading-snug">
+            Intergrate to your applications
+          </div>
+        </div>
+        <div className="flex items-center justify-center pt-5 gap-20">
+          <div className="w-[250px] text-center text:custom-gray text-sm font-normal leading-snug"></div>
+          <div className="w-[250px] text-center text:custom-gray text-sm font-normal leading-snug">
+            Customize
+          </div>
+          <div className="w-[250px] text-center text:custom-gray text-sm font-normal leading-snug">
+            Share your AI brain’s link
           </div>
         </div>
       </div>

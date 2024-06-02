@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useState, useTransition, useEffect } from "react";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
 import { z } from "zod";
 import { SignInSchema, SignInBodyType } from "@/schemas";
@@ -36,6 +36,7 @@ import envConfig from "@/app/config";
 import authApiRequest from "@/app/apiRequests/auth";
 import { handleErrorApi } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import chatbotApiRequest from "@/app/apiRequests/chatbot";
 
 const SignInForm1 = () => {
   const { toast } = useToast();
@@ -79,7 +80,10 @@ const SignInForm1 = () => {
         sessionToken: result.payload.access_token,
         // expiresAt: result.payload.data.expiresAt,
       });
-      console.log(result);
+      // await chatbotApiRequest.setCookieConverSationId({
+      //   conversation_id: "99bc0984-f8de-407a990c-41651230e539",
+      //   // expiresAt: result.payload.data.expiresAt,
+      // });
       router.push("/home");
       router.refresh();
     } catch (error: any) {
@@ -185,11 +189,11 @@ const SignInForm1 = () => {
                     <input
                       type="checkbox"
                       disabled={isPending}
-                      className="checkbox gap-[10px]"
                       checked={form.getValues("rememberMe")}
                       onChange={(e) =>
                         form.setValue("rememberMe", e.target.checked)
                       }
+                      className=" gap-[10px] w-8 h-8 bg-white rounded-md border border-gray-200"
                     ></input>
                     <p className="pl-[10px] pr-[67px]">Remember me</p>
                     <div>

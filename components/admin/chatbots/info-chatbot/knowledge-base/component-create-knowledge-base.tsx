@@ -2,14 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useState, useTransition, useEffect } from "react";
+import React, { useState, useTransition, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 import { z } from "zod";
 import {
   KnowledgeBaseSchema,
   KnowledgeBaseBodyType,
-} from "@/schemas/create-knowledge-base.schema";
+} from "@/schemas/knowledge-base.schema";
 import {
   Form,
   FormControl,
@@ -30,9 +30,28 @@ import { Separator } from "@/components/ui/separator";
 import LgButton from "@/components/ui/lg-button";
 import { Button } from "@/components/ui/button";
 
-const ComponentCreateKnowledgeBase = () => {
-  const [isPending, startTransition] = useTransition();
+import { FaFilePdf, FaFileWord, FaFileExcel } from "react-icons/fa";
+import { useDropzone } from "react-dropzone";
+import Dropzone from "./dropzone";
+import LoadFile from "./load-file";
+import knowledgeBaseApiRequest from "@/app/apiRequests/knowledge-base";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { handleErrorApi } from "@/lib/utils";
+
+type ComponentCreateKnowledgeBaseProps = {
+  id: string;
+};
+
+const ComponentCreateKnowledgeBaseCopy: React.FC<
+  ComponentCreateKnowledgeBaseProps
+> = ({ id }) => {
+  const [isPending, startTransition] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
+  const { toast } = useToast();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -43,29 +62,71 @@ const ComponentCreateKnowledgeBase = () => {
   const form = useForm<KnowledgeBaseBodyType>({
     resolver: zodResolver(KnowledgeBaseSchema),
     defaultValues: {
-      nameKnowledgeBase: "",
-      uploadURL: "",
+      // nameKnowledgeBase: "",
+      // uploadURL: "",
       uploadFiles: "",
     },
   });
 
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      setFiles(acceptedFiles);
+      form.setValue("uploadFiles", acceptedFiles[0]); // update the 'uploadFiles' field in the form
+    },
+    [form]
+  );
+
   async function onSubmit(values: KnowledgeBaseBodyType) {
-    console.log(values);
+    if (loading) return;
+    setLoading(true);
+
+    if (files.length === 0) {
+      console.error("No file selected");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", files[0]); // Add the file to FormData
+
+    startTransition(true);
+
+    try {
+      const result = await knowledgeBaseApiRequest.createKnowledgeBase(
+        formData,
+        id
+      );
+      toast({
+        title: "Success",
+        description: "Knowledge base added successfully!",
+      });
+      router.push(`/chatbots/${id}`);
+      router.refresh();
+      console.log("result:", result);
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      });
+    } finally {
+      setLoading(false);
+    }
   }
+
   return (
     <div>
       <div className="">
         <Separator className=" bg-[#303034]" />
+        {/* <p>Chatbot ID: {id}</p> */}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6 space-x-6"
           >
-            <div className="px-3">
-              <div className="pt-5 ">
-                <FormField
+            {/* <div className="px-3"> */}
+            <div className="pt-3 ">
+              {/* <FormField
                   control={form.control}
-                  name="nameKnowledgeBase"
+                  // name="nameKnowledgeBase"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
@@ -81,16 +142,16 @@ const ComponentCreateKnowledgeBase = () => {
                       </FormControl>
                       <FormDescription>
                         {/* This is your public display email. */}
-                      </FormDescription>
+              {/* </FormDescription>
                       <FormMessage className="text-red-500 text-[14px] font-normal leading-[26px]" />
                     </FormItem>
                   )}
                 />
-              </div>
-              <div className="flex items-center justify-between pt-5">
+              </div> */}
+              {/* <div className="flex items-center justify-between pt-3">
                 <FormField
                   control={form.control}
-                  name="uploadURL"
+                  // name="uploadURL"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
@@ -115,6 +176,7 @@ const ComponentCreateKnowledgeBase = () => {
                           </div>
                           <div className="absolute flex items-center justify-between text-[14px] leading-[22px] inset-x-[360px]  inset-y-2.5">
                             <Button
+                              type="button"
                               className="text-[#161616]  font-semibold w-[44px] h-[44px]"
                               variant="outline"
                             >
@@ -125,23 +187,29 @@ const ComponentCreateKnowledgeBase = () => {
                       </FormControl>
                       <FormDescription>
                         {/* This is your public display email. */}
-                      </FormDescription>
+              {/* </FormDescription>
                       <FormMessage className="text-red-500 text-[14px] font-normal leading-[26px]" />
                     </FormItem>
                   )}
                 />
-              </div>
-              <div className=" flex items-center justify-between pt-5 text-[14px] leading-[22px] ">
-                <LgButton className="text-[#161616]  font-semibold w-[400px] h-[50px]">
+              </div>  */}
+              <div className=" flex items-center justify-between pt-3 text-[14px] leading-[22px] ">
+                <LgButton
+                  type="button"
+                  className="text-[#161616]  font-semibold w-[400px] h-[50px]"
+                >
                   Add another link
                 </LgButton>
               </div>
-              <div className="pt-5">
+              <div className="pt-3">
                 <FormLabel className="text-[14px] leading-6  text-custom-gray font-semibold">
                   Bulk upload
                 </FormLabel>
                 <div className=" flex items-center justify-between pt-2 text-[14px] leading-[22px] ">
-                  <LgButton className="text-[#161616]  font-semibold w-[400px] h-[50px]">
+                  <LgButton
+                    type="button"
+                    className="text-[#161616]  font-semibold w-[400px] h-[50px]"
+                  >
                     Select text file
                   </LgButton>
                 </div>
@@ -149,14 +217,14 @@ const ComponentCreateKnowledgeBase = () => {
               <div className="text-[14px] leading-6 pt-2 text-custom-gray-5 font-normal">
                 <FormLabel>Enter each URL on a new line</FormLabel>
               </div>
-              <div className="pt-5 ">
+              <div className="pt-3 ">
                 <FormField
                   control={form.control}
                   name="uploadFiles"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <div className="relative flex items-center justify-between">
+                        {/* <div className="relative flex items-center justify-between">
                           <Input
                             placeholder="Drag and drop files here"
                             {...field}
@@ -178,7 +246,8 @@ const ComponentCreateKnowledgeBase = () => {
                               Upload
                             </Button>
                           </div>
-                        </div>
+                        </div> */}
+                        <Dropzone onFileDrop={onDrop} />
                       </FormControl>
                       <FormDescription>
                         {/* This is your public display email. */}
@@ -188,7 +257,8 @@ const ComponentCreateKnowledgeBase = () => {
                   )}
                 />
               </div>
-              <div className=" flex items-center justify-between pt-5 text-[14px] leading-6 ">
+              <div>{/* <LoadFile /> */}</div>
+              <div className=" flex items-center justify-between py-16 text-[14px] leading-6 ">
                 <BuildButton
                   type="submit"
                   className="btn-container font-semibold w-[400px] h-[50px]"
@@ -210,4 +280,4 @@ const ComponentCreateKnowledgeBase = () => {
   );
 };
 
-export default ComponentCreateKnowledgeBase;
+export default ComponentCreateKnowledgeBaseCopy;

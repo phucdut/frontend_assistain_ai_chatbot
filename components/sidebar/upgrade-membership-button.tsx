@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import UpgradeMembershipForm from "../admin/upgrade-membership/upgrade-membership-form";
+import UpgradeMembershipForm from "../admin/upgrade-membership/upgrade-membership-monthly-form";
 
 interface UpgradeMembershipButtonProps {
   children: React.ReactNode;

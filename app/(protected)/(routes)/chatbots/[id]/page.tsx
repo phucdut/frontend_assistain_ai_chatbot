@@ -8,6 +8,7 @@ import { Prompt } from "next/font/google";
 import { cookies } from "next/headers";
 import { cache } from "react";
 import Chat from "../../../../../components/admin/chatbots/info-chatbot/chat/chat";
+import { Separator } from "@/components/ui/separator";
 
 const getDetail = cache(chatbotApiRequest.getDetail);
 type Props = {
@@ -28,21 +29,25 @@ export default async function ChatbotPage({ params, searchParams }: Props) {
   return (
     <div>
       {!chatbot && <div>Không tìm thấy chat bot</div>}
-      <div className="text-[24px] font-semibold leading-[141.667%] max-w-[151px]">
+      <div className="text-[24px] font-semibold leading-[141.667%] max-w-full pt-7 pl-7">
         <h1>{chatbot && chatbot.chatbot_name}</h1>
       </div>
       <Tabs defaultValue="chatGPT" className="w-full">
-        <TabsList className="grid w-full grid-cols-5 pl-10 ">
-          <TabsTrigger value="chatGPT" className="">
-            <AllVersionChatGPTs />
+        <TabsList className="grid w-[600px] grid-cols-3 pl-10 ">
+          <TabsTrigger value="chatGPT">
+            Chat
+            {/* <AllVersionChatGPTs /> */}
           </TabsTrigger>
           <TabsTrigger value="knowledgeBase">Knowledge base</TabsTrigger>
           <TabsTrigger value="customize">Customize</TabsTrigger>
         </TabsList>
+        <div className="pt-[13px]">
+          <Separator className=" bg-slate-300 " />
+        </div>
         <TabsContent value="chatGPT">
           <div className="h-full w-full">
             {/* <Chat params={{ id: chatbot ? chatbot.id : "" }} /> */}
-            {chatbot && <Chat id={chatbot.id} />}
+            {chatbot && <Chat id={chatbot.id} conversation_id="99bc0984-f8de-407a990c-41651230e539" />}
           </div>
         </TabsContent>
         <TabsContent value="knowledgeBase">

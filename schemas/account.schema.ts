@@ -1,21 +1,87 @@
-import z from 'zod'
+import z from "zod";
 
 export const AccountRes = z
   .object({
-    data: z.object({
-      id: z.number(),
-      name: z.string(),
-      email: z.string()
-    }),
-    message: z.string()
+    id: z.string(),
+    display_name: z.string(),
+    email: z.string(),
+    avatar_url: z.string(),
+    payment_information: z.string(),
+    is_verified: z.boolean(),
+    user_role: z.string(),
+    is_active: z.boolean(),
+    created_at: z.date(),
+    updated_at: z.date(),
+    deleted_at: z.string(),
   })
-  .strict()
+  .strict();
 
-export type AccountResType = z.TypeOf<typeof AccountRes>
+export type AccountResType = z.TypeOf<typeof AccountRes>;
 
-export const UpdateMeBody = z.object({
-  name: z.string().trim().min(2).max(256)
-})
+export type AccountResListType = {
+  total: number;
+  results: {
+    id: string;
+    name: string;
+    display_name: string;
+    email: number;
+    avatar_url: string;
+    payment_information: string | null;
+    is_verified: boolean;
+    user_role: string;
+    is_active: boolean;
+    user_id: string;
+    prompt: string;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: boolean | null;
+  }[];
+};
 
-export type UpdateMeBodyType = z.TypeOf<typeof UpdateMeBody>
+export const AccountSchema = z
+  .object({
+    display_name: z.string(),
+    email: z.string(),
+    // avatar_url: z.string(),
+    // payment_information: z.string(),
+    // is_verified: z.boolean(),
+    // user_role: z.string(),
+  })
+  .strict();
 
+export type AccountSchemaResType = z.TypeOf<typeof AccountSchema>;
+
+export const UpdateAccountBody = z.object({
+  email: z.string(),
+  display_name: z.string(),
+  // email: z.string(),
+  // avatar_url: z.string(),
+  // payment_information: z.string(),
+  // is_verified: z.boolean(),
+  // user_role: z.string(),
+});
+
+export type UpdateAccountBodyType = z.TypeOf<typeof UpdateAccountBody>;
+
+export const ChangPasswordBody = z.object({
+  email: z.string(),
+  password_old: z.string(),
+  password_new: z.string(),
+  // avatar_url: z.string(),
+  // payment_information: z.string(),
+  // is_verified: z.boolean(),
+  // user_role: z.string(),
+});
+
+export type ChangPasswordBodyType = z.TypeOf<typeof ChangPasswordBody>;
+
+export const ChangPasswordRes = z.object({
+  status: z.number(),
+  message: z.string(),
+  // avatar_url: z.string(),
+  // payment_information: z.string(),
+  // is_verified: z.boolean(),
+  // user_role: z.string(),
+});
+
+export type ChangPasswordRes = z.TypeOf<typeof ChangPasswordRes>;

@@ -18,7 +18,7 @@ const menuLinks = [
 
 const Header = () => {
   return (
-    <header className="mb-10">
+    <header className="">
       <div className=" flex items-center justify-between ">
         <div className="pt-[30px] pl-[100px] flex-shrink-0">
           <Image

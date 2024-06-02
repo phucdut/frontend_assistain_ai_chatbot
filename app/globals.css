@@ -53,6 +53,7 @@
     --custom-gray-3: #D2D9E8;
     --custom-gray-4: #F8F9FB;
     --custom-gray-6: #fff;
+    --custom-gray-7: #F8F9FB;
 
     --gray-170: #1D1D1F;
     /* Giá trị màu khi chọn "System" */
@@ -160,9 +161,6 @@
     .inputChat {
       height: 60px;
       flex-shrink: 0;
-      border-radius: 12px;
-      border: 1.5px solid #ebebeb;
-      background: #fff;
     }
 
     .inputUpload {
@@ -193,7 +191,7 @@
       opacity: 0.5;
       border-radius: 6px;
       border: 1.5px solid #ebebeb;
-      background: #fff;
+      background: #161616;
     }
 
     .checkbox-set {
@@ -261,28 +259,84 @@
       border: 1px solid #000;
       border-radius: 10px;
     }
+
     .chat-container {
-      height: 480px;
+      height: 500px;
       max-width: 100%;
       max-height: 100%;
       overflow-y: auto;
-      border: 1px solid #ccc;
       padding: 16px;
-      border-radius: 8px;
     }
-    
+
     .bot-message {
+      background-color: #FAECDC;
+      padding: 10px;
+      border-radius: 8px;
+      word-wrap: break-word;
+    }
+
+    .user-message {
       background-color: #e0f7fa;
       padding: 10px;
       border-radius: 8px;
       word-wrap: break-word;
     }
-    
-    .user-message {
-      background-color: #d0f0c0;
-      padding: 10px;
-      border-radius: 8px;
-      word-wrap: break-word;
+
+    .triangle {
+      width: 0;
+      height: 0;
+      border-right: 74px solid #03B434;
+      border-bottom: 76px solid transparent;
+      border-top-right-radius: 10px;
+      /* Độ cong của góc vuông */
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+    }
+
+    @keyframes shake {
+      0% {
+        transform: translateX(-2px);
+      }
+
+      50% {
+        transform: translateX(2px);
+      }
+
+      100% {
+        transform: translateX(-2px);
+      }
+    }
+
+    .shake-image {
+      animation: shake 1s infinite;
+    }
+
+    .custom-scroll {
+      max-height: 1000px;
+      scroll-behavior: smooth;
+    }
+
+    .custom-scroll::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: transparent;
+    }
+
+    .custom-scroll::-webkit-scrollbar-track {
+      background: transparent;
     }
   }
 

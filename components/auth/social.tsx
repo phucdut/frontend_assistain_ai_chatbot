@@ -10,7 +10,9 @@ import envConfig from "@/app/config";
 export const Social = () => {
   return (
     <div className="pt-[24px] text-[16px] font-semibold leading-[26px]">
-      <Link href="${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/auth/sign-in-with-google">
+      <Link
+        href={`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/auth/sign-in-with-google`}
+      >
         <AuthGGButton
           className="flex items-center justify-between max-w-[363px]"
           // onClick={() => onClick("google")}

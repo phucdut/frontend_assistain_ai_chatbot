@@ -27,24 +27,20 @@ import ImageLogo from "../image-logo";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import envConfig from "@/app/config";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import authApiRequest from "@/app/apiRequests/auth";
+import { handleErrorApi } from "@/lib/utils";
 
 const ForgotPasswordForm = () => {
-  const [isChecked, setIsChecked] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
-  const [passwordMismatch, setPasswordMismatch] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-  const toggleConfirmPasswordVisibility = () => {
-    setShowPassword(!showConfirmPassword);
-  };
   const {
     register,
     handleSubmit,
@@ -62,17 +58,24 @@ const ForgotPasswordForm = () => {
   async function onSubmit(values: ForgotPasswordBodyType) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    const result = await fetch(
-      `${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/auth/forgot-password`,
-      {
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      }
-    ).then((res) => res.json());
-    console.log(result);
+    if (loading) return;
+    setLoading(true);
+    try {
+      const result = await authApiRequest.forgotPassword(values);
+      toast({
+        title: "Success",
+        description: "Forgot password in successfully!",
+      });
+      router.push("/sign-in");
+      router.refresh();
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -95,7 +98,8 @@ const ForgotPasswordForm = () => {
           </div>
           <div className="pt-[12px] max-w-[363px] pr-[p90x]">
             <p className="text-center text-[16px] font-normal leading-[26px] text-gray-[#2C2C2C]">
-            Please provide the email address that you used when you signed up for your account
+              Please provide the email address that you used when you signed up
+              for your account
             </p>
           </div>
           <Form {...form}>
@@ -111,7 +115,7 @@ const ForgotPasswordForm = () => {
                           placeholder="Enter your email"
                           {...field}
                           disabled={isPending}
-                          className="pl-[20px] text-[16px] font-normal leading-[26px]"
+                          className="pl-5 w-[363px] h-[60px] bg-white rounded-xl border border-gray-200"
                           type="email"
                         />
                       </FormControl>
@@ -123,7 +127,7 @@ const ForgotPasswordForm = () => {
                   )}
                 />
               </div>
-             
+
               <div className="pb-3 pt-3">
                 <FormError message={error} />
                 <FormSuccess message={success} />
@@ -136,7 +140,7 @@ const ForgotPasswordForm = () => {
                   Submit
                 </AuthButton>
               </div>
-              
+
               <div className="text-center pt-[200px] text-[14px] font-normal leading-[24px]">
                 <p>
                   <span className="underline">Term of Service&nbsp;</span>

@@ -1,5 +1,7 @@
 import http from "@/lib/http";
 import {
+  ForgotPasswordBodyType,
+  ForgotPasswordResType,
   SignInBodyType,
   SignInResType,
   SignUpBodyType,
@@ -17,16 +19,9 @@ const authApiRequest = {
     http.post("/api/auth/[...nextauth]", body, {
       baseUrl: "",
     }),
-  logoutFromNextServerToServer: (sessionToken: string) =>
-    http.post<MessageResType>(
-      "/api/v1/auth/sign-out",
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${sessionToken}`,
-        },
-      }
-    ),
+  forgotPassword: (body: ForgotPasswordBodyType) =>
+    http.post<ForgotPasswordResType>("/api/v1/auth/forgot-password", body),
+  logoutFromNextServerToServer: () => http.get("/api/v1/auth/sign-out"),
   logoutFromNextClientToNextServer: (
     force?: boolean | undefined,
     signal?: AbortSignal | undefined

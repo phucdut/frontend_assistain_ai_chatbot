@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { cn, handleErrorApi } from "@/lib/utils";
 import Image from "next/image";
 import React, { useEffect, useRef, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -28,19 +28,50 @@ import {
   ChatbotMessageSchema,
   ChatbotResMessageType,
 } from "@/schemas/chatbot.schema";
+import { Textarea } from "@/components/ui/textarea";
+
+type ChatMessage = {
+  sender_type: string;
+  message: string;
+  created_at: Date;
+};
 
 type ChatProps = {
   id: string;
+  conversation_id: string;
 };
 
-const Chat: React.FC<ChatProps> = ({ id }) => {
+const Chat: React.FC<ChatProps> = ({ id, conversation_id }) => {
   const [isPending, startTransition] = useTransition();
-  const [messages, setMessages] = useState<
-    { sender_type: string; message: string }[]
-  >([]);
-  // const [chatbotMessage, setChatbotMessage] = useState<ChatbotResMessageType | null>(null);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [initialMessagesLoaded, setInitialMessagesLoaded] =
+    useState<boolean>(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [conversationId, setConversationId] = useState<string | null>(
+    conversation_id
+  );
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        if (conversationId) {
+          const result = await chatbotApiRequest.loadMessage(conversationId);
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            ...result.payload.map((msg) => ({
+              sender_type: String(msg.sender_type),
+              message: msg.message,
+              created_at: new Date(msg.created_at),
+            })),
+          ]);
+        }
+      } catch (error) {
+        handleErrorApi({ error });
+      }
+    };
+    fetchRequest();
+  }, [conversationId]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -48,13 +79,14 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
     }
   }, [messages]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (id) {
-      // Gọi API với id
-      console.log("Chatbot ID:", id);
-      // Your API call logic here
+      if (!initialMessagesLoaded) {
+        setMessages(initialBotMessages);
+        setInitialMessagesLoaded(true);
+      }
     }
-  }, [id]);
+  }, [id, initialMessagesLoaded]);
 
   const form = useForm<ChatbotMessageBodyType>({
     resolver: zodResolver(ChatbotMessageSchema),
@@ -65,37 +97,53 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
 
   async function onSubmit(values: ChatbotMessageBodyType) {
     try {
-      // Thêm tin nhắn của người dùng vào danh sách tin nhắn
       setMessages((prevMessages) => [
         ...prevMessages,
-        { sender_type: "user", message: values.message },
+        {
+          sender_type: "user",
+          message: values.message,
+          created_at: new Date(),
+        },
       ]);
 
-      // Gọi API sentMessage với id của chatbot và gửi cookie
-      const response = await chatbotApiRequest.sentMessage(values, id);
+      const response = await chatbotApiRequest.sentMessage(
+        values,
+        id,
+        conversationId || ""
+      );
+      const newConversationId = response.payload.conversation_id;
+      setConversationId(newConversationId);
 
-      // Thêm phản hồi từ chatbot vào danh sách tin nhắn
       setMessages((prevMessages) => [
         ...prevMessages,
-        { sender_type: "bot", message: response.payload.message },
+        {
+          sender_type: "bot",
+          message: response.payload.message,
+          created_at: new Date(),
+        },
       ]);
-      // setChatbotMessage(response.payload);
       form.setValue("message", "");
-      console.log("API Response:", response);
-    } catch (error) {
-      console.error("API Error:", error);
+    } catch (error: any) {
+      setMessages(errorBotMessages);
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      });
     }
-    // Call API or other logic with values.message
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      form.handleSubmit(onSubmit)();
+    }
+  };
+
   return (
-    <div
-      className={cn("bg-custom-gray-4 h-full w-full", "lg:rounded-3xl lg:p-7")}
-    >
-      {/* <p>Chatbot ID: {id}</p> */}
-      <div className="chat-container w-full [400px] max-w-full max-h-full overflow-y-auto border border-gray-300 p-4 rounded-lg">
+    <div className={cn("h-full w-full")}>
+      <div className="chat-container w-full max-w-full max-h-full overflow-y-auto custom-scroll text-black">
         <div className="chat-messages space-y-4">
-          {messages?.map((msg, index) => (
+          {messages.map((msg, index) => (
             <div
               key={index}
               className={
@@ -106,7 +154,7 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
             >
               {msg.sender_type === "bot" && (
                 <Image
-                  src="/Ellipse 1.svg"
+                  src="/icons/Horizontal 1.svg"
                   alt="x"
                   width={24}
                   height={22}
@@ -116,11 +164,14 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
               <div
                 className={
                   msg.sender_type === "bot"
-                    ? "bot-message bg-blue-200 p-4 rounded-lg"
-                    : "user-message bg-green-200 p-4 rounded-lg"
+                    ? "bot-message bg-green-200 p-4 rounded-lg"
+                    : "user-message bg-blue-200 p-4 rounded-lg"
                 }
               >
                 <p>{msg.message}</p>
+                <p className="text-xs text-gray-500 pt-1">
+                  {msg.created_at.toLocaleString()}
+                </p>
               </div>
               {msg.sender_type === "user" && (
                 <Image
@@ -137,44 +188,45 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
         </div>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className=" pb-0 relative">
-            <div className="text-[16px] font-normal leading-[18px] relative w-full">
-              <FormField
-                control={form.control}
-                name="message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
+          <div className="relative px-7">
+            <FormField
+              control={form.control}
+              name="message"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="text-[16px] font-normal leading-[18px] w-full flex items-center justify-center border border-input rounded-xl px-5">
+                      <Textarea
                         placeholder="Write your message"
                         {...field}
-                        className="inputChat"
+                        className=" text-[18px] resize-none overflow-y-auto custom-scroll pt-6 w-full"
                         disabled={isPending}
+                        onKeyDown={handleKeyDown}
                       />
-                    </FormControl>
-                    <FormDescription />
-                    <FormMessage className="text-red-500 text-[14px] font-normal leading-[26px]" />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                className="absolute inset-y-2 right-5 flex items-center justify-between w-[44px] h-[44px]"
-              >
-                <Image
-                  src={
-                    form.watch("message")
-                      ? "/paper-plane 1.svg"
-                      : "/icons/Fill - Voice - Mic.svg"
-                  }
-                  alt="send"
-                  width={20}
-                  height={20}
-                  className="flex-shrink-0"
-                />
-              </Button>
-            </div>
+                      <Button
+                        type="submit"
+                        className="flex items-center justify-between w-[44px] h-[44px] bg-black"
+                      >
+                        <Image
+                          src={
+                            form.watch("message")
+                              ? "/paper-plane 1.svg"
+                              : "/icons/Fill - Voice - Mic.svg"
+                          }
+                          alt="send"
+                          width={20}
+                          height={20}
+                          className="flex-shrink-0"
+                        />
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormDescription />
+                  <FormMessage className="text-red-500 text-[14px] font-normal leading-[26px]" />
+                </FormItem>
+              )}
+            />
           </div>
         </form>
       </Form>
@@ -183,3 +235,32 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
 };
 
 export default Chat;
+
+const initialBotMessages: ChatMessage[] = [
+  {
+    sender_type: "bot",
+    message:
+      "Chào bạn, chào mừng đến với Ally AI. Tôi sẽ giúp bạn bắt đầu. Nếu bạn có bất kỳ câu hỏi cụ thể nào, bạn có thể sử dụng hộp chat ở dưới cùng màn hình (hoặc nhấn vào các gợi ý nhắc nhở).",
+    created_at: new Date(),
+  },
+  {
+    sender_type: "bot",
+    message:
+      "Để bắt đầu tạo cơ sở tri thức đầu tiên của bạn 📕 (có nghĩa là huấn luyện mô hình AI của bạn), kéo và thả tệp vào cửa sổ chat này hoặc nhấn vào “Cơ sở tri thức mới” trong thanh bên. Sau khi được huấn luyện, bạn có thể bắt đầu trò chuyện qua cửa sổ chat bên dưới với hơn 100 ngôn ngữ 🌏. Có câu hỏi nào không? Hãy hỏi nhé. Chúng tôi luôn sẵn sàng giúp đỡ. 🤝",
+    created_at: new Date(),
+  },
+  {
+    sender_type: "bot",
+    message:
+      "Theo dõi Ally AI trên LinkedIn để cập nhật các tính năng mới và thông báo.",
+    created_at: new Date(),
+  },
+];
+
+const errorBotMessages: ChatMessage[] = [
+  {
+    sender_type: "bot",
+    message: "👋 Xin lỗi Ally AI sẽ phản hồi lại sau!",
+    created_at: new Date(),
+  },
+];

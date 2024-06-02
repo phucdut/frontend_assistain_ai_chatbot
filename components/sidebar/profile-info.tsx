@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import {
   DrawerProfile,
   DrawerClose,
@@ -9,7 +9,17 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "../ui/drawer-profile";
-import { cn } from "@/lib/utils";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { cn, handleErrorApi } from "@/lib/utils";
 import { useSidebarStore } from "@/stores/sidebar-stores";
 import Image from "next/image";
 import { Button } from "../ui/button";
@@ -18,9 +28,130 @@ import ProfileForm from "../admin/profile/profile-form";
 import { Switch } from "../ui/switch";
 import { Separator } from "../ui/separator";
 import { UpgradeMembershipButton } from "./upgrade-membership-button";
+import accountApiRequest from "@/app/apiRequests/account";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  AccountResType,
+  AccountSchema,
+  UpdateAccountBodyType,
+} from "@/schemas/account.schema";
+import { LogOut } from "lucide-react";
+import "@/app/globals.css";
+
+import authApiRequest from "@/app/apiRequests/auth";
+import { Input } from "../ui/input";
+import { useToast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
+import { CreateChatbotBodyType } from "@/schemas/create-chatbot.schema";
+import { useForm } from "react-hook-form";
 
 const Profile = () => {
   const { isMinimal, handleClose } = useSidebarStore();
+  const [account, setAccount] = useState<AccountResType | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const {
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<UpdateAccountBodyType>();
+
+  const form = useForm<UpdateAccountBodyType>({
+    resolver: zodResolver(AccountSchema),
+    defaultValues: {
+      email: "",
+      display_name: "",
+    },
+  });
+
+  const handleLogout = async () => {
+    try {
+      // Gọi API logout
+      await authApiRequest.logoutFromNextClientToNextServer();
+
+      toast({
+        title: "Success",
+        description: "Logout in successfully!",
+      });
+
+      // Sau khi logout thành công, có thể thực hiện các thao tác khác như xóa token, đưa người dùng về trang đăng nhập, vv.
+      // Ví dụ: Xóa token khỏi bộ nhớ và chuyển hướng người dùng về trang đăng nhập
+      // localStorage.removeItem("accessToken");
+      router.push("/");
+      router.refresh(); // Chuyển hướng người dùng về trang landing
+    } catch (error) {
+      handleErrorApi({
+        error,
+      });
+    }
+  };
+  const handleEdit = async () => {
+    try {
+      setIsEditing(true);
+    } catch (error) {
+      handleErrorApi({
+        error,
+      });
+    }
+  };
+  const handleSave = async () => {
+    try {
+      setIsEditing(false);
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+      });
+    }
+  };
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result = await accountApiRequest.accountClient();
+        setAccount(result.payload);
+
+        // Update form values with fetched chatbot data
+        form.setValue("email", result.payload.email || "");
+        form.setValue("display_name", result.payload.display_name || "");
+      } catch (error: any) {
+        handleErrorApi({
+          error,
+        });
+        router.push("/");
+        router.refresh(); // Chuyển hướng người dùng về trang landing
+      }
+    };
+    fetchRequest();
+  }, [form, router]);
+
+  async function onSubmit(values: UpdateAccountBodyType) {
+    if (loading) return;
+    setLoading(true);
+    try {
+      if (account?.id) {
+        const result = await accountApiRequest.updateAccount(
+          values,
+          account?.id
+        );
+        toast({
+          title: "Success",
+          description: "Update in successfully!",
+        });
+      }
+    } catch (error: any) {
+      handleErrorApi({
+        error,
+        setError: form.setError,
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <DrawerProfile>
       <div
@@ -40,18 +171,23 @@ const Profile = () => {
             </DrawerTrigger>
           )}
           {!isMinimal && (
-            <div className="flex items-center justify-between pt-5 gap-32">
+            <div className="flex items-center justify-between pt-5 ">
               <div className="flex items-center justify-between gap-5">
                 <DrawerTrigger asChild>
-                  <Image
-                    src="/Ellipse 1.svg"
-                    alt="x"
-                    width={24}
-                    height={22}
-                    className="w-9 h-9 rounded-full"
-                  ></Image>
+                  {account?.avatar_url && (
+                    <Image
+                      // src="/Ellipse 1.svg"
+                      src={account.avatar_url}
+                      alt="x"
+                      width={24}
+                      height={22}
+                      className="w-9 h-9 rounded-full transition duration-500 ease-in-out hover:opacity-100 hover:scale-125"
+                    ></Image>
+                  )}
                 </DrawerTrigger>
-                <span>David</span>
+                <div className="text-white text-sm font-normal leading-relaxed uppercase w-[180px] overflow-hidden whitespace-nowrap text-ellipsis">
+                  {account?.display_name}
+                </div>
               </div>
               <Switch />
             </div>
@@ -59,7 +195,7 @@ const Profile = () => {
         </div>
       </div>
       <DrawerContent>
-        <div className="max-w-lg">
+        <div className="max-w-lg overflow-y-auto custom-scroll">
           <DrawerHeader>
             <div className="relative text-[20px] leading-[30px] w-[440px] h-[170px] mb-20">
               <Image
@@ -96,46 +232,109 @@ const Profile = () => {
               </div>
               <div className="w-[110px] h-[110px] rounded-full bg-custom-gray-6 absolute inset-y-32 inset-x-5">
                 <div className="w-[110px] h-[110px] rounded-full bg-custom-gray-6 relative pt-5">
-                  <Image
-                    src="/Ellipse 1.svg"
-                    alt="x"
-                    width={100}
-                    height={100}
-                    className="w-[100px] h-[100px] rounded-full absolute inset-y-[5px] inset-x-[5px]"
-                  ></Image>
-                </div>
-              </div>
-              <div className="pl-36 pt-3">
-                <div className="flex items-center justify-start gap-3 ">
-                  <div className="text-zinc-900 text-xl font-semibold leading-[30px]">
-                    David
-                  </div>
-                  <div>
+                  {account?.avatar_url && (
                     <Image
-                      src="/Fill - Edit - Pen.svg"
+                      // src="/Ellipse 1.svg"
+                      src={account.avatar_url}
                       alt="x"
-                      width={15}
-                      height={15}
-                      className=""
+                      width={100}
+                      height={100}
+                      className="w-[100px] h-[100px] rounded-full absolute inset-y-[5px] inset-x-[5px]"
                     ></Image>
-                  </div>
-                </div>
-                <div className="text-zinc-900 text-sm font-normal leading-tight">
-                  davidman@gmail.com
+                  )}
                 </div>
               </div>
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-6 space-x-6"
+                >
+                  <div className="pl-36 pt-3 flex gap-1">
+                    <div>
+                      <div className="flex items-center justify-start gap-1 ">
+                        {isEditing ? (
+                          <FormField
+                            control={form.control}
+                            name="display_name"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <Input
+                                    placeholder="Enter"
+                                    {...field}
+                                    disabled={isPending}
+                                    className="text-zinc-900 text-sm font-semibold leading-[30px] w-40 h-8"
+                                  />
+                                </FormControl>
+                                <FormDescription>
+                                  {/* This is your public display email. */}
+                                </FormDescription>
+                                <FormMessage className="text-red-500 text-[14px] font-normal leading-[26px]" />
+                              </FormItem>
+                            )}
+                          />
+                        ) : (
+                          <div className="text-zinc-900 text-xl font-semibold leading-[30px] ">
+                            {account?.display_name}
+                            {/* David */}
+                          </div>
+                        )}
+                        <div>
+                          {isEditing ? (
+                            <Button type="submit" variant="edit">
+                              <Image
+                                src="/icons/Fill - Save.svg"
+                                alt="x"
+                                width={15}
+                                height={15}
+                                className=""
+                              ></Image>
+                            </Button>
+                          ) : (
+                            <Button
+                              onClick={handleEdit}
+                              type="button"
+                              variant="edit"
+                            >
+                              <Image
+                                src="/Fill - Edit - Pen.svg"
+                                alt="x"
+                                width={15}
+                                height={15}
+                                className=""
+                              ></Image>
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                      <div className="text-zinc-900 text-sm font-normal leading-tight">
+                        {account?.email}
+                        {/* davidman@gmail.com */}
+                      </div>
+                    </div>
+                    <Skeleton className="bg-primary text-primary-foreground hover:bg-primary/90 flex justify-center items-center">
+                      <Button onClick={handleLogout} type="button" className="">
+                        <LogOut />
+                      </Button>
+                    </Skeleton>
+                  </div>
+                </form>
+              </Form>
             </div>
-            <Separator className=" bg-slate-300" />
           </DrawerHeader>
-          <ProfileForm />
+          {account && <ProfileForm id={account?.id} />}
+          {/* <ProfileForm id={"3e352cd0-17f7-4754-b721-39ac08cff7ce"} /> */}
           <DrawerFooter>
             <div className="flex justify-center">
-            <UpgradeMembershipButton>
-              <Button className=" w-[400px] h-[50px] bg-zinc-900 rounded-md border-2 border-zinc-800 gap-2 text-custom-gray-6">
-                <Image src="/Group (3).svg" alt="x" width={24} height={22} />
-                Upgrade membership
-              </Button>
-            </UpgradeMembershipButton>
+              <UpgradeMembershipButton>
+                <Button
+                  type="button"
+                  className=" w-[400px] h-[50px] bg-zinc-900 rounded-md border-2 border-zinc-800 gap-2 text-custom-gray-6"
+                >
+                  <Image src="/Group (3).svg" alt="x" width={24} height={22} />
+                  Upgrade membership
+                </Button>
+              </UpgradeMembershipButton>
             </div>
           </DrawerFooter>
         </div>

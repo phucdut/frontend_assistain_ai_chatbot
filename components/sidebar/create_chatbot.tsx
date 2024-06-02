@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -9,20 +9,43 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "../ui/drawer";
-import { cn } from "@/lib/utils";
+import { cn, handleErrorApi } from "@/lib/utils";
 import { useSidebarStore } from "@/stores/sidebar-stores";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { ComponentCreateChatbot } from "../admin/home/component-create-chatbot";
+import "@/app/globals.css";
+import accountApiRequest from "@/app/apiRequests/account";
+import { AccountResType } from "@/schemas/account.schema";
+import { useRouter } from "next/navigation";
 
 const CreateChatbot = () => {
   const { isMinimal, handleClose } = useSidebarStore();
+  const [account, setAccount] = useState<AccountResType | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result = await accountApiRequest.accountClient();
+        setAccount(result.payload);
+      } catch (error: any) {
+        handleErrorApi({
+          error,
+        });
+        router.push("/");
+        router.refresh(); // Chuyển hướng người dùng về trang landing
+      }
+    };
+    fetchRequest();
+  }, [router]);
+
   return (
     <Drawer>
       <div
         onClick={handleClose}
-        className="flex items-center justify-between px-1"
+        className="flex items-center justify-between px-1 "
       >
         <div className={cn(!isMinimal && "px-1")}>
           {isMinimal && (
@@ -50,7 +73,7 @@ const CreateChatbot = () => {
           )}
         </div>
       </div>
-      <DrawerContent className="lg:overflow-auto ">
+      <DrawerContent className="lg:overflow-y-auto custom-scroll">
         <div className="max-w-lg">
           <DrawerHeader>
             <div className="flex items-center justify-between text-[20px] leading-[30px]  gap-[10px]">
@@ -68,7 +91,7 @@ const CreateChatbot = () => {
               </DrawerClose>
             </div>
           </DrawerHeader>
-          <ComponentCreateChatbot />
+          {account && <ComponentCreateChatbot id={account.id} />}
           <DrawerFooter>
             <DrawerClose asChild>
               <Button variant="outline">Cancel</Button>
