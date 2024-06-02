@@ -8,7 +8,6 @@ import AllChatbots from "./get-all-chatbots";
 import AllVersionChatGPTs from "./get-all-select-versions-chatGPT";
 import CreateChatbot from "./create_chatbot";
 import Navigations from "./navigations";
-import ProfileComponent from "./profile-component";
 import UpgradeMembershipComponent from "./upgrade-membership-component";
 import Profile from "./profile-info";
 import GetAllChatbot from "../all-chatbot";
@@ -28,7 +27,7 @@ const Navbar = () => {
       <CreateChatbot />
       <Separator className=" bg-[#303034]" />
 
-      <AllChatbots />
+      <AllChatbots/>
 
       <UpgradeMembershipComponent />
       <Separator className=" bg-[#303034]" />

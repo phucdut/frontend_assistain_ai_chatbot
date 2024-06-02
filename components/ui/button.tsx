@@ -18,6 +18,8 @@ const buttonVariants = cva(
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        edit:
+          "bg-transparent text-secondary-foreground transition duration-500 ease-in-out hover:opacity-100 hover:scale-125",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         signUp: "btn-lg-container font-semibold rounded-lg",

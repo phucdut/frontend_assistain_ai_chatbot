@@ -1,14 +1,28 @@
+'use client';
 import Image from "next/image";
 import Link from "next/link";
 import BuildButton from "../ui/build-button";
 import { SignUpButton } from "../auth/sign-up/sign-up-button";
+import { useEffect } from "react";
 
 const Section1 = () => {
+  useEffect(() => {
+    // Thêm script không đồng bộ vào khi component được tạo
+    const script = document.createElement("script");
+    script.src = "http://localhost:3000/bubble-embed.js";
+    script.async = true; // Đặt script là không đồng bộ
+    document.body.appendChild(script);
+
+    // Xóa script khi component bị hủy
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
   return (
     <section className="hero">
-      <div className="flex">
-        <div className="pl-[150px]">
-          <div className="pt-[140px] max-w-[492px]">
+      <div className="flex justify-center gap-16 pt-[100px]">
+        <div className="">
+          <div className=" max-w-[492px]">
             <h1 className=" text-[55px] font-semibold leading-[127.273%]">
               Build your own AI assistant in minutes
             </h1>
@@ -48,8 +62,63 @@ const Section1 = () => {
             alt="Rectangle"
             width={491}
             height={557}
-            className=" flex pt-[121px]"
+            className=" flex "
           ></Image>
+        </div>
+      </div>
+      <div className="contain-layout-responsive">
+        <div className="text-center font-medium pt-[160px] leading-[36px] text-[24px] ">
+          Trusted by forward-thinling pioneers
+        </div>
+        <div className="flex items-center justify-center gap-20 ">
+          <Link href="/" className="pt-[40px] flex-shrink-0">
+            <Image
+              src="/z4755566056940_97f95a2da4aa31658321547b547bc18d-transformed 1.png"
+              alt="AVOCA AI"
+              width={168.067}
+              height={54}
+            ></Image>
+          </Link>
+          <Link href="/" className="pt-[45px] flex-shrink-0">
+            <Image
+              src="/image 19.png"
+              alt="DAT.BIKE"
+              width={154}
+              height={44.139}
+            ></Image>
+          </Link>
+          <Link href="/" className="pt-[42px] flex-shrink-0">
+            <Image
+              src="/image 18.png"
+              alt="SWIN BUR"
+              width={100}
+              height={50}
+            ></Image>
+          </Link>
+          <Link href="/" className="pt-[47px] flex-shrink-0">
+            <Image
+              src="/image 127.png"
+              alt="TEKUP"
+              width={154}
+              height={39.742}
+            ></Image>
+          </Link>
+          <Link href="/" className="pt-[42px] flex-shrink-0">
+            <Image
+              src="/image 20.png"
+              alt="SELLY"
+              width={115.116}
+              height={50}
+            ></Image>
+          </Link>
+          <Link href="/" className="pt-[42px] flex-shrink-0">
+            <Image
+              src="/image 128.png"
+              alt="SONCHAN"
+              width={122.656}
+              height={50}
+            ></Image>
+          </Link>
         </div>
       </div>
     </section>

@@ -1,13 +1,37 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useSidebarStore } from "@/stores/sidebar-stores";
-import { cn } from "@/lib/utils";
+import { cn, handleErrorApi } from "@/lib/utils";
 import { UpgradeMembershipButton } from "./upgrade-membership-button";
 import { Button } from "../ui/button";
+import Link from "next/link";
+import { AccountResType } from "@/schemas/account.schema";
+import accountApiRequest from "@/app/apiRequests/account";
+import { useRouter } from "next/navigation";
 
 const UpgradeMembershipComponent = () => {
   const { isMinimal, handleClose } = useSidebarStore();
+  const [account, setAccount] = useState<AccountResType | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result = await accountApiRequest.accountClient();
+        setAccount(result.payload);
+
+        // Update form values with fetched chatbot data
+      } catch (error: any) {
+        handleErrorApi({
+          error,
+        });
+        router.push("/");
+        router.refresh(); // Chuyển hướng người dùng về trang landing
+      }
+    };
+    fetchRequest();
+  }, [router]);
 
   return (
     <div
@@ -16,7 +40,15 @@ const UpgradeMembershipComponent = () => {
     >
       {isMinimal && (
         <div>
-          <Image src="/Group (3).svg" alt="x" width={24} height={22} className="pb-3"/>
+          <Link href={`/upgrade-membership/${account?.id}`}>
+            <Image
+              src="/Group (3).svg"
+              alt="x"
+              width={24}
+              height={22}
+              className="pb-3"
+            />
+          </Link>
         </div>
       )}
       {!isMinimal && (

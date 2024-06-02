@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,24 +14,52 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { useState, useTransition, useEffect } from "react";
-import { useForm } from "react-hook-form";
-
-import { z } from "zod";
-import {
-  CreateChatbotRes,
-  CreateChatbotResType,
-} from "@/schemas/create-chatbot.schema";
-
 import Image from "next/image";
 import "@/app/globals.css";
 import AuthButton from "@/components/ui/auth-button";
 import HomeViewCreateBrain from "./home-view";
 import { ComponentCreateChatbot } from "./component-create-chatbot";
+import accountApiRequest from "@/app/apiRequests/account";
+import { AccountResType } from "@/schemas/account.schema";
+import { handleErrorApi } from "@/lib/utils";
+import Head from "next/head";
+import { useSearchParams } from "next/navigation";
+import authApiRequest from "@/app/apiRequests/auth";
 
 export function HomeForm() {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  const [account, setAccount] = useState<AccountResType | null>(null);
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        if (token) {
+          await authApiRequest.auth({ sessionToken: token });
+        }
+      } catch (error: any) {
+        handleErrorApi({
+          error,
+        });
+      }
+    };
+    fetchRequest();
+  }, [token]);
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result = await accountApiRequest.accountClient();
+        setAccount(result.payload);
+      } catch (error: any) {
+        handleErrorApi({
+          error,
+        });
+      }
+    };
+    fetchRequest();
+  }, []);
+
   return (
     <Drawer>
       <HomeViewCreateBrain />
@@ -42,8 +70,8 @@ export function HomeForm() {
           </DrawerTrigger>
         </div>
       </div>
-      <DrawerContent className="lg:overflow-auto ">
-        <div className="max-w-lg">
+      <DrawerContent className="overflow-y-auto custom-scroll hide-scrollbar">
+        <div className="max-w-lg overflow-y-auto custom-scroll">
           <DrawerHeader>
             <div className="flex items-center justify-between text-[20px] leading-[30px]  gap-[10px]">
               <span className=" text-custom-gray font-semibold text-right">
@@ -60,7 +88,7 @@ export function HomeForm() {
               </DrawerClose>
             </div>
           </DrawerHeader>
-          <ComponentCreateChatbot />
+          {account && <ComponentCreateChatbot id={account.id} />}
           <DrawerFooter>
             <DrawerClose asChild>
               <Button variant="outline">Cancel</Button>

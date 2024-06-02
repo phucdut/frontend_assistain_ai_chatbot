@@ -47,6 +47,12 @@ export const ForgotPasswordSchema = z.object({
 });
 export type ForgotPasswordBodyType = z.infer<typeof ForgotPasswordSchema>;
 
+export const ForgotPasswordRes = z.object({
+  status: z.number(),
+  message: z.string(),
+});
+export type ForgotPasswordResType = z.infer<typeof ForgotPasswordRes>;
+
 export const ResetSchema = z.object({
   email: z.string().email({
     message: "Email is required",
@@ -128,3 +134,5 @@ export type SlideSessionBodyType = z.TypeOf<typeof SlideSessionBody>;
 export const SlideSessionRes = SignUpRes;
 
 export type SlideSessionResType = z.TypeOf<typeof SlideSessionRes>;
+
+

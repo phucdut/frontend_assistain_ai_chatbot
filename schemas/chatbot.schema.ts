@@ -3,14 +3,29 @@ import z from "zod";
 export const ChatbotSchema = z
   .object({
     id: z.string(),
-    chatbot_name: z.string(),
-    description: z.string(),
-    max_tokens: z.number(),
-    model: z.string(),
-    temperature: z.number(),
-    is_default: z.boolean(),
     user_id: z.string(),
+    chatbot_name: z.string(),
+    model: z.string(),
+    description: z.string(),
+    temperature: z.string(),
+    max_tokens: z.string(),
+    is_default: z.boolean(),
     prompt: z.string(),
+    chatbot_config: z.object({
+      font_family: z.string(),
+      font_size: z.string(),
+      input_background: z.string(),
+      background_color: z.string(),
+      user_font_color: z.string(),
+      prompts_font_color: z.string(),
+      ally_font_color: z.string(),
+      disclaimer_color: z.string(),
+      input_placeholder: z.string(),
+      disclaimer_text: z.string(),
+      chatbot_logo: z.string(),
+      website_link: z.string(),
+      powered_by_remove: z.number(),
+    }),
   })
   .strict();
 
@@ -100,8 +115,83 @@ export type ChatbotResMessageType = {
   is_active: boolean;
 }[];
 
-export const conversationIdRes = z.object({
-  access_token: z.string(),
+export const ConversationIdRes = z.object({
+  Conversation_id: z.string(),
 });
 
-export type conversationIdResType = z.TypeOf<typeof conversationIdRes>;
+export type ConversationIdResType = z.TypeOf<typeof ConversationIdRes>;
+
+export const UpdateChatbotBody = z.object({
+  name: z.string().trim().min(2).max(256),
+});
+
+export type UpdateChatbotBodyType = z.TypeOf<typeof UpdateChatbotBody>;
+
+// export const ConversationRes = z.object({
+//   Conversation_id: z.string(),
+// });
+
+// // export const SignInRes = SignUpRes;
+
+// export type ConversationResType = z.TypeOf<typeof ConversationRes>;
+
+
+
+export const EditChatbotSchema = z
+  .object({
+    user_id: z.string(),
+    chatbot_name: z.string(),
+    description: z.string(),
+    model: z.string(),
+    temperature: z.string(),
+    max_tokens: z.string(),
+    prompt: z.string(),
+    is_default: z.boolean(),
+  })
+  .strict();
+
+export type EditChatbotBodyType = z.TypeOf<typeof EditChatbotSchema>;
+
+export const EditChatbotRes = z.object({
+  id: z.string(),
+  user_id: z.string(),
+  chatbot_name: z.string(),
+  model: z.string(),
+  description: z.string(),
+  temperature: z.string(),
+  max_tokens: z.string(),
+  is_default: z.boolean(),
+  prompt: z.string(),
+  chatbot_config: z.object({
+    font_family: z.string(),
+    font_size: z.string(),
+    input_background: z.string(),
+    background_color: z.string(),
+    user_font_color: z.string(),
+    prompts_font_color: z.string(),
+    ally_font_color: z.string(),
+    disclaimer_color: z.string(),
+    input_placeholder: z.string(),
+    disclaimer_text: z.string(),
+    chatbot_logo: z.string(),
+    website_link: z.string(),
+    powered_by_remove: z.number(),
+  }),
+});
+
+export type EditChatbotResType = z.TypeOf<typeof EditChatbotRes>;
+
+
+export const ChatbotDeleteRes = z
+  .object({
+    user_id: z.string(),
+    chatbot: z.object({
+      id: z.string(),
+      chatbot_name: z.string(),
+      deleted_at: z.date(),
+    }),
+  })
+  .strict();
+
+export type ChatbotDeleteResType = z.TypeOf<typeof ChatbotDeleteRes>;
+

@@ -45,10 +45,16 @@ import { useRouter } from "next/navigation";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 
+type ComponentCreateChatbotProps = {
+  id: string;
+};
+
+
 const ComponentCreateChatbot = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
->(({ className, onValueChange, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> &
+  ComponentCreateChatbotProps
+>(({ className, onValueChange, id, ...props }, ref) => {
   const [isPending, startTransition] = useTransition();
   const [isChecked, setIsChecked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -98,14 +104,10 @@ const ComponentCreateChatbot = React.forwardRef<
     if (loading) return;
     setLoading(true);
     try {
-      const result = await chatbotApiRequest.createChatbot(values);
+      const result = await chatbotApiRequest.createChatbot(values, id);
       toast({
         title: "Success",
         description: "Chatbot added successfully!",
-      });
-      await chatbotApiRequest.setCookieConverSationId({
-        conversation_id: "99bc0984-f8de-407a990c-41651230e539",
-        // expiresAt: result.payload.data.expiresAt,
       });
       console.log(result);
       // router.push("/info-chatbot");
@@ -122,14 +124,14 @@ const ComponentCreateChatbot = React.forwardRef<
   }
   return (
     <div>
-      <div className="px-3">
-        <Separator className=" bg-[#303034]" />
+      <div className="px-3 overflow-y-auto custom-scroll">
+        <Separator className="opacity-50 border border-slate-300" />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6 space-x-6"
           >
-            <div className="">
+            <div className="overflow-auto hide-scrollbar">
               <div className="pt-5 ">
                 <FormField
                   control={form.control}
@@ -137,7 +139,7 @@ const ComponentCreateChatbot = React.forwardRef<
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
-                        Brain name
+                        Chatbot name
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -199,15 +201,15 @@ const ComponentCreateChatbot = React.forwardRef<
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="GPT-3.5-Turbo">
+                          <SelectItem value="gpt-3.5-turbo">
                             GPT-3.5-Turbo
                           </SelectItem>
-                          <SelectItem value="GPT-4.0-Turbo">
-                          gpt-4
+                          {/* <SelectItem value="gpt-4">
+                          GPT-4
                           </SelectItem>
                           <SelectItem value="GPT-4.0-TurboPlus">
                             GPT-4.0-TurboPlus
-                          </SelectItem>
+                          </SelectItem> */}
                         </SelectContent>
                       </Select>
                       <FormDescription>
@@ -222,7 +224,7 @@ const ComponentCreateChatbot = React.forwardRef<
                 <FormField
                   control={form.control}
                   name="temperature"
-                  render={({ field }, disabled={isPending}) => (
+                  render={({ field }, disabled = { isPending }) => (
                     <FormItem>
                       <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
                         Temperature
@@ -357,9 +359,9 @@ const ComponentCreateChatbot = React.forwardRef<
                 </div>
               </div>
               <div className="pb-3 pt-3">
-                  <FormError message={error} />
-                  <FormSuccess message={success} />
-                </div>
+                <FormError message={error} />
+                <FormSuccess message={success} />
+              </div>
               <div className=" flex items-center justify-between pt-5 text-[14px] leading-[22px] ">
                 <BuildButton
                   type="submit"

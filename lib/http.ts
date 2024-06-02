@@ -16,6 +16,7 @@ type EntityErrorPayload = {
   errors: {
     field: string
     detail: string
+    message: string
   }[]
 }
 

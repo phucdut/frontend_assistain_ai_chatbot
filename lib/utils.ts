@@ -21,7 +21,7 @@ export const handleErrorApi = ({
     error.payload.errors.forEach((item) => {
       setError(item.field, {
         type: "server",
-        message: item.detail,
+        message: item.detail || item.message,
       });
     });
   } else {
