@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import "@/app/globals.css";
 
 import {
@@ -11,50 +13,91 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table-dashboard";
+import withReactContent from "sweetalert2-react-content";
+import { useSidebarStore } from "@/stores/sidebar-stores";
+import { ChatbotResListType } from "@/schemas/chatbot.schema";
+import { AccountResType } from "@/schemas/account.schema";
+import { useRouter } from "next/navigation";
+import accountApiRequest from "@/app/apiRequests/account";
+import { handleErrorApi } from "@/lib/utils";
+import chatbotApiRequest from "@/app/apiRequests/chatbot";
 
 const DashboardTableForm = () => {
+  const { isMinimal, handleClose } = useSidebarStore();
+  const [chatbot, setChatbot] = useState<ChatbotResListType | null>(null);
+  const [selectedChatbotId, setSelectedChatbotId] = useState<string | null>(
+    null
+  );
+  const [editChatbotId, setEditChatbotId] = useState<string | null>(null);
+  const [account, setAccount] = useState<AccountResType | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result = await accountApiRequest.accountClient();
+        setAccount(result.payload);
+        // console.log(result);
+      } catch (error) {
+        handleErrorApi({
+          error,
+        });
+        router.push("/");
+        router.refresh(); // Chuyển hướng người dùng về trang landing
+      }
+    };
+    fetchRequest();
+  }, [router]);
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        if (account?.id) {
+          const result = await chatbotApiRequest.chatbotClient(account?.id);
+          setChatbot(result.payload);
+          // console.log(result.payload);
+        }
+      } catch (error) {
+        handleErrorApi({ error });
+      }
+    };
+    fetchRequest();
+  }, [account?.id]);
+
   return (
-    <div className="w-[1050px] h-[277px] bg-white rounded-xl border border-slate-300">
-      <div className="w-full flex justify-start gap-14 py-5 pl-4">
+    <div className="w-[1050px] h-[500px] bg-white rounded-xl border border-slate-300">
+      <div className="w-full flex justify-start gap-14 py-5 pl-5">
         <div className="flex justify-start relative">
-          <div className="text-zinc-900 text-[13px] font-normal leading-tight  w-14">
-            Configs
+          <div className="text-zinc-900 text-[13px] font-normal leading-tight pl-2 w-14">
+            Chatbots
           </div>
-          <div className="text-zinc-900 text-2xl font-semibold leading-[34px] absolute left-14 top-[-8px]">
-            3
-          </div>
-        </div>
-        <div className="flex justify-start relative">
-          <div className="text-zinc-900 text-[13px] font-normal leading-tight w-[78px]">
-            Datapoints
-          </div>
-          <div className="text-zinc-900 text-2xl font-semibold leading-[34px] absolute left-[78px] top-[-8px]">
-            1028
+          <div className="text-zinc-900 text-2xl font-semibold leading-[34px] absolute left-20 top-[-8px]">
+            {chatbot?.total}
           </div>
         </div>
       </div>
-      <div className="pt-0 w-full h-[500px] lg:pb-7 overflow-auto custom-scroll ">
+      <div className="pt-0 w-full h-[400px] lg:pb-7 overflow-auto custom-scroll ">
         <TableDashboard className="border border-slate-300">
           <TableCaption></TableCaption>
           <TableHeader className="bg-gray-50 ">
             <TableRow>
               <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
-                Name
+                Chatbot Name
               </TableHead>
               <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
                 Model
               </TableHead>
               <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
-                Datapoints
+                Visitors
               </TableHead>
               <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
-                Latest updated
+                Inboxes
               </TableHead>
               <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
-                File size
+                Latency
               </TableHead>
               <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
-                Valid JSON
+                Rating
               </TableHead>
               <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
                 Date create
@@ -62,48 +105,34 @@ const DashboardTableForm = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableCell className="flex justify-start items-center gap-3">
-              <input
-                type="checkbox"
-                className="w-6 h-6 left-0 top-0 bg-white rounded-md border border-slate-300"
-              ></input>
-              <div className="text-zinc-900 text-[13px] font-normal leading-tight">
-                Lorem ipsum dosit amet
-              </div>
-            </TableCell>
-            <TableCell>
-              <div className="text-zinc-900 text-[13px] font-normal leading-tight">
-                gpt-4
-              </div>
-            </TableCell>
-            {/* {knowledgeBase?.map((knowledgeBaseItem) => (
-              <TableRow key={knowledgeBaseItem.chatbot_id}>
-                <TableCell className="font-medium">
-                  {knowledgeBaseItem.title}
-                </TableCell>
-                <TableCell className="font-medium">
-                  {knowledgeBaseItem.content_type}
-                </TableCell>
-                <TableCell>
-                  {new Date(knowledgeBaseItem.created_at).toLocaleString()}
-                </TableCell>
-                <TableCell>
-                  {new Date(knowledgeBaseItem.updated_at).toLocaleString()}
-                </TableCell>
-                <TableCell>{knowledgeBaseItem.file_size}</TableCell>
-                <TableCell className="text-center">
-                  {knowledgeBaseItem.character_count}
-                </TableCell>
-                <TableCell className="flex justify-center">
-                  <Button
-                    variant="edit"
-                    onClick={() => handleDelete(id, knowledgeBaseItem.id)}
-                  >
-                    <Trash2 />
-                  </Button>
-                </TableCell>
-              </TableRow> 
-            ))} */}
+            {chatbot?.results.map(
+              (
+                chatbotItem: ChatbotResListType["results"][0],
+                index: number
+              ) => (
+                <TableRow key={index}>
+                  <TableCell className="flex justify-start items-center gap-3">
+                    <input
+                      type="checkbox"
+                      className="w-6 h-6 left-0 top-0 bg-white rounded-md border border-slate-300"
+                    ></input>
+                    <div className="text-zinc-900 text-[13px] font-normal leading-tight">
+                      {chatbotItem.chatbot_name}
+                    </div>
+                  </TableCell>
+                  <TableCell className="">
+                    {chatbotItem.model}
+                  </TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell className="text-center"></TableCell>
+                  <TableCell className="flex justify-center">
+                    {new Date(chatbotItem.created_at).toLocaleString()}
+                  </TableCell>
+                </TableRow>
+              )
+            )}
           </TableBody>
           <TableFooter>
             <TableRow></TableRow>

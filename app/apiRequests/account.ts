@@ -6,6 +6,7 @@ import {
   ChangPasswordBodyType,
   ChangPasswordRes,
   UpdateAccountBodyType,
+  UserSubscriptionResType,
 } from "@/schemas/account.schema";
 const accountApiRequest = {
   accountClient: () => http.get<AccountResType>(`/api/v1/user/profile`),
@@ -18,5 +19,8 @@ const accountApiRequest = {
 
   changePassword: (body: ChangPasswordBodyType, id: string) =>
     http.post<ChangPasswordRes>(`/api/v1/user/${id}/change-password`, body),
+
+  userSubscriptionIdClient: (id: string) =>
+    http.get<UserSubscriptionResType>(`/api/v1/user/${id}/get-user-subscription`),
 };
 export default accountApiRequest;

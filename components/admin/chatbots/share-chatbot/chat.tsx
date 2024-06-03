@@ -57,6 +57,40 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
     "99bc0984-f8de-407a990c-41651230e539"
   );
 
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        if (conversationId) {
+          // console.log("Fetching messages for conversationId:", conversationId);
+          const result = await chatbotApiRequest.loadMessage(conversationId);
+          // console.log("Fetched messages:", result.payload);
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            ...result.payload.map((msg) => ({
+              sender_type: String(msg.sender_type),
+              message: msg.message,
+              created_at: new Date(msg.created_at),
+            })),
+          ]);
+        } else {
+          console.log("No conversationId found.");
+        }
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+        handleErrorApi({ error });
+      }
+    };
+
+    fetchMessages(); // Initial fetch
+
+    const intervalId = setInterval(() => {
+      // console.log("Fetching messages...");
+      fetchMessages();
+    }, 5000); // Fetch messages every 5 seconds
+
+    return () => clearInterval(intervalId); // Clear interval on unmount
+  }, [conversationId]);
+
   const handleImageClick = () => {
     setIsExpanded(!isExpanded); // Đảo ngược trạng thái khi click vào ảnh
   };
@@ -105,7 +139,12 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
         id,
         conversationId
       );
-
+      // Hiển thị tin nhắn từ bot hoặc agent trên giao diện
+      const botOrAgentMessage: ChatMessage = {
+        sender_type: response.payload.sender_type, // Đã được trả về từ API
+        message: response.payload.message,
+        created_at: new Date(),
+      };
       // Update the conversation ID if a new one is provided
       if (
         response.payload.conversation_id &&
@@ -123,6 +162,7 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
           created_at: new Date(),
         },
       ]);
+      // setMessages((prevMessages) => [...prevMessages, botOrAgentMessage]);
 
       form.setValue("message", "");
       console.log("API Response:", response);
@@ -198,12 +238,13 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
                   <div
                     key={index}
                     className={
-                      msg.sender_type === "bot"
+                      msg.sender_type === "bot" || msg.sender_type === "agent"
                         ? "flex items-start space-x-4"
                         : "flex justify-end items-start space-x-4"
                     }
                   >
-                    {msg.sender_type === "bot" && (
+                    {(msg.sender_type === "bot" ||
+                      msg.sender_type === "agent") && (
                       <Image
                         src="/icons/Horizontal 1.svg"
                         alt="x"
@@ -214,7 +255,7 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
                     )}
                     <div
                       className={
-                        msg.sender_type === "bot"
+                        msg.sender_type === "bot" || msg.sender_type === "agent"
                           ? "bot-message bg-green-200 p-4 rounded-lg"
                           : "user-message bg-blue-200 p-4 rounded-lg"
                       }
@@ -224,7 +265,8 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
                         {msg.created_at.toLocaleString()}
                       </p>
                     </div>
-                    {msg.sender_type === "user" && (
+                    {(msg.sender_type === "user" ||
+                      msg.sender_type === "guest") && (
                       <Image
                         src="/Ellipse 1.svg"
                         alt="x"

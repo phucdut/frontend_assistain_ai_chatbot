@@ -1,11 +1,10 @@
 "use client";
-import React from "react";
 import Image from "next/image";
+import React from "react";
 
-const AdminError = () => {
+const UpgradeMembershipError = () => {
   return (
     <div>
-      {" "}
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <div className="max-w-md w-full bg-white shadow-md rounded-lg p-6">
           <div className="flex flex-col items-center">
@@ -25,4 +24,4 @@ const AdminError = () => {
   );
 };
 
-export default AdminError;
+export default UpgradeMembershipError;

@@ -1,8 +1,6 @@
 "use client";
-
-import Image from "next/image";
 import React from "react";
-
+import Image from "next/image";
 import {
   LineChart,
   Line,
@@ -12,7 +10,6 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ReferenceLine,
 } from "recharts";
 
 type Props = {};
@@ -25,11 +22,13 @@ const data = [
   { date: "13/07", data1: 20, data2: 7 },
 ];
 
-const LatencySecondDashboardForm = () => {
+const PositiveForm = ({}: Props) => {
+  const customTicks = data.map(entry => entry.date);
+
   return (
     <div className="w-full h-full shadow rounded-xl relative">
       <div className="text-zinc-900 text-base font-semibold leading-normal py-5 pl-5">
-        Latency (seconds)
+      Visitors
       </div>
       <div className="absolute right-6 top-6">
         <Image
@@ -37,20 +36,20 @@ const LatencySecondDashboardForm = () => {
           alt="x"
           width={14.5}
           height={14.5}
-          className=" transition duration-500 ease-in-out hover:opacity-100 hover:scale-125"
+          className="transition duration-500 ease-in-out hover:opacity-100 hover:scale-125"
         />
       </div>
       <div>
-        <ResponsiveContainer width="100%" height={150}>
+        <ResponsiveContainer width="100%" height={150} className="pl-[-10px]">
           <LineChart data={data}>
             <CartesianGrid vertical={false} />
-            {/* <ReferenceLine y={7} stroke="#cccccc" strokeDasharray="3 3" /> */}
             <XAxis
               dataKey="date"
               tickLine={false}
               axisLine={false}
               stroke="#888888"
               fontSize={12}
+              ticks={customTicks}
             />
             <YAxis
               tickLine={false}
@@ -59,7 +58,6 @@ const LatencySecondDashboardForm = () => {
               fontSize={12}
             />
             <Tooltip formatter={(value) => `${value}`} />
-            {/* <Legend /> */}
             <Line
               type="linear"
               dataKey="data1"
@@ -83,4 +81,4 @@ const LatencySecondDashboardForm = () => {
   );
 };
 
-export default LatencySecondDashboardForm;
+export default PositiveForm;
