@@ -85,3 +85,20 @@ export const ChangPasswordRes = z.object({
 });
 
 export type ChangPasswordRes = z.TypeOf<typeof ChangPasswordRes>;
+
+
+
+export const UserSubscriptionRes = z
+  .object({
+    id: z.string(),
+    user_id: z.string(),
+    plan_id: z.string(),
+    updated_at: z.date(),
+    expire_at: z.date(),
+    deleted_at: z.string(),
+    created_at: z.date(),
+    is_active: z.boolean(),
+  })
+  .strict();
+
+export type UserSubscriptionResType = z.TypeOf<typeof UserSubscriptionRes>;

@@ -10,7 +10,7 @@ export const TOOLS: ToolItemProps[] = [
   {
     title: "Live Agent Takeover",
     icon: "/icons/conversation.svg",
-    url: "/live",
+    url: "/live-chat",
     color: "bg-blue-500",
     slug: "conversation"
   },

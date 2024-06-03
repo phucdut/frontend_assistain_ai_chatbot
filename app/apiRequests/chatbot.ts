@@ -39,7 +39,7 @@ const chatbotApiRequest = {
     }),
 
   loadMessage: (conversation_id: string) =>
-    http.get<ChatbotResMessageType>(`/api/v1/conversation/${conversation_id}`),
+    http.get<ChatbotResMessageType>(`/api/v1/conversation/load-message/${conversation_id}`),
 
   sentMessage: (
     body: ChatbotMessageBodyType,

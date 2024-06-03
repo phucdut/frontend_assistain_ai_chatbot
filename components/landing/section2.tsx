@@ -1,10 +1,24 @@
+'use client'
+
 import Image from "next/image";
 import "@/app/globals.css";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import ShareChatbot from "../admin/chatbots/share-chatbot/share-chat";
+import { useState } from "react";
 
 const Section2 = () => {
+  const [showIframe, setShowIframe] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("1");
+
+  const handleClick = () => {
+    setShowIframe(true);
+  };
+
+  const handleClickOption = (option: "1" | "2" | "3") => {
+    setSelectedOption(option);
+  };
+
   return (
     <div>
       <div className="flex contain-layout-responsive relative">
@@ -19,7 +33,9 @@ const Section2 = () => {
         </div>
         <div>
           <div className="font-medium pt-[111.18px] pl-[100.32px] leading-[24px] text-[16px] flex justify-center">
-            <p className="demo">LIVE DEMO</p>
+            <p className="demo" onClick={handleClick}>
+              LIVE DEMO
+            </p>
           </div>
           <div className="w-full font-medium py-[26px] pl-[100.32px] leading-[36px] text-[24px] flex justify-center items-center">
             <div>This assistant was created in minutes with AllyAI</div>
@@ -41,10 +57,10 @@ const Section2 = () => {
           </div>
         </div>
       </div>
-
-      <div className="flex justify-center items-center pt-10">
-        <div className="w-[1140px] h-[551px] bg-white rounded-xl shadow">
-          {/* <div className="w-[1140px] h-[400px]">
+      {showIframe && (
+        <div className="flex justify-center items-center pt-10">
+          <div className="w-[1140px] h-[551px] bg-white rounded-xl shadow">
+            {/* <div className="w-[1140px] h-[400px]">
             <div className="flex justify-start items-center w-[594px] h-[56px] bg-custom-color rounded-xl shadow pl-5 ">
               <div className="text-neutral-900 text-base font-normal leading-9">
                 👋 Can I tell you more about AllyAI? Have you used any AI tools
@@ -93,16 +109,17 @@ const Section2 = () => {
               />
             </Button>
           </div> */}
-          {/* <iframe
-            src="http://localhost:3000/embed/?chatbot_id=1d90c339-fb35-4c1a-9e9e-85451bb18fc8&modeltype=gpt-3.5-turbo&mode=false&logo=ZmFsc2U="
-            allow="clipboard-write; *;microphone *"
-            width="100%"
-            height="950"
-            frameBorder="0"
-          ></iframe> */}
-          <ShareChatbot id={"1d90c339-fb35-4c1a-9e9e-85451bb18fc8"} />
+            <iframe
+              src="http://localhost:3000/embed/?chatbot_id=1d90c339-fb35-4c1a-9e9e-85451bb18fc8&modeltype=gpt-3.5-turbo&mode=false&logo=ZmFsc2U="
+              allow="clipboard-write; *;microphone *"
+              width="100%"
+              height="950"
+              frameBorder="0"
+            ></iframe>
+            {/* <ShareChatbot id={"1d90c339-fb35-4c1a-9e9e-85451bb18fc8"} /> */}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

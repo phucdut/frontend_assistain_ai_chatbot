@@ -52,26 +52,26 @@ const Chat: React.FC<ChatProps> = ({ id, conversation_id }) => {
     conversation_id
   );
 
-  useEffect(() => {
-    const fetchRequest = async () => {
-      try {
-        if (conversationId) {
-          const result = await chatbotApiRequest.loadMessage(conversationId);
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            ...result.payload.map((msg) => ({
-              sender_type: String(msg.sender_type),
-              message: msg.message,
-              created_at: new Date(msg.created_at),
-            })),
-          ]);
-        }
-      } catch (error) {
-        handleErrorApi({ error });
-      }
-    };
-    fetchRequest();
-  }, [conversationId]);
+  // useEffect(() => {
+  //   const fetchRequest = async () => {
+  //     try {
+  //       if (conversationId) {
+  //         const result = await chatbotApiRequest.loadMessage(conversationId);
+  //         setMessages((prevMessages) => [
+  //           ...prevMessages,
+  //           ...result.payload.map((msg) => ({
+  //             sender_type: String(msg.sender_type),
+  //             message: msg.message,
+  //             created_at: new Date(msg.created_at),
+  //           })),
+  //         ]);
+  //       }
+  //     } catch (error) {
+  //       handleErrorApi({ error });
+  //     }
+  //   };
+  //   fetchRequest();
+  // }, [conversationId]);
 
   useEffect(() => {
     if (messagesEndRef.current) {

@@ -1,7 +1,6 @@
 "use client";
-
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 
 import {
   LineChart,
@@ -25,11 +24,11 @@ const data = [
   { date: "13/07", data1: 20, data2: 7 },
 ];
 
-const LatencySecondDashboardForm = () => {
+const ValidJsonDashboardFrom = () => {
   return (
     <div className="w-full h-full shadow rounded-xl relative">
       <div className="text-zinc-900 text-base font-semibold leading-normal py-5 pl-5">
-        Latency (seconds)
+        Rating
       </div>
       <div className="absolute right-6 top-6">
         <Image
@@ -59,7 +58,6 @@ const LatencySecondDashboardForm = () => {
               fontSize={12}
             />
             <Tooltip formatter={(value) => `${value}`} />
-            {/* <Legend /> */}
             <Line
               type="linear"
               dataKey="data1"
@@ -83,4 +81,4 @@ const LatencySecondDashboardForm = () => {
   );
 };
 
-export default LatencySecondDashboardForm;
+export default ValidJsonDashboardFrom;

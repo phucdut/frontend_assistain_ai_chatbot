@@ -92,7 +92,7 @@ export const ChatbotMessageRes = z
     id: z.string(),
     sender_id: z.string(),
     message: z.string(),
-    sender_type: z.number(),
+    sender_type: z.string(),
     updated_at: z.date(),
     deleted_at: z.string(),
     conversation_id: z.string(),
