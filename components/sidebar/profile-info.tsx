@@ -249,7 +249,7 @@ const Profile = () => {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-6 space-x-6"
                 >
-                  <div className="pl-36 pt-3 flex gap-1">
+                  <div className="pl-36 pt-3 flex gap-1 relative">
                     <div>
                       <div className="flex items-center justify-start gap-1 ">
                         {isEditing ? (
@@ -307,12 +307,12 @@ const Profile = () => {
                           )}
                         </div>
                       </div>
-                      <div className="text-zinc-900 text-sm font-normal leading-tight">
+                      <div className="text-zinc-900 text-sm font-normal leading-tight w-40 overflow-hidden whitespace-nowrap text-ellipsis">
                         {account?.email}
                         {/* davidman@gmail.com */}
                       </div>
                     </div>
-                    <Skeleton className="bg-primary text-primary-foreground hover:bg-primary/90 flex justify-center items-center">
+                    <Skeleton className="bg-primary text-primary-foreground hover:bg-primary/90 flex justify-center items-center absolute right-5 ">
                       <Button onClick={handleLogout} type="button" className="">
                         <LogOut />
                       </Button>

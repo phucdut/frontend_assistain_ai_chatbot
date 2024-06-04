@@ -1,8 +1,6 @@
 "use client";
-
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import React from "react";
-
 import {
   LineChart,
   Line,
@@ -11,21 +9,42 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
-  ReferenceLine,
 } from "recharts";
+import { InboxesAndLatencyListType } from "@/schemas/dashboard.schema";
+import dashboardApiRequest from "@/app/apiRequests/dashboard";
+import { handleErrorApi } from "@/lib/utils";
 
-type Props = {};
+type FormData = {
+  type: string;
+  date: string;
+};
 
-const data = [
-  { date: "13/06", data1: 10, data2: 5 },
-  { date: "19/06", data1: 12, data2: 8 },
-  { date: "26/06", data1: 18, data2: 6 },
-  { date: "02/07", data1: 15, data2: 9 },
-  { date: "13/07", data1: 20, data2: 7 },
-];
+type Props = {
+  formData: FormData;
+};
 
-const LatencySecondDashboardForm = () => {
+const LatencySecondDashboardForm = ({ formData }: Props) => {
+  const [conversationChartDashboard, setConversationChartDashboard] =
+    useState<InboxesAndLatencyListType>([]);
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result = await dashboardApiRequest.dashboardMessageChartClient(
+          formData?.type,
+          formData?.date
+        );
+        // console.log(result.payload); // Kiểm tra dữ liệu trả về
+        setConversationChartDashboard(result.payload);
+      } catch (error) {
+        handleErrorApi({
+          error,
+        });
+      }
+    };
+    fetchRequest();
+  }, [formData?.type, formData?.date]);
+
   return (
     <div className="w-full h-full shadow rounded-xl relative">
       <div className="text-zinc-900 text-base font-semibold leading-normal py-5 pl-5">
@@ -42,11 +61,10 @@ const LatencySecondDashboardForm = () => {
       </div>
       <div>
         <ResponsiveContainer width="100%" height={150}>
-          <LineChart data={data}>
+          <LineChart data={conversationChartDashboard}>
             <CartesianGrid vertical={false} />
-            {/* <ReferenceLine y={7} stroke="#cccccc" strokeDasharray="3 3" /> */}
             <XAxis
-              dataKey="date"
+              dataKey="time_point"
               tickLine={false}
               axisLine={false}
               stroke="#888888"
@@ -59,19 +77,10 @@ const LatencySecondDashboardForm = () => {
               fontSize={12}
             />
             <Tooltip formatter={(value) => `${value}`} />
-            {/* <Legend /> */}
             <Line
               type="linear"
-              dataKey="data1"
-              stroke="#09C068"
-              strokeWidth={1.5}
-              dot={{ r: 4, fill: "#FFF" }}
-              activeDot={{ r: 8 }}
-            />
-            <Line
-              type="linear"
-              dataKey="data2"
-              stroke="#930CFD"
+              dataKey="latency_average"
+              stroke="#44f51d"
               strokeWidth={1.5}
               dot={{ r: 4, fill: "#FFF" }}
               activeDot={{ r: 8 }}

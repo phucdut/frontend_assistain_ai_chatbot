@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import {
@@ -11,71 +11,160 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ReferenceLine,
 } from "recharts";
+import {
+  InboxesAndLatencyListType,
+  VisitorAndRatingListType,
+} from "@/schemas/dashboard.schema";
+import { ChatbotResListType } from "@/schemas/chatbot.schema";
+import { AccountResType } from "@/schemas/account.schema";
+import { useRouter } from "next/navigation";
+import accountApiRequest from "@/app/apiRequests/account";
+import { handleErrorApi } from "@/lib/utils";
+import chatbotApiRequest from "@/app/apiRequests/chatbot";
+import dashboardApiRequest from "@/app/apiRequests/dashboard";
+import { Select } from "@/components/ui/select";
 
-type Props = {};
+type FormData = {
+  type: string;
+  date: string;
+};
 
-const data = [
-  { date: "13/06", data1: 10, data2: 5 },
-  { date: "19/06", data1: 12, data2: 8 },
-  { date: "26/06", data1: 18, data2: 6 },
-  { date: "02/07", data1: 15, data2: 9 },
-  { date: "13/07", data1: 20, data2: 7 },
-];
+type Props = {
+  formData: FormData;
+};
 
-const ValidJsonDashboardFrom = () => {
+const ValidJsonDashboardFrom = ({ formData }: Props) => {
+  const [selectedChatbotId, setSelectedChatbotId] = useState<string>("");
+  const [chatbot, setChatbot] = useState<ChatbotResListType | null>(null);
+  const [account, setAccount] = useState<AccountResType | null>(null);
+  const [conversationChartDashboard, setConversationChartDashboard] =
+    useState<VisitorAndRatingListType | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result = await accountApiRequest.accountClient();
+        setAccount(result.payload);
+        // console.log(result);
+      } catch (error) {
+        handleErrorApi({
+          error,
+        });
+        router.push("/");
+        router.refresh(); // Chuyển hướng người dùng về trang landing
+      }
+    };
+    fetchRequest();
+  }, [router]);
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        if (account?.id) {
+          const result = await chatbotApiRequest.chatbotClient(account?.id);
+          setChatbot(result.payload);
+          // console.log(result.payload);
+        }
+      } catch (error) {
+        handleErrorApi({ error });
+      }
+    };
+    fetchRequest();
+  }, [account?.id]);
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result =
+          await dashboardApiRequest.dashboardConversationChartClient(
+            formData?.type,
+            formData?.date,
+            selectedChatbotId
+          );
+        // console.log(result.payload); // Kiểm tra dữ liệu trả về
+        setConversationChartDashboard(result.payload);
+      } catch (error) {
+        handleErrorApi({
+          error,
+        });
+      }
+    };
+    fetchRequest();
+  }, [formData?.type, formData?.date, selectedChatbotId]);
+
   return (
-    <div className="w-full h-full shadow rounded-xl relative">
-      <div className="text-zinc-900 text-base font-semibold leading-normal py-5 pl-5">
-        Rating
+    <div className="w-full h-full shadow rounded-xl ">
+      {/* <div>{formData.date}</div> */}
+      <div className="flex justify-start items-center relative">
+        <div className="text-zinc-900 text-base font-semibold leading-normal py-5 pl-5">
+          Rating
+        </div>
+        <div className="absolute left-32 top-6 text-sm">
+          <select
+            onChange={(e) => setSelectedChatbotId(e.target.value)}
+            value={selectedChatbotId}
+            className="rounded-sm"
+          >
+            <option value="" disabled>
+              Select a chatbot
+            </option>
+            {chatbot?.results.map(
+              (
+                chatbotItem: ChatbotResListType["results"][0],
+                index: number
+              ) => (
+                <option key={index} value={chatbotItem.id}>
+                  {chatbotItem.chatbot_name}
+                </option>
+              )
+            )}
+          </select>
+        </div>
+        <div className="absolute right-6 top-6">
+          <Image
+            src="/icons/OL - Fullscreen.svg"
+            alt="x"
+            width={14.5}
+            height={14.5}
+            className="transition duration-500 ease-in-out hover:opacity-100 hover:scale-125"
+          />
+        </div>
       </div>
-      <div className="absolute right-6 top-6">
-        <Image
-          src="/icons/OL - Fullscreen.svg"
-          alt="x"
-          width={14.5}
-          height={14.5}
-          className=" transition duration-500 ease-in-out hover:opacity-100 hover:scale-125"
-        />
-      </div>
+
       <div>
-        <ResponsiveContainer width="100%" height={150}>
-          <LineChart data={data}>
-            <CartesianGrid vertical={false} />
-            {/* <ReferenceLine y={7} stroke="#cccccc" strokeDasharray="3 3" /> */}
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              axisLine={false}
-              stroke="#888888"
-              fontSize={12}
-            />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              stroke="#888888"
-              fontSize={12}
-            />
-            <Tooltip formatter={(value) => `${value}`} />
-            <Line
-              type="linear"
-              dataKey="data1"
-              stroke="#09C068"
-              strokeWidth={1.5}
-              dot={{ r: 4, fill: "#FFF" }}
-              activeDot={{ r: 8 }}
-            />
-            <Line
-              type="linear"
-              dataKey="data2"
-              stroke="#930CFD"
-              strokeWidth={1.5}
-              dot={{ r: 4, fill: "#FFF" }}
-              activeDot={{ r: 8 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        {conversationChartDashboard && (
+          <div>
+            <ResponsiveContainer width="100%" height={150}>
+              <LineChart data={conversationChartDashboard}>
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="time_point"
+                  tickLine={false}
+                  axisLine={false}
+                  stroke="#888888"
+                  fontSize={12}
+                />
+                <YAxis
+                  tickLine={false}
+                  axisLine={false}
+                  stroke="#888888"
+                  fontSize={12}
+                />
+                <Tooltip formatter={(value) => `${value}`} />
+                <Line
+                  type="linear"
+                  dataKey="rating_average"
+                  stroke="#ad743e"
+                  strokeWidth={1.5}
+                  dot={{ r: 4, fill: "#FFF" }}
+                  activeDot={{ r: 8 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
       </div>
     </div>
   );

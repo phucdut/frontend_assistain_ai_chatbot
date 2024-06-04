@@ -60,9 +60,9 @@ const ShowChatHybrid = () => {
     const fetchMessages = async () => {
       try {
         if (conversationId) {
-          console.log("Fetching messages for conversationId:", conversationId);
+          // console.log("Fetching messages for conversationId:", conversationId);
           const result = await chatbotApiRequest.loadMessage(conversationId);
-          console.log("Fetched messages:", result.payload);
+          // console.log("Fetched messages:", result.payload);
           setMessages((prevMessages) => [
             ...prevMessages,
             ...result.payload.map((msg) => ({
@@ -83,7 +83,7 @@ const ShowChatHybrid = () => {
     fetchMessages(); // Initial fetch
 
     const intervalId = setInterval(() => {
-      console.log("Fetching messages...");
+      // console.log("Fetching messages...");
       fetchMessages();
     }, 5000); // Fetch messages every 5 seconds
 

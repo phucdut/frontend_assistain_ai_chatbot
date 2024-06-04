@@ -21,15 +21,28 @@ import { useRouter } from "next/navigation";
 import accountApiRequest from "@/app/apiRequests/account";
 import { handleErrorApi } from "@/lib/utils";
 import chatbotApiRequest from "@/app/apiRequests/chatbot";
+import dashboardApiRequest from "@/app/apiRequests/dashboard";
+import { ConversationAndChatbotResType } from "@/schemas/dashboard.schema";
+import ShowValueVisitorTable from "./show_value_visitor_table";
+import ShowValueRatingScoreTable from "./show_value_rating_score_table";
 
-const DashboardTableForm = () => {
-  const { isMinimal, handleClose } = useSidebarStore();
+type FormData = {
+  type: string;
+  date: string;
+};
+
+type Props = {
+  formData: FormData;
+};
+
+const DashboardTableForm = ({ formData }: Props) => {
   const [chatbot, setChatbot] = useState<ChatbotResListType | null>(null);
   const [selectedChatbotId, setSelectedChatbotId] = useState<string | null>(
     null
   );
-  const [editChatbotId, setEditChatbotId] = useState<string | null>(null);
   const [account, setAccount] = useState<AccountResType | null>(null);
+  const [conversationDashboard, setConversationDashboard] =
+    useState<ConversationAndChatbotResType | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -90,12 +103,12 @@ const DashboardTableForm = () => {
               <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
                 Visitors
               </TableHead>
-              <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+              {/* <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
                 Inboxes
               </TableHead>
               <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
                 Latency
-              </TableHead>
+              </TableHead> */}
               <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
                 Rating
               </TableHead>
@@ -120,13 +133,25 @@ const DashboardTableForm = () => {
                       {chatbotItem.chatbot_name}
                     </div>
                   </TableCell>
-                  <TableCell className="">
-                    {chatbotItem.model}
+                  <TableCell className="">{chatbotItem.model}</TableCell>
+                  <TableCell>
+                    {chatbotItem && (
+                      <ShowValueVisitorTable
+                        formData={formData}
+                        chatbot_id={chatbotItem?.id}
+                      />
+                    )}
                   </TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell className="text-center"></TableCell>
+                  {/* <TableCell></TableCell>
+                  <TableCell></TableCell> */}
+                  <TableCell className="text-center">
+                    {chatbotItem && (
+                      <ShowValueRatingScoreTable
+                        formData={formData}
+                        chatbot_id={chatbotItem?.id}
+                      />
+                    )}
+                  </TableCell>
                   <TableCell className="flex justify-center">
                     {new Date(chatbotItem.created_at).toLocaleString()}
                   </TableCell>
