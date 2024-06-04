@@ -72,7 +72,7 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
     fetchMessages(); // Initial fetch
 
     const intervalId = setInterval(() => {
-      console.log("Fetching messages...");
+      // console.log("Fetching messages...");
       fetchMessages();
     }, 5000); // Fetch messages every 5 seconds
 
@@ -87,7 +87,7 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
 
   useEffect(() => {
     if (id) {
-      console.log("Chatbot ID:", id);
+      // console.log("Chatbot ID:", id);
       if (!initialMessagesLoaded) {
         setMessages(initialBotMessages);
         setInitialMessagesLoaded(true);
@@ -136,7 +136,7 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
       ]);
 
       form.setValue("message", "");
-      console.log("API Response:", response);
+      // console.log("API Response:", response);
     } catch (error) {
       setMessages(errorBotMessages);
       handleErrorApi({ error });

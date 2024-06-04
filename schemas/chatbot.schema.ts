@@ -50,6 +50,24 @@ export type ChatbotResListType = {
   }[];
 };
 
+export type ChatbotDashboardResListType = {
+    id: string;
+    chatbot_name: string;
+    description: string;
+    max_tokens: number;
+    updated_at: Date;
+    deleted_at: Date | null;
+    model: string;
+    temperature: number;
+    is_default: boolean;
+    user_id: string;
+    prompt: string;
+    created_at: Date;
+    is_active: boolean;
+  }[];
+
+
+
 export const ChatbotRes = z
   .object({
     total: z.number(),
