@@ -76,7 +76,7 @@ const SignUpForm = () => {
       const result = await authApiRequest.signUp(values);
       toast({
         title: "Success",
-        description: "Đăng nhập thành công",
+        description: "Sign up successfully!",
       });
       router.push("/sign-in");
       router.refresh();
@@ -106,11 +106,11 @@ const SignUpForm = () => {
         </div>
         <div className="pl-[90px] pr-[90px]">
           <div className="text-center max-w-[363px] pt-[60px] text-[36px] font-semibold leading-normal text-gray-[#1D1D1F]">
-            <h1>Sign in to Ally AI</h1>
+            <h1>Sign in to AllyBy AI</h1>
           </div>
           <div className="pt-[12px] max-w-[363px] pr-[p90x]">
             <p className="text-center text-[16px] font-normal leading-[26px] text-gray-[#2C2C2C]">
-              Welcome to Ally AI, please enter your login details below to
+              Welcome to AllyBy AI, please enter your login details below to
               using.
             </p>
           </div>
@@ -227,7 +227,7 @@ const SignUpForm = () => {
               </div>
               <div className="text-center pt-6 text-[16px] font-normal leading-[26px]">
                 <p>
-                  New to Ally AI? Learn more&nbsp;
+                  New to AllyBy AI? Learn more&nbsp;
                   <span className="font-medium underline ">here</span>
                 </p>
               </div>

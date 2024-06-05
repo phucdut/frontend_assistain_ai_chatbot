@@ -10,7 +10,7 @@ const ImageLogo = () => {
         width={897}
         height={805}
       ></Image>
-      <div className="absolute top-[30px] left-[30px] flex-shrink-0">
+      {/* <div className="absolute top-[30px] left-[30px] flex-shrink-0">
         <Image
           src="/Horizontal 2.png"
           alt="Horizontal 2"
@@ -25,7 +25,7 @@ const ImageLogo = () => {
           width={91}
           height={40}
         ></Image>
-      </div>
+      </div> */}
     </div>
   );
 };

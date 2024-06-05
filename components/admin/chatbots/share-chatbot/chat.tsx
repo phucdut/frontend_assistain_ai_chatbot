@@ -48,30 +48,36 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
   const [messages, setMessages] = useState<
     { sender_type: string; message: string; created_at: Date }[]
   >([]);
+  // Thay đổi state để chỉ lưu trữ tin nhắn mới nhất
+  const [latestMessages, setLatestMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false); // Thêm trạng thái isLoading
-  const [initialMessagesLoaded, setInitialMessagesLoaded] =
-    useState<boolean>(false);
+  const [initialMessagesLoaded, setInitialMessagesLoaded] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [conversationId, setConversationId] = useState<string>(
     "99bc0984-f8de-407a990c-41651230e539"
   );
 
+  React.useEffect(() => {
+    if (!initialMessagesLoaded) {
+      setMessages(initialBotMessages);
+      setInitialMessagesLoaded(true);
+    }
+  }, [initialMessagesLoaded]);
+
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         if (conversationId) {
-          // console.log("Fetching messages for conversationId:", conversationId);
           const result = await chatbotApiRequest.loadMessage(conversationId);
-          // console.log("Fetched messages:", result.payload);
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            ...result.payload.map((msg) => ({
+          // Cập nhật danh sách tin nhắn mới nhất thay vì thêm vào danh sách đầy đủ
+          setLatestMessages(
+            result.payload.map((msg) => ({
               sender_type: String(msg.sender_type),
               message: msg.message,
               created_at: new Date(msg.created_at),
-            })),
-          ]);
+            }))
+          );
         } else {
           console.log("No conversationId found.");
         }
@@ -81,14 +87,10 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
       }
     };
 
-    fetchMessages(); // Initial fetch
+    fetchMessages();
+    const intervalId = setInterval(fetchMessages, 5000);
 
-    const intervalId = setInterval(() => {
-      // console.log("Fetching messages...");
-      fetchMessages();
-    }, 5000); // Fetch messages every 5 seconds
-
-    return () => clearInterval(intervalId); // Clear interval on unmount
+    return () => clearInterval(intervalId);
   }, [conversationId]);
 
   const handleImageClick = () => {
@@ -99,20 +101,7 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages]);
-
-  React.useEffect(() => {
-    if (id) {
-      // Gọi API với id
-      // console.log("Chatbot ID:", id);
-      // Your API call logic here
-      // Sau khi lấy id, thêm các tin nhắn mẫu của chatbot vào danh sách tin nhắn
-      if (!initialMessagesLoaded) {
-        setMessages(initialBotMessages);
-        setInitialMessagesLoaded(true);
-      }
-    }
-  }, [id, initialMessagesLoaded]);
+  }, [latestMessages]);
 
   const form = useForm<ChatbotMessageBodyType>({
     resolver: zodResolver(ChatbotMessageSchema),
@@ -124,7 +113,7 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
   async function onSubmit(values: ChatbotMessageBodyType) {
     try {
       // Add user's message to the chat
-      setMessages((prevMessages) => [
+      setLatestMessages((prevMessages) => [
         ...prevMessages,
         {
           sender_type: "user",
@@ -224,7 +213,7 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
               height={36}
             />
             <div className="opacity-50 text-center text-neutral-900 text-[13px] font-normal leading-[18px]">
-              Powered by Ally AI
+              Powered by AllyBy AI
             </div>
             <X
               className="w-4 h-4 relative transition duration-500 ease-in-out hover:opacity-100 hover:scale-125"
@@ -233,8 +222,51 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
           </div>
           <div className=" pb-0 relative pt-3 ">
             <div className="w-[370px] h-[440px] overflow-y-auto custom-scroll flex flex-col space-y-2 px-4">
+              {initialBotMessages.map((msg, index) => (
+                <div
+                  key={index}
+                  className={
+                    msg.sender_type === "bot" || msg.sender_type === "agent"
+                      ? "flex items-start space-x-4"
+                      : "flex justify-end items-start space-x-4"
+                  }
+                >
+                  {(msg.sender_type === "bot" ||
+                    msg.sender_type === "agent") && (
+                    <Image
+                      src="/icons/Horizontal 1.svg"
+                      alt="x"
+                      width={24}
+                      height={22}
+                      className="w-9 h-9 rounded-full"
+                    />
+                  )}
+                  <div
+                    className={
+                      msg.sender_type === "bot" || msg.sender_type === "agent"
+                        ? "bot-message bg-green-200 p-4 rounded-lg"
+                        : "user-message bg-blue-200 p-4 rounded-lg"
+                    }
+                  >
+                    <p>{msg.message}</p>
+                    <p className="text-xs text-gray-500 pt-1">
+                      {msg.created_at.toLocaleString()}
+                    </p>
+                  </div>
+                  {(msg.sender_type === "user" ||
+                    msg.sender_type === "guest") && (
+                    <Image
+                      src="/Ellipse 1.svg"
+                      alt="x"
+                      width={24}
+                      height={22}
+                      className="w-9 h-9 rounded-full"
+                    />
+                  )}
+                </div>
+              ))}
               <div className="chat-messages space-y-4">
-                {messages.map((msg, index) => (
+                {latestMessages.map((msg, index) => (
                   <div
                     key={index}
                     className={
@@ -296,7 +328,7 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
                             <div className="text-[16px] font-normal leading-[18px] px-3 w-full border border-input rounded-xl flex justify-start items-center">
                               <Textarea
                                 placeholder="Write your message"
-                                className="h-[55px] overflow-y-auto custom-scroll resize-none pt-4"
+                                className="h-[55px] bg-gray-50 overflow-y-auto custom-scroll resize-none pt-4"
                                 {...field}
                                 disabled={isPending}
                                 onKeyDown={handleKeyDown}
@@ -332,7 +364,7 @@ export default ChatEmbed;
 const initialBotMessages: ChatMessage[] = [
   {
     sender_type: "bot",
-    message: "👋 Ally AI là gì?",
+    message: "👋 AllyBy AI là gì?",
     created_at: new Date(),
   },
   {
@@ -349,7 +381,7 @@ const initialBotMessages: ChatMessage[] = [
 const errorBotMessages: ChatMessage[] = [
   {
     sender_type: "bot",
-    message: "👋 Ally AI là gì?",
+    message: "👋 Xin lỗi AllyBy AI sẽ phản hồi lại sau!",
     created_at: new Date(),
   },
 ];

@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { ChevronRight, LogOut } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -18,28 +18,33 @@ import {
 import ComponentChangePassword from "./component-change-password";
 import accountApiRequest from "@/app/apiRequests/account";
 import { handleErrorApi } from "@/lib/utils";
-import { AccountResType } from "@/schemas/account.schema";
+import {
+  AccountResType,
+  UserSubscriptionResType,
+} from "@/schemas/account.schema";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { toast } from "@/components/ui/use-toast";
+import { UpgradeMembershipListType } from "@/schemas/upgrade-membership.schema";
+import membershipApiRequest from "@/app/apiRequests/upgrade-membership";
 
 type ProfileProps = {
   id: string;
 };
 
 const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
-  // const [progress, setProgress] = useState(95);
   const [account, setAccount] = useState<AccountResType | null>(null);
   const router = useRouter();
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => setProgress(66), 500);
-  //   return () => clearTimeout(timer);
-  // }, []);
+  const [userSubscription, setUserSubscription] =
+    useState<UserSubscriptionResType | null>(null);
+  const embedCodeRef = useRef<HTMLDivElement>(null);
+  const [copied, setCopied] = useState(false);
+  const [membership, setMembership] =
+    useState<UpgradeMembershipListType | null>(null);
 
   useEffect(() => {
     if (id) {
-      // Gọi API với id
       console.log("Chatbot ID:", id);
-      // Your API call logic here
     }
   }, [id]);
 
@@ -49,15 +54,70 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
         const result = await accountApiRequest.accountClient();
         setAccount(result.payload);
       } catch (error: any) {
-        handleErrorApi({
-          error,
-        });
+        handleErrorApi({ error });
         router.push("/");
         router.refresh(); // Chuyển hướng người dùng về trang landing
       }
     };
     fetchRequest();
   }, [router]);
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        if (account?.id) {
+          const result = await accountApiRequest.userSubscriptionIdClient(
+            account?.id
+          );
+          setUserSubscription(result.payload);
+        }
+      } catch (error: any) {
+        handleErrorApi({ error });
+        router.push("/");
+        router.refresh(); // Chuyển hướng người dùng về trang landing
+      }
+    };
+    fetchRequest();
+  }, [router, account?.id]);
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result = await membershipApiRequest.membershipClient();
+        setMembership(result.payload);
+        // console.log(result.payload);
+      } catch (error) {
+        handleErrorApi({ error });
+      }
+    };
+    fetchRequest();
+  }, []);
+
+  const handleCopy = () => {
+    const embedCodeElement = embedCodeRef.current;
+    if (embedCodeElement !== null) {
+      const embedCode =
+        embedCodeElement.innerText || embedCodeElement.textContent || "";
+      navigator.clipboard
+        .writeText(embedCode)
+        .then(() => {
+          setCopied(true);
+          toast({
+            title: "Success",
+            description: "Nội dung đã được sao chép thành công!",
+            duration: 5000,
+          });
+        })
+        .catch((error) => {
+          console.error("Lỗi khi sao chép vào clipboard:", error);
+          toast({
+            title: "Error",
+            description: "Đã xảy ra lỗi khi sao chép!",
+            duration: 5000,
+          });
+        });
+    }
+  };
 
   return (
     <DrawerProfile>
@@ -78,8 +138,19 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
               Current Backage
             </div>
           </div>
-          <div className="text-zinc-800 text-sm font-bold leading-snug ">
-            FREE
+          <div className="text-zinc-800 text-sm font-bold leading-snug">
+            {userSubscription?.plan_id === membership?.results[0].id &&
+              "MONTHLY FREE"}
+            {userSubscription?.plan_id === membership?.results[1].id &&
+              "MONTHLY ENTRY"}
+            {userSubscription?.plan_id === membership?.results[2].id &&
+              "MONTHLY PREMIUM"}
+            {userSubscription?.plan_id === membership?.results[3].id &&
+              "YEARLY FREE"}
+            {userSubscription?.plan_id === membership?.results[4].id &&
+              "YEARLY ENTRY"}
+            {userSubscription?.plan_id === membership?.results[5].id &&
+              "YEARLY PREMIUM"}
           </div>
         </div>
         <Separator className=" bg-slate-300" />
@@ -96,7 +167,9 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
               Billing dashboard
             </div>
           </div>
-          <ChevronRight className="h-5 w-5 " />
+          <Link href="/dashboard">
+            <ChevronRight className="h-5 w-5 transition duration-500 ease-in-out hover:opacity-100 hover:scale-125" />
+          </Link>
         </div>
         <Separator className=" bg-slate-300" />
         <div className="flex items-center justify-between py-5 px-5">
@@ -159,7 +232,6 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
                     <div className="w-[110px] h-[110px] rounded-full bg-custom-gray-6 relative pt-5">
                       {account?.avatar_url && (
                         <Image
-                          // src="/Ellipse 1.svg"
                           src={account.avatar_url}
                           alt="x"
                           width={100}
@@ -174,12 +246,10 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
                       <div className="flex items-center justify-start gap-1 ">
                         <div className="text-zinc-900 text-xl font-semibold leading-[30px] ">
                           {account?.display_name}
-                          {/* David */}
                         </div>
                       </div>
                       <div className="text-zinc-900 text-sm font-normal leading-tight">
                         {account?.email}
-                        {/* davidman@gmail.com */}
                       </div>
                     </div>
                     <div>
@@ -190,7 +260,6 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
                   </div>
                 </div>
               </DrawerHeader>
-              {/* {account && <ProfileForm id={account?.id} />} */}
               <ComponentChangePassword />
             </div>
           </DrawerContent>
@@ -229,7 +298,10 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
               Invite a friend and you’ll both receive $20 credit
             </div>
           </div>
-          <div className="w-[90px] h-9 px-3 py-2 bg-gray-100 rounded-md border justify-center items-center gap-1.5 inline-flex">
+          <div
+            className="w-[90px] h-9 px-3 py-2 bg-gray-100 rounded-md border justify-center items-center gap-1.5 inline-flex"
+            onClick={handleCopy}
+          >
             <div className="text-zinc-900 text-[13px] font-medium leading-tight">
               Copy link
             </div>
@@ -248,6 +320,11 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
         <div className="text-center text-zinc-800 text-sm font-normal leading-snug">
           Credits available. Need more?
         </div>
+      </div>
+
+      <div ref={embedCodeRef} className="hidden">
+        AllyBy AI?embed?user_id={account?.id}&amp;userName=
+        {account?.display_name}
       </div>
     </DrawerProfile>
   );

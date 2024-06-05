@@ -92,7 +92,7 @@ const UpgradeMembershipPremiumMonthly: React.FC<ProfileProps> = ({
             <div className="flex justify-start items-center gap-2">
               <Check className="w-3 h-3" />
               <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight ">
-                Remove ‘Powered by Ally AI’
+                Remove ‘Powered by AllyBy AI’
               </div>
             </div>
             <div className="flex justify-start items-center gap-2 pt-4">

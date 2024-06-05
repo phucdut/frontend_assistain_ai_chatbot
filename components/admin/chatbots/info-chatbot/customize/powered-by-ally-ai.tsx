@@ -12,7 +12,7 @@ const PoweredByAllyAI = () => {
         <div className="flex items-center justify-between px-4 pt-2 h-[60px] rounded-xl bg-white w-full">
           <Image src="/Horizontal-logo.png" alt="logo" width={36} height={36} />
           <div className="opacity-50 text-center text-neutral-900 text-[13px] font-normal leading-[18px]">
-            Powered by Ally AI
+            Powered by AllyBy AI
           </div>
           <X className="w-4 h-4 relative" />
         </div>
@@ -20,7 +20,7 @@ const PoweredByAllyAI = () => {
           <div className="w-[310px] h-[370px] flex flex-col space-y-2">
             <div className="w-[230px] h-[44px] rounded-xl shadow pl-5">
               <div className="text-neutral-900 text-base font-normal leading-9">
-                👋 What is Ally AI
+                👋 What is AllyBy AI
               </div>
             </div>
             <div className="flex justify-start items-center w-[280px] h-[44px] rounded-xl shadow pl-5">

@@ -92,7 +92,7 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
                 &amp;modeltype={chatbot?.model}
                 &amp;mode=false&amp;bubble=true&amp;bubbleopen=false&quot;&lt;/script&gt;&lt;script
                 src=&quot;https://chat.ally-ai.com/bubble-embed.js&quot;&gt;&lt;/script&gt; */}
-                &lt;script&gt;window.allyEmbed =
+                &lt;script&gt;window.allyByEmbed =
                 &quot;http://localhost:3000/embed/?chatbot_id={id}
                 &amp;modeltype={chatbot?.model}
                 &amp;mode=false&amp;bubble=true&amp;bubbleopen=false&quot;&lt;/script&gt;&lt;script

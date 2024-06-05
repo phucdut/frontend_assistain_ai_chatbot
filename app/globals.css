@@ -303,7 +303,7 @@
       border-radius: 8px;
       word-wrap: break-word;
     }
-    
+
     .live-agent-message {
       background-color: #f2af32;
       padding: 10px;
@@ -366,6 +366,21 @@
 
     .custom-scroll::-webkit-scrollbar-track {
       background: transparent;
+    }
+
+    .embla {
+      overflow: hidden;
+    }
+    
+    .embla__container {
+      display: flex;
+    }
+    
+    .embla__slide {
+      position: relative;
+      min-width: 0;
+      flex: 0 0 auto;
+      padding: 10px;
     }
   }
 

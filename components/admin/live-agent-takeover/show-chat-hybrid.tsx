@@ -49,6 +49,8 @@ const ShowChatHybrid = () => {
   const searchParams = useSearchParams();
   const conversationId = searchParams.get("conversation_id");
   const chatbotId = searchParams.get("chatbot_id");
+  // Thay đổi state để chỉ lưu trữ tin nhắn mới nhất
+  const [latestMessages, setLatestMessages] = useState<ChatMessage[]>([]);
 
   const [isPending, startTransition] = useTransition();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -60,17 +62,15 @@ const ShowChatHybrid = () => {
     const fetchMessages = async () => {
       try {
         if (conversationId) {
-          // console.log("Fetching messages for conversationId:", conversationId);
           const result = await chatbotApiRequest.loadMessage(conversationId);
-          // console.log("Fetched messages:", result.payload);
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            ...result.payload.map((msg) => ({
+          // Cập nhật danh sách tin nhắn mới nhất thay vì thêm vào danh sách đầy đủ
+          setLatestMessages(
+            result.payload.map((msg) => ({
               sender_type: String(msg.sender_type),
               message: msg.message,
               created_at: new Date(msg.created_at),
-            })),
-          ]);
+            }))
+          );
         } else {
           console.log("No conversationId found.");
         }
@@ -80,21 +80,17 @@ const ShowChatHybrid = () => {
       }
     };
 
-    fetchMessages(); // Initial fetch
+    fetchMessages();
+    const intervalId = setInterval(fetchMessages, 5000);
 
-    const intervalId = setInterval(() => {
-      // console.log("Fetching messages...");
-      fetchMessages();
-    }, 5000); // Fetch messages every 5 seconds
-
-    return () => clearInterval(intervalId); // Clear interval on unmount
+    return () => clearInterval(intervalId);
   }, [conversationId]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages]);
+  }, [latestMessages]);
 
   const form = useForm<LiveAgentMessageBodyType>({
     resolver: zodResolver(LiveAgentMessageSchema),
@@ -105,7 +101,7 @@ const ShowChatHybrid = () => {
 
   async function onSubmit(values: LiveAgentMessageBodyType) {
     try {
-      setMessages((prevMessages) => [
+      setLatestMessages((prevMessages) => [
         ...prevMessages,
         {
           sender_type: "agent",
@@ -172,8 +168,9 @@ const ShowChatHybrid = () => {
       <Separator className=" bg-slate-300 " />
       <div className={cn("h-full w-full")}>
         <div className="live-chat-container w-full max-w-full max-h-full overflow-y-auto custom-scroll text-black">
+          {/* Thay đổi cách hiển thị tin nhắn để chỉ hiển thị tin nhắn mới nhất */}
           <div className="chat-messages space-y-4">
-            {messages.map((msg, index) => (
+            {latestMessages.map((msg, index) => (
               <div
                 key={index}
                 className={

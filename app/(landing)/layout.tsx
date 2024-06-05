@@ -23,12 +23,12 @@ export default function AuthLayout({
   return (
     <html
       lang="en"
-      className=" bg-[#FFF] overflow-y-auto"
+      className=" bg-[#FFF] overflow-hidden"
     >
       <body className={poppins.className}>
         <Toaster />
         {children}
-        <ChatEmbed id="1d90c339-fb35-4c1a-9e9e-85451bb18fc8"></ChatEmbed>
+        <ChatEmbed id="f96b2937-5f5e-4b87-97e4-de4a9e02118b"></ChatEmbed>
       </body>
     </html>
   );

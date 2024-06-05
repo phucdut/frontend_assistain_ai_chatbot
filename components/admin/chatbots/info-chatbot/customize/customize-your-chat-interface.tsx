@@ -246,7 +246,7 @@ const CustomizeYourChatInterface = () => {
                                 }
                               ></input>
                               <p className="pl-[10px] pr-[67px] w-[255px] text-zinc-900 text-sm font-normal leading-normal">
-                                Remove “Powered by Ally AI”
+                                Remove “Powered by AllyBy AI”
                               </p>
                             </div>
                             <div className="flex items-center justify-between">

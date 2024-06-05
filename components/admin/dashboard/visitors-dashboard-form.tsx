@@ -32,9 +32,10 @@ type FormData = {
 
 type Props = {
   formData: FormData;
+  chatbot_id: string;
 };
 
-const VisitorForm = ({ formData }: Props) => {
+const VisitorForm = ({ formData, chatbot_id }: Props) => {
   const [selectedChatbotId, setSelectedChatbotId] = useState<string>("");
   const [chatbot, setChatbot] = useState<ChatbotResListType | null>(null);
   const [account, setAccount] = useState<AccountResType | null>(null);
@@ -45,43 +46,11 @@ const VisitorForm = ({ formData }: Props) => {
   useEffect(() => {
     const fetchRequest = async () => {
       try {
-        const result = await accountApiRequest.accountClient();
-        setAccount(result.payload);
-        // console.log(result);
-      } catch (error) {
-        handleErrorApi({
-          error,
-        });
-        router.push("/");
-        router.refresh(); // Chuyển hướng người dùng về trang landing
-      }
-    };
-    fetchRequest();
-  }, [router]);
-
-  useEffect(() => {
-    const fetchRequest = async () => {
-      try {
-        if (account?.id) {
-          const result = await chatbotApiRequest.chatbotClient(account?.id);
-          setChatbot(result.payload);
-          // console.log(result.payload);
-        }
-      } catch (error) {
-        handleErrorApi({ error });
-      }
-    };
-    fetchRequest();
-  }, [account?.id]);
-
-  useEffect(() => {
-    const fetchRequest = async () => {
-      try {
         const result =
           await dashboardApiRequest.dashboardConversationChartClient(
             formData?.type,
             formData?.date,
-            selectedChatbotId
+            chatbot_id
           );
         // console.log(result.payload); // Kiểm tra dữ liệu trả về
         setConversationChartDashboard(result.payload);
@@ -92,7 +61,7 @@ const VisitorForm = ({ formData }: Props) => {
       }
     };
     fetchRequest();
-  }, [formData?.type, formData?.date, selectedChatbotId]);
+  }, [formData?.type, formData?.date, chatbot_id]);
 
   return (
     <div className="w-full h-full shadow rounded-xl ">
@@ -100,27 +69,6 @@ const VisitorForm = ({ formData }: Props) => {
       <div className="flex justify-start items-center relative">
         <div className="text-zinc-900 text-base font-semibold leading-normal py-5 pl-5">
           Visitors
-        </div>
-        <div className="absolute left-32 top-6 text-sm rounded-lg">
-          <select
-            onChange={(e) => setSelectedChatbotId(e.target.value)}
-            value={selectedChatbotId}
-            className="rounded-sm"
-          >
-            <option value="" disabled>
-              Select a chatbot
-            </option>
-            {chatbot?.results.map(
-              (
-                chatbotItem: ChatbotResListType["results"][0],
-                index: number
-              ) => (
-                <option key={index} value={chatbotItem.id}>
-                  {chatbotItem.chatbot_name}
-                </option>
-              )
-            )}
-          </select>
         </div>
         <div className="absolute right-6 top-6">
           <Image

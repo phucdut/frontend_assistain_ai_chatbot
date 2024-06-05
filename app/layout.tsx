@@ -26,7 +26,7 @@ export default function RootLayout({
   // console.log(sessionToken);
   // const session = await db.user.findMany;
   return (
-    <html lang="en" className="bg-[#FFF] lg:overflow-y-auto">
+    <html lang="en" className="bg-[#FFF] lg:overflow-hidden">
       <body className={poppins.className}>
         <AppProvider inititalSessionToken={sessionToken?.value}>
           {children}
