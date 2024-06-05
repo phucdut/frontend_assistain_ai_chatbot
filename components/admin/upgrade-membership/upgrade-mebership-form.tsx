@@ -22,7 +22,7 @@ const UpgradeMembershipForm = () => {
             Upgrade membership
           </div>
           <div className="w-[270px] h-[60px] bg-zinc-800 rounded-xl flex items-center justify-center">
-            
+            <SwitchUpgradeMembership onSwitch={handleSwitch} />
           </div>
           <div className="w-[270px] relative"></div>
           <Link href="/home" className="absolute right-20">

@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const UpgradeMembershipEnterprise = () => {
@@ -15,11 +16,13 @@ const UpgradeMembershipEnterprise = () => {
               Contact
             </div>
           </div>
-          <div className="w-[273px] h-11 px-[15px] py-3 bg-white rounded-xl justify-center items-center gap-1.5 inline-flex">
-            <div className="text-zinc-900 text-sm font-semibold leading-tight">
-              Contact Us
+          <Link href="https://www.facebook.com/assistantaiallyby.dn">
+            <div className="w-[273px] h-11 px-[15px] py-3 bg-white rounded-xl justify-center items-center gap-1.5 inline-flex">
+              <div className="text-zinc-900 text-sm font-semibold leading-tight">
+                Contact Us
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
         <div className="pl-6 pt-7">
           <div className="flex justify-start items-center gap-2 ">
@@ -77,7 +80,7 @@ const UpgradeMembershipEnterprise = () => {
             <div className="flex justify-start items-center gap-2 pt-4">
               <Check className="w-3 h-3" />
               <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight ">
-                Custom instance of white-labelled Ally AI application
+                Custom instance of white-labelled AllyBy AI application
               </div>
             </div>
             <div className="flex justify-start items-center gap-2 pt-4">

@@ -362,7 +362,7 @@ const ChatbotConfig = () => {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-zinc-900 text-sm font-medium leading-normal">
-                              Ally font color
+                              AllyBy font color
                             </FormLabel>
                             <FormControl>
                               <div className="w-[274px] h-11 px-[15px] py-3 bg-white rounded-md border border-slate-300 justify-start items-center gap-3 inline-flex">
@@ -444,7 +444,7 @@ const ChatbotConfig = () => {
                             <FormControl>
                               <div className="flex items-center justify-between gap-5">
                                 <Input
-                                  placeholder="https://allyai.com"
+                                  placeholder="https://allybyai.com"
                                   {...field}
                                   disabled={isPending}
                                   className="w-[573px] h-11 px-[15px] py-3 bg-white rounded-md border border-slate-300 justify-start items-start gap-2.5 inline-flex grow shrink basis-0 opacity-50 text-zinc-800 text-sm font-normal leading-tight"

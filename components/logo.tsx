@@ -12,25 +12,27 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ className }) => {
   return (
-    <div className={cn("flex items-center", className)}>
+    <div className={cn("flex items-center justify-start", className)}>
       {/* <BrainCircuit color="#0ea5e9" size={40} /> */}
-        {/* Thay thế <BrainCircuit> bằng <Image> */}
-        <div className="absolute left-[30px] flex-shrink-0">
-          <Image
-            src="/Horizontal 2.png"
-            alt="Horizontal 2"
-            width={130}
-            height={40}
-          ></Image>
-        </div>
-        <div className="absolute left-[69px] flex-shrink-0">
-          <Image
+      {/* Thay thế <BrainCircuit> bằng <Image> */}
+      <div className="absolute flex-shrink-0 pt-4">
+        <Image
+          src="/logo/allyby (2).png"
+          alt="allyby"
+          width={200}
+          height={100}
+          className="w-56 h-28"
+        ></Image>
+      </div>
+      {/* <div className="absolute left-[69px] flex-shrink-0 text-[28px] font-semibold leading-[26px]" >
+        <Image
             src="/Horizontal 3.png"
             alt="Horizontal 3"
             width={91}
             height={40}
           ></Image>
-        </div>
+        ALLYBY
+      </div> */}
     </div>
   );
 };

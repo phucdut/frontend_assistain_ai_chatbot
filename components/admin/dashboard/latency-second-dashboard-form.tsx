@@ -21,9 +21,10 @@ type FormData = {
 
 type Props = {
   formData: FormData;
+  conversation_id: string;
 };
 
-const LatencySecondDashboardForm = ({ formData }: Props) => {
+const LatencySecondDashboardForm = ({ formData, conversation_id }: Props) => {
   const [conversationChartDashboard, setConversationChartDashboard] =
     useState<InboxesAndLatencyListType>([]);
 
@@ -32,7 +33,8 @@ const LatencySecondDashboardForm = ({ formData }: Props) => {
       try {
         const result = await dashboardApiRequest.dashboardMessageChartClient(
           formData?.type,
-          formData?.date
+          formData?.date,
+          conversation_id
         );
         // console.log(result.payload); // Kiểm tra dữ liệu trả về
         setConversationChartDashboard(result.payload);
@@ -43,7 +45,7 @@ const LatencySecondDashboardForm = ({ formData }: Props) => {
       }
     };
     fetchRequest();
-  }, [formData?.type, formData?.date]);
+  }, [formData?.type, formData?.date, conversation_id]);
 
   return (
     <div className="w-full h-full shadow rounded-xl relative">

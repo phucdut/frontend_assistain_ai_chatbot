@@ -17,7 +17,7 @@ const Navbar = () => {
   const { isMinimal, handleClose } = useSidebarStore();
 
   return (
-    <div className="px-4 bg:gray-170">
+    <div className="px-4 pt-1 bg:gray-170">
       <Separator className=" bg-[#303034]" />
       <AllVersionChatGPTs />
       <Separator className=" bg-[#303034]" />

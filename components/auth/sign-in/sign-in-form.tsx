@@ -74,7 +74,7 @@ const SignInForm1 = () => {
       const result = await authApiRequest.signIn(values);
       toast({
         title: "Success",
-        description: "Logged in successfully!",
+        description: "Sign in successfully!",
       });
       await authApiRequest.auth({
         sessionToken: result.payload.access_token,
@@ -113,12 +113,12 @@ const SignInForm1 = () => {
         <div className="pl-[90px] pr-[90px]">
           <div className="max-w-[363px] pt-[60px]">
             <h1 className="text-center  text-[36px] font-semibold leading-normal text-gray-[#1D1D1F]">
-              Sign in to Ally AI
+              Sign in to AllyBy AI
             </h1>
           </div>
           <div className="pt-[12px] max-w-[363px]">
             <p className="text-center text-[16px] font-normal leading-[26px] text-gray-[#2C2C2C]">
-              Welcome to Ally AI, please enter your login details below to
+              Welcome to AllyBy AI, please enter your login details below to
               using.
             </p>
           </div>
@@ -221,7 +221,7 @@ const SignInForm1 = () => {
               </div>
               <div className="text-center text-[16px] font-normal leading-[26px]">
                 <p>
-                  New to Ally AI? Learn more&nbsp;
+                  New to AllyBy AI? Learn more&nbsp;
                   <span className="font-medium underline ">here</span>
                 </p>
               </div>

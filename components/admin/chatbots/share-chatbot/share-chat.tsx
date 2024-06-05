@@ -43,23 +43,23 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
   const [conversationId, setConversationId] = useState<string>(
     "99bc0984-f8de-407a990c-41651230e539"
   );
+  // Thay đổi state để chỉ lưu trữ tin nhắn mới nhất
+  const [latestMessages, setLatestMessages] = useState<ChatMessage[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         if (conversationId) {
-          // console.log("Fetching messages for conversationId:", conversationId);
           const result = await chatbotApiRequest.loadMessage(conversationId);
-          // console.log("Fetched messages:", result.payload);
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            ...result.payload.map((msg) => ({
+          // Cập nhật danh sách tin nhắn mới nhất thay vì thêm vào danh sách đầy đủ
+          setLatestMessages(
+            result.payload.map((msg) => ({
               sender_type: String(msg.sender_type),
               message: msg.message,
               created_at: new Date(msg.created_at),
-            })),
-          ]);
+            }))
+          );
         } else {
           console.log("No conversationId found.");
         }
@@ -69,27 +69,23 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
       }
     };
 
-    fetchMessages(); // Initial fetch
+    fetchMessages();
+    const intervalId = setInterval(fetchMessages, 5000);
 
-    const intervalId = setInterval(() => {
-      // console.log("Fetching messages...");
-      fetchMessages();
-    }, 5000); // Fetch messages every 5 seconds
-
-    return () => clearInterval(intervalId); // Clear interval on unmount
+    return () => clearInterval(intervalId);
   }, [conversationId]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages]);
+  }, [latestMessages]);
 
   useEffect(() => {
     if (id) {
       // console.log("Chatbot ID:", id);
       if (!initialMessagesLoaded) {
-        setMessages(initialBotMessages);
+        setLatestMessages(initialBotMessages);
         setInitialMessagesLoaded(true);
       }
     }
@@ -151,10 +147,11 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
   };
 
   return (
-    <div className={cn(" h-full w-full bg-gray-50 shadow", "lg:rounded-lg")}>
+    <div className={cn(" h-full w-full bg-gray-50 shadow ", "lg:rounded-lg")}>
       <div className="chat-container w-full h-[400px] max-w-full max-h-full overflow-y-auto custom-scroll border border-gray-300 p-4 rounded-lg">
+        {/* Thay đổi cách hiển thị tin nhắn để chỉ hiển thị tin nhắn mới nhất */}
         <div className="chat-messages space-y-4">
-          {messages.map((msg, index) => (
+          {initialBotMessages.map((msg, index) => (
             <div
               key={index}
               className={
@@ -195,8 +192,49 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
               )}
             </div>
           ))}
-          <div ref={messagesEndRef} />
+          {latestMessages.map((msg, index) => (
+            <div
+              key={index}
+              className={
+                msg.sender_type === "bot" || msg.sender_type === "agent"
+                  ? "flex items-start space-x-4"
+                  : "flex justify-end items-start space-x-4"
+              }
+            >
+              {(msg.sender_type === "bot" || msg.sender_type === "agent") && (
+                <Image
+                  src="/icons/Horizontal 1.svg"
+                  alt="x"
+                  width={24}
+                  height={22}
+                  className="w-9 h-9 rounded-full"
+                />
+              )}
+              <div
+                className={
+                  msg.sender_type === "bot" || msg.sender_type === "agent"
+                    ? "bot-message bg-green-200 p-4 rounded-lg"
+                    : "user-message bg-blue-200 p-4 rounded-lg"
+                }
+              >
+                <p>{msg.message}</p>
+                <p className="text-xs text-gray-500 pt-1">
+                  {msg.created_at.toLocaleString()}
+                </p>
+              </div>
+              {(msg.sender_type === "user" || msg.sender_type === "guest") && (
+                <Image
+                  src="/Ellipse 1.svg"
+                  alt="x"
+                  width={24}
+                  height={22}
+                  className="w-9 h-9 rounded-full"
+                />
+              )}
+            </div>
+          ))}
         </div>
+        <div ref={messagesEndRef} />
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -251,7 +289,7 @@ const initialBotMessages: ChatMessage[] = [
   {
     sender_type: "bot",
     message:
-      "Chào bạn, chào mừng đến với Ally AI. Tôi sẽ giúp bạn bắt đầu. Nếu bạn có bất kỳ câu hỏi cụ thể nào, bạn có thể sử dụng hộp chat ở dưới cùng màn hình (hoặc nhấn vào các gợi ý nhắc nhở).",
+      "Chào bạn, chào mừng đến với AllyBy AI. Tôi sẽ giúp bạn bắt đầu. Nếu bạn có bất kỳ câu hỏi cụ thể nào, bạn có thể sử dụng hộp chat ở dưới cùng màn hình (hoặc nhấn vào các gợi ý nhắc nhở).",
     created_at: new Date(),
   },
   {
@@ -263,7 +301,7 @@ const initialBotMessages: ChatMessage[] = [
   {
     sender_type: "bot",
     message:
-      "Theo dõi Ally AI trên LinkedIn để cập nhật các tính năng mới và thông báo.",
+      "Theo dõi AllyBy AI trên LinkedIn để cập nhật các tính năng mới và thông báo.",
     created_at: new Date(),
   },
 ];
@@ -271,7 +309,7 @@ const initialBotMessages: ChatMessage[] = [
 const errorBotMessages: ChatMessage[] = [
   {
     sender_type: "bot",
-    message: "👋 Xin lỗi Ally AI sẽ phản hồi lại sau!",
+    message: "👋 Xin lỗi AllyBy AI sẽ phản hồi lại sau!",
     created_at: new Date(),
   },
 ];

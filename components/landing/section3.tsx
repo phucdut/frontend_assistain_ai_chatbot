@@ -1,10 +1,13 @@
+'use client';
 import { X } from "lucide-react";
 import Image from "next/image";
-import React from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
+
 const Section3 = () => {
+
+  
   return (
     <div>
       <div className="flex justify-center">
@@ -68,7 +71,7 @@ const Section3 = () => {
                 height={36}
               />
               <div className="opacity-50 text-center text-neutral-900 text-[13px] font-normal leading-[18px]">
-                Powered by Ally AI
+                Powered by AllyBy AI
               </div>
               <X className="w-4 h-4 relative" />
             </div>
@@ -76,7 +79,7 @@ const Section3 = () => {
               <div className="w-[370px] h-[440px] flex flex-col space-y-2">
                 <div className="flex justify-start items-center w-[230px] h-[44px] rounded-xl shadow pl-5">
                   <div className="text-neutral-900 text-base font-normal leading-9">
-                    👋 What is Ally AI
+                    👋 What is AllyBy AI
                   </div>
                 </div>
                 <div className="flex justify-start items-center w-[280px] h-[44px] rounded-xl shadow pl-5">
@@ -120,7 +123,7 @@ const Section3 = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-start pl-48 items-center gap-[100px]">
+      <div className="flex justify-center items-center gap-[100px]">
         <div>
           <div className="w-[72px] h-[72px] bg-orange-100 rounded-md relative">
             <Image
@@ -263,7 +266,7 @@ const Section3 = () => {
             API
           </div>
           <div className="w-[237px] text-center text-neutral-900 text-sm font-normal leading-normal pt-4">
-            Embed Ally AI’s power directly into your products
+            Embed AllyBy AI’s power directly into your products
           </div>
         </div>
         <div className="w-[240px] h-[224px]">

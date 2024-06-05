@@ -240,7 +240,7 @@ const initialBotMessages: ChatMessage[] = [
   {
     sender_type: "bot",
     message:
-      "Chào bạn, chào mừng đến với Ally AI. Tôi sẽ giúp bạn bắt đầu. Nếu bạn có bất kỳ câu hỏi cụ thể nào, bạn có thể sử dụng hộp chat ở dưới cùng màn hình (hoặc nhấn vào các gợi ý nhắc nhở).",
+      "Chào bạn, chào mừng đến với AllyBy AI. Tôi sẽ giúp bạn bắt đầu. Nếu bạn có bất kỳ câu hỏi cụ thể nào, bạn có thể sử dụng hộp chat ở dưới cùng màn hình (hoặc nhấn vào các gợi ý nhắc nhở).",
     created_at: new Date(),
   },
   {
@@ -252,7 +252,7 @@ const initialBotMessages: ChatMessage[] = [
   {
     sender_type: "bot",
     message:
-      "Theo dõi Ally AI trên LinkedIn để cập nhật các tính năng mới và thông báo.",
+      "Theo dõi AllyBy AI trên LinkedIn để cập nhật các tính năng mới và thông báo.",
     created_at: new Date(),
   },
 ];
@@ -260,7 +260,7 @@ const initialBotMessages: ChatMessage[] = [
 const errorBotMessages: ChatMessage[] = [
   {
     sender_type: "bot",
-    message: "👋 Xin lỗi Ally AI sẽ phản hồi lại sau!",
+    message: "👋 Xin lỗi AllyBy AI sẽ phản hồi lại sau!",
     created_at: new Date(),
   },
 ];

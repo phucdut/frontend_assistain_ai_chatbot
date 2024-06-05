@@ -45,6 +45,8 @@ import chatbotApiRequest from "@/app/apiRequests/chatbot";
 import ShowChatbot from "./show-chatbot";
 import Link from "next/link";
 import { Search } from "lucide-react";
+import { UpgradeMembershipListType } from "@/schemas/upgrade-membership.schema";
+import membershipApiRequest from "@/app/apiRequests/upgrade-membership";
 
 const LiveAgentTakeover = () => {
   const [account, setAccount] = useState<AccountResType | null>(null);
@@ -57,17 +59,24 @@ const LiveAgentTakeover = () => {
   const { toast } = useToast();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const [membership, setMembership] =
+    useState<UpgradeMembershipListType | null>(null);
+
 
   useEffect(() => {
+    const firstMembershipId = membership?.results?.[0]?.id;
+    const fourthMembershipId = membership?.results?.[3]?.id;
     const fetchRequest = async () => {
       try {
         if (account?.id) {
-          const result = await accountApiRequest.userSubscriptionIdClient(account?.id);
+          const result = await accountApiRequest.userSubscriptionIdClient(
+            account?.id
+          );
           setUserSubscription(result.payload);
           // Kiểm tra nếu người dùng có ID là e429e441-ea81-444e-a962-b88036ea0ad1 hoặc 86b20aef-e7dc-45a7-8fde-84d4a504e3a6
           if (
-            userSubscription?.plan_id === "e429e441-ea81-444e-a962-b88036ea0ad1" ||
-            userSubscription?.plan_id === "86b20aef-e7dc-45a7-8fde-84d4a504e3a6"
+            userSubscription?.plan_id === firstMembershipId ||
+            userSubscription?.plan_id === fourthMembershipId
           ) {
             toast({
               title: "error",
@@ -84,7 +93,13 @@ const LiveAgentTakeover = () => {
       }
     };
     fetchRequest();
-  }, [account?.id, router, toast, userSubscription?.plan_id]);
+  }, [
+    account?.id,
+    router,
+    toast,
+    userSubscription?.plan_id,
+    membership?.results,
+  ]);
 
   useEffect(() => {
     const fetchRequest = async () => {
@@ -125,6 +140,19 @@ const LiveAgentTakeover = () => {
     fetchRequest();
   }, [account?.id]);
 
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result = await membershipApiRequest.membershipClient();
+        setMembership(result.payload);
+        // console.log(result.payload);
+      } catch (error) {
+        handleErrorApi({ error });
+      }
+    };
+    fetchRequest();
+  }, []);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
@@ -157,7 +185,7 @@ const LiveAgentTakeover = () => {
                   Name Chatbot
                 </TableHead>
                 <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
-                  Active
+                  Join message
                 </TableHead>
                 <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
                   Date create
@@ -196,8 +224,8 @@ const LiveAgentTakeover = () => {
                         />
                       )}
                     </TableCell>
-                    <TableCell className="font-normal">
-                      {conversationItem?.is_active ? "Open" : "Closes"}
+                    <TableCell className="font-normal ">
+                      {conversationItem?.is_taken ? "Open" : "Closes"}
                     </TableCell>
                     <TableCell className="text-center">
                       {conversationItem?.created_at?.toLocaleString()}
