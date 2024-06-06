@@ -100,7 +100,7 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
 
   async function onSubmit(values: ChatbotMessageBodyType) {
     try {
-      setMessages((prevMessages) => [
+      setLatestMessages((prevMessages) => [
         ...prevMessages,
         {
           sender_type: "user",

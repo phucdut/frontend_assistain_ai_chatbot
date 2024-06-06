@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { cn, handleErrorApi } from "@/lib/utils";
 import Image from "next/image";
 import React, { useEffect, useRef, useState, useTransition } from "react";
@@ -16,17 +15,13 @@ import chatbotApiRequest from "@/app/apiRequests/chatbot";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import {
   ChatbotMessageBodyType,
-  ChatbotMessageResType,
   ChatbotMessageSchema,
-  ChatbotResMessageType,
 } from "@/schemas/chatbot.schema";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -52,27 +47,6 @@ const Chat: React.FC<ChatProps> = ({ id, conversation_id }) => {
     conversation_id
   );
 
-  // useEffect(() => {
-  //   const fetchRequest = async () => {
-  //     try {
-  //       if (conversationId) {
-  //         const result = await chatbotApiRequest.loadMessage(conversationId);
-  //         setMessages((prevMessages) => [
-  //           ...prevMessages,
-  //           ...result.payload.map((msg) => ({
-  //             sender_type: String(msg.sender_type),
-  //             message: msg.message,
-  //             created_at: new Date(msg.created_at),
-  //           })),
-  //         ]);
-  //       }
-  //     } catch (error) {
-  //       handleErrorApi({ error });
-  //     }
-  //   };
-  //   fetchRequest();
-  // }, [conversationId]);
-
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -93,21 +67,29 @@ const Chat: React.FC<ChatProps> = ({ id, conversation_id }) => {
     defaultValues: {
       message: "",
     },
+    mode: "onChange",
   });
 
+  const { isValid } = form.formState;
+
   async function onSubmit(values: ChatbotMessageBodyType) {
+    const trimmedMessage = values.message.trim();
+    if (!trimmedMessage) {
+      return;
+    }
+
     try {
       setMessages((prevMessages) => [
         ...prevMessages,
         {
           sender_type: "user",
-          message: values.message,
+          message: trimmedMessage,
           created_at: new Date(),
         },
       ]);
 
       const response = await chatbotApiRequest.sentMessage(
-        values,
+        { message: trimmedMessage },
         id,
         conversationId || ""
       );
@@ -135,7 +117,10 @@ const Chat: React.FC<ChatProps> = ({ id, conversation_id }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
-      form.handleSubmit(onSubmit)();
+      const trimmedMessage = form.getValues("message").trim();
+      if (isValid && trimmedMessage) {
+        form.handleSubmit(onSubmit)();
+      }
     }
   };
 
@@ -188,7 +173,7 @@ const Chat: React.FC<ChatProps> = ({ id, conversation_id }) => {
         </div>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="relative px-7">
             <FormField
               control={form.control}
@@ -200,17 +185,20 @@ const Chat: React.FC<ChatProps> = ({ id, conversation_id }) => {
                       <Textarea
                         placeholder="Write your message"
                         {...field}
-                        className=" text-[18px] resize-none overflow-y-auto custom-scroll pt-6 w-full"
+                        className="text-[18px] resize-none overflow-y-auto custom-scroll pt-6 w-full"
                         disabled={isPending}
                         onKeyDown={handleKeyDown}
                       />
                       <Button
                         type="submit"
                         className="flex items-center justify-between w-[44px] h-[44px] bg-black"
+                        disabled={
+                          !isValid || isPending || !form.watch("message").trim()
+                        }
                       >
                         <Image
                           src={
-                            form.watch("message")
+                            form.watch("message").trim()
                               ? "/paper-plane 1.svg"
                               : "/icons/Fill - Voice - Mic.svg"
                           }
@@ -222,7 +210,6 @@ const Chat: React.FC<ChatProps> = ({ id, conversation_id }) => {
                       </Button>
                     </div>
                   </FormControl>
-                  <FormDescription />
                   <FormMessage className="text-red-500 text-[14px] font-normal leading-[26px]" />
                 </FormItem>
               )}

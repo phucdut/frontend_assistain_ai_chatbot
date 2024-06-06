@@ -83,7 +83,7 @@ const DatapointDashboardForm = ({ formData, conversation_id }: Props) => {
               dataKey="inbox_cost"
               stroke="#cf2440"
               strokeWidth={1.5}
-              dot={{ r: 4, fill: "#FFF" }}
+              dot={{ r: 1, fill: "#FFF" }}
               activeDot={{ r: 8 }}
             />
           </LineChart>

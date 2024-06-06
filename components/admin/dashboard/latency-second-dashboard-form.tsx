@@ -84,7 +84,7 @@ const LatencySecondDashboardForm = ({ formData, conversation_id }: Props) => {
               dataKey="latency_average"
               stroke="#44f51d"
               strokeWidth={1.5}
-              dot={{ r: 4, fill: "#FFF" }}
+              dot={{ r: 1, fill: "#FFF" }}
               activeDot={{ r: 8 }}
             />
           </LineChart>
