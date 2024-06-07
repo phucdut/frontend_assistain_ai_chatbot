@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   SelectGPTs,
@@ -14,10 +16,27 @@ import {
 import { ChevronsUpDown } from "lucide-react";
 
 import { useSidebarStore } from "@/stores/sidebar-stores";
-import { cn } from "@/lib/utils";
+import { cn, handleErrorApi } from "@/lib/utils";
+import { ModelResListType } from "@/schemas/model.schema";
+import modelApiRequest from "@/app/apiRequests/model";
 
 const AllVersionChatGPTs = () => {
   const { isMinimal, handleClose } = useSidebarStore();
+  const [modelChatbot, setModelChatbot] = useState<ModelResListType | null>(
+    null
+  );
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result = await modelApiRequest.modelClient();
+        setModelChatbot(result.payload);
+      } catch (error) {
+        handleErrorApi({ error });
+      }
+    };
+    fetchRequest();
+  }, []);
 
   return (
     <div
@@ -30,12 +49,12 @@ const AllVersionChatGPTs = () => {
       {isMinimal && (
         <div>
           <Image
-              width={24}
-              height={24}
-              src="/icons/Fill - GPT - Core.svg"
-              alt="a"
-              className=""
-            />
+            width={24}
+            height={24}
+            src="/icons/Fill - GPT - Core.svg"
+            alt="a"
+            className=""
+          />
         </div>
       )}
       {!isMinimal && (
@@ -51,9 +70,15 @@ const AllVersionChatGPTs = () => {
             <SelectValue placeholder="GPT-3.5-Turbo" />
           </SelectTrigger>
           <SelectContent className="w-56 text-[16px] font-medium leading-[26px] text-[#fff]">
-            <SelectItem value="GPT-3.5-Turbo1">GPT-3.5-Turbo</SelectItem>
-            <SelectItem value="GPT-4-Turbo2">GPT-4.0-Turbo</SelectItem>
-            <SelectItem value="GPT-3.5-Turbo3">GPT-4.0-TurboPlus</SelectItem>
+            <SelectItem value={modelChatbot?.models[0] ?? "GPT-3.5-Turbo"}>
+              {modelChatbot?.models[0] ?? "GPT-3.5-Turbo"}
+            </SelectItem>
+            <SelectItem value={modelChatbot?.models[1] ?? "GPT-4.0"}>
+              {modelChatbot?.models[1] ?? "GPT-4.0"}
+            </SelectItem>
+            <SelectItem value={modelChatbot?.models[2] ?? "GPT-4-Turbo"}>
+              {modelChatbot?.models[2] ?? "GPT-4-Turbo"}
+            </SelectItem>
           </SelectContent>
         </SelectGPTs>
       )}

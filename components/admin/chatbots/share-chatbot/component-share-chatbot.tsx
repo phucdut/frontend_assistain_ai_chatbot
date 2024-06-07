@@ -58,15 +58,16 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
           setCopied(true);
           toast({
             title: "Success",
-            description: "Nội dung đã được sao chép thành công!",
+            description: "Content was copied successfully!",
             duration: 5000,
           });
         })
         .catch((error) => {
-          console.error("Lỗi khi sao chép vào clipboard:", error);
+          // console.error("Error when copying to clipboard:", error);
           toast({
             title: "Error",
-            description: "Đã xảy ra lỗi khi sao chép!",
+            description: "An error occurred while copying!",
+            variant: "destructive",
             duration: 5000,
           });
         });

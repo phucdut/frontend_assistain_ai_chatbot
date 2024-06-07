@@ -41,6 +41,26 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
   const [copied, setCopied] = useState(false);
   const [membership, setMembership] =
     useState<UpgradeMembershipListType | null>(null);
+  // Khai báo planNames ở ngoài phạm vi của if statement
+  let planNames: { [key: string]: string } = {};
+
+  if (membership && membership.results) {
+    // Object ánh xạ giữa ID kế hoạch và tên của chúng
+    planNames = {
+      [membership.results[0]?.id || ""]: "MONTHLY FREE",
+      [membership.results[1]?.id || ""]: "MONTHLY ENTRY",
+      [membership.results[2]?.id || ""]: "MONTHLY PREMIUM",
+      [membership.results[3]?.id || ""]: "YEARLY FREE",
+      [membership.results[4]?.id || ""]: "YEARLY ENTRY",
+      [membership.results[5]?.id || ""]: "YEARLY PREMIUM",
+    };
+  }
+
+  let subscriptionName = "";
+  if (userSubscription?.plan_id) {
+    // Kiểm tra userSubscription và hiển thị tên kế hoạch tương ứng
+    subscriptionName = planNames[userSubscription?.plan_id];
+  }
 
   useEffect(() => {
     if (id) {
@@ -104,15 +124,16 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
           setCopied(true);
           toast({
             title: "Success",
-            description: "Nội dung đã được sao chép thành công!",
+            description: "Content was copied successfully!",
             duration: 5000,
           });
         })
         .catch((error) => {
-          console.error("Lỗi khi sao chép vào clipboard:", error);
+          // console.error("Error when copying to clipboard:", error);
           toast({
             title: "Error",
-            description: "Đã xảy ra lỗi khi sao chép!",
+            description: "An error occurred while copying!",
+            variant: "destructive",
             duration: 5000,
           });
         });
@@ -139,18 +160,7 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
             </div>
           </div>
           <div className="text-zinc-800 text-sm font-bold leading-snug">
-            {userSubscription?.plan_id === membership?.results[0].id &&
-              "MONTHLY FREE"}
-            {userSubscription?.plan_id === membership?.results[1].id &&
-              "MONTHLY ENTRY"}
-            {userSubscription?.plan_id === membership?.results[2].id &&
-              "MONTHLY PREMIUM"}
-            {userSubscription?.plan_id === membership?.results[3].id &&
-              "YEARLY FREE"}
-            {userSubscription?.plan_id === membership?.results[4].id &&
-              "YEARLY ENTRY"}
-            {userSubscription?.plan_id === membership?.results[5].id &&
-              "YEARLY PREMIUM"}
+            {subscriptionName && subscriptionName}
           </div>
         </div>
         <Separator className=" bg-slate-300" />

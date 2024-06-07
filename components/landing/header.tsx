@@ -16,11 +16,7 @@ const menuLinks = [
   { name: "Contact", href: "#" },
 ];
 
-interface HeaderProps {
-  onLinkClick: () => void;
-}
-
-const Header: React.FC<HeaderProps> = ({ onLinkClick }) => {
+const Header = () => {
   return (
     <header className="fixed top-0 left-0 w-full z-10 bg-white">
       <div className="flex items-center justify-center">
@@ -44,7 +40,6 @@ const Header: React.FC<HeaderProps> = ({ onLinkClick }) => {
                 onClick={(e) => {
                   if (link.name === "Live demo") {
                     e.preventDefault();
-                    onLinkClick();
                   }
                 }}
               >
