@@ -10,7 +10,6 @@ import CreateChatbot from "./create_chatbot";
 import Navigations from "./navigations";
 import UpgradeMembershipComponent from "./upgrade-membership-component";
 import Profile from "./profile-info";
-import GetAllChatbot from "../all-chatbot";
 // import { ModeToggle } from "./mode-toggle";
 
 const Navbar = () => {

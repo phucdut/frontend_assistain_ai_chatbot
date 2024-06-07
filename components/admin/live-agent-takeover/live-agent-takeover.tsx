@@ -62,43 +62,50 @@ const LiveAgentTakeover = () => {
   const [membership, setMembership] =
     useState<UpgradeMembershipListType | null>(null);
 
-
   useEffect(() => {
     const firstMembershipId = membership?.results?.[0]?.id;
     const fourthMembershipId = membership?.results?.[3]?.id;
+
+    // Check if the conditions for the API call are met before making the call
+    if (!account?.id || !firstMembershipId || !fourthMembershipId) return;
+
     const fetchRequest = async () => {
       try {
-        if (account?.id) {
-          const result = await accountApiRequest.userSubscriptionIdClient(
-            account?.id
-          );
-          setUserSubscription(result.payload);
-          // Kiểm tra nếu người dùng có ID là e429e441-ea81-444e-a962-b88036ea0ad1 hoặc 86b20aef-e7dc-45a7-8fde-84d4a504e3a6
-          if (
-            userSubscription?.plan_id === firstMembershipId ||
-            userSubscription?.plan_id === fourthMembershipId
-          ) {
-            toast({
-              title: "error",
-              description: "You do not have permission to access this page",
-            });
-            // Nếu có, chuyển hướng đến trang khác
-            router.push("/home");
-          }
+        const result = await accountApiRequest.userSubscriptionIdClient(
+          account.id
+        );
+        setUserSubscription(result.payload);
+
+        // Check the user subscription plan id
+        if (
+          result.payload.plan_id === firstMembershipId ||
+          result.payload.plan_id === fourthMembershipId
+        ) {
+          toast({
+            title: "error",
+            description: "You do not have permission to access this page",
+            variant: "destructive",
+          });
+
+          // Redirect to the home page
+          router.push("/home");
         }
-      } catch (error: any) {
-        handleErrorApi({
-          error,
-        });
+      } catch (error) {
+        handleErrorApi({ error });
       }
     };
+
     fetchRequest();
+
+    // Cleanup function to avoid memory leaks
+    return () => {
+      // You can add any necessary cleanup code here if needed
+    };
   }, [
     account?.id,
+    membership?.results, // This covers both firstMembershipId and fourthMembershipId updates
     router,
     toast,
-    userSubscription?.plan_id,
-    membership?.results,
   ]);
 
   useEffect(() => {

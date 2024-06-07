@@ -110,7 +110,7 @@ const RatingCoreDashboardFrom = ({ formData, chatbot_id }: Props) => {
                   dataKey="rating_average"
                   stroke="#ad743e"
                   strokeWidth={1.5}
-                  dot={{ r: 4, fill: "#FFF" }}
+                  dot={{ r: 1, fill: "#FFF" }}
                   activeDot={{ r: 8 }}
                 />
               </LineChart>

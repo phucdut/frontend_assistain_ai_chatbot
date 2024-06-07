@@ -222,13 +222,16 @@ const Profile = () => {
                   height={28}
                   className="transition duration-500 ease-in-out hover:opacity-100 hover:scale-125 absolute inset-x-[210px]  inset-y-1/3 "
                 ></Image>
-                <Image
+                <h1 className="text-white text-[21px] transition duration-500 ease-in-out hover:opacity-100 hover:scale-125 absolute inset-x-[190px] inset-y-1/2 ">
+                  ALLYBY
+                </h1>
+                {/* <Image
                   src="/Horizontal-name.png"
                   alt="x"
                   width={64}
                   height={18}
                   className="transition duration-500 ease-in-out hover:opacity-100 hover:scale-125 absolute inset-x-48 inset-y-1/2 "
-                ></Image>
+                ></Image> */}
               </div>
               <div className="w-[110px] h-[110px] rounded-full bg-custom-gray-6 absolute inset-y-32 inset-x-5">
                 <div className="w-[110px] h-[110px] rounded-full bg-custom-gray-6 relative pt-5">

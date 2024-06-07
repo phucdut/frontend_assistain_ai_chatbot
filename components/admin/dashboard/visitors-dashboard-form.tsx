@@ -106,7 +106,7 @@ const VisitorForm = ({ formData, chatbot_id }: Props) => {
                   dataKey="visitor_cost"
                   stroke="#432e6d"
                   strokeWidth={1.5}
-                  dot={{ r: 4, fill: "#FFF" }}
+                  dot={{ r: 1, fill: "#FFF" }}
                   activeDot={{ r: 8 }}
                 />
               </LineChart>

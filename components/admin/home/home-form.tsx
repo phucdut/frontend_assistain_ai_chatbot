@@ -32,33 +32,20 @@ export function HomeForm() {
   const [account, setAccount] = useState<AccountResType | null>(null);
 
   useEffect(() => {
-    const fetchRequest = async () => {
-      try {
-        if (token) {
+    const fetchAuthAndAccount = async () => {
+      if (token) {
+        try {
           await authApiRequest.auth({ sessionToken: token });
+          const result = await accountApiRequest.accountClient();
+          setAccount(result.payload);
+        } catch (error) {
+          handleErrorApi({ error });
         }
-      } catch (error: any) {
-        handleErrorApi({
-          error,
-        });
       }
     };
-    fetchRequest();
+  
+    fetchAuthAndAccount();
   }, [token]);
-
-  useEffect(() => {
-    const fetchRequest = async () => {
-      try {
-        const result = await accountApiRequest.accountClient();
-        setAccount(result.payload);
-      } catch (error: any) {
-        handleErrorApi({
-          error,
-        });
-      }
-    };
-    fetchRequest();
-  }, []);
 
   return (
     <Drawer>
