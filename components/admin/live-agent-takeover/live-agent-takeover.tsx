@@ -83,7 +83,7 @@ const LiveAgentTakeover = () => {
         ) {
           toast({
             title: "error",
-            description: "You do not have permission to access this page",
+            description: "You have not subscribed to the service package, so you are not allowed to access this page!",
             variant: "destructive",
           });
 

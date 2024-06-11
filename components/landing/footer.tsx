@@ -7,7 +7,7 @@ import { Separator } from "../ui/separator";
 const Footer = () => {
   return (
     <div>
-      <div className="w-full h-[436px] bg-neutral-900 pt-20">
+      <div className="w-full h-[736px] bg-neutral-900 pt-20 ">
         <div className="flex justify-center items-center gap-[833px]">
           <div>
             <Image
@@ -41,14 +41,19 @@ const Footer = () => {
               </h1>
             </div>
             <div className="pl-[180px]">
-              <h1 className="text-[37px] font-semibold leading-[26px] uppercase w-[300px] whitespace-nowrap text-ellipsis flex-shrink-0 text-cyan-50">
-                
-              </h1>
+              <h1 className="text-[37px] font-semibold leading-[26px] uppercase w-[300px] whitespace-nowrap text-ellipsis flex-shrink-0 text-cyan-50"></h1>
             </div>
           </div>
-          <div className="flex justify-center items-center gap-[590px] pt-[30px]">
+          <div className="flex justify-center items-center gap-[400px] pt-[50px]">
             <div className="opacity-50 text-white text-base font-normal leading-relaxed">
-              © 2023 AllyBy AI Inc. All rights reserved.
+              © 2023 - 2024 AllyBy AI Inc. All rights reserved.
+            </div>
+            <div className="w-[400px]"></div>
+          </div>
+          <div className="flex justify-center items-center gap-[370px] pt-[10px]">
+            <div className="opacity-50 text-white text-base font-normal leading-relaxed">
+              AllyBy AI Inc. Suite 201, 651 N Broad St, Delaware, 19709, United
+              States
             </div>
             <div className="flex justify-end items-center gap-5">
               <div className="text-white text-base font-normal leading-relaxed">

@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Separator } from "../ui/separator";
 
-const Navigations = () => {
+const NavigationUser = () => {
   const pathname = usePathname();
   const { isMinimal, handleClose } = useSidebarStore();
 
@@ -46,4 +46,4 @@ const Navigations = () => {
   );
 };
 
-export default Navigations;
+export default NavigationUser;

@@ -4,24 +4,21 @@ import Image from "next/image";
 import "@/app/globals.css";
 import { forwardRef, useState } from "react";
 
-const Section2 = forwardRef<HTMLDivElement>((props, ref) => {
-  const [showIframe, setShowIframe] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("1");
-
-  const handleClickShow = () => {
-    setShowIframe(!showIframe); // Toggle iframe visibility
-  };
+const Section2 = forwardRef<HTMLDivElement>((props) => {
+  const [selectedOption, setSelectedOption] = useState<"1" | "2" | "3" | null>(
+    null
+  );
 
   const handleClick = (option: "1" | "2" | "3") => {
-    setSelectedOption(option);
+    setSelectedOption(option === selectedOption ? null : option);
   };
 
   return (
-    <div ref={ref}>
+    <div className="overflow-y-auto custom-scroll">
       <div className="flex justify-center">
-        <div className="">
-          <div className="font-medium pt-[111.18px] leading-[24px] text-[16px] flex justify-center items-center relative">
-            <p className="demo relative" onClick={handleClickShow}>
+        <div>
+          <div className="font-medium pt-[41.18px] leading-[24px] text-[16px] flex justify-center items-center relative">
+            <p className="demo relative" onClick={() => handleClick("1")}>
               LIVE DEMO
             </p>
             <div className="absolute flex text-center left-[-218.04px] pt-[88.56px] text-[14px] font-normal ">
@@ -35,9 +32,9 @@ const Section2 = forwardRef<HTMLDivElement>((props, ref) => {
             <div>This assistant was created in minutes with AllyBy AI</div>
           </div>
           <div className="flex justify-center items-center relative">
-            <div className="w-[454px] h-[52px] bg-neutral-100 rounded-[100px] flex justify-center items-center gap-[-4px]">
+            <div className="w-[454px] h-[52px] bg-neutral-100 rounded-[100px] flex justify-center items-center gap-[-4px] ">
               <div
-                className={`w-[172px] h-9 px-6 py-1.5] ${
+                className={`w-[162px] h-9  py-1.5 ${
                   selectedOption === "1" ? "bg-white" : ""
                 } rounded-[100px] justify-center items-center gap-2.5 inline-flex cursor-pointer`}
                 onClick={() => handleClick("1")}
@@ -47,7 +44,7 @@ const Section2 = forwardRef<HTMLDivElement>((props, ref) => {
                 </div>
               </div>
               <div
-                className={`w-[192px] h-9 px-6 py-1.5 ${
+                className={`w-[192px] h-9  py-1.5 ${
                   selectedOption === "2" ? "bg-white" : ""
                 } rounded-[100px] justify-center items-center gap-2.5 inline-flex cursor-pointer`}
                 onClick={() => handleClick("2")}
@@ -57,7 +54,7 @@ const Section2 = forwardRef<HTMLDivElement>((props, ref) => {
                 </div>
               </div>
               <div
-                className={`w-[172px] h-9 px-6 py-1.5 ${
+                className={`w-[162px] h-9  py-1.5 ${
                   selectedOption === "3" ? "bg-white" : ""
                 } rounded-[100px] justify-center items-center gap-2.5 inline-flex cursor-pointer`}
                 onClick={() => handleClick("3")}
@@ -73,11 +70,17 @@ const Section2 = forwardRef<HTMLDivElement>((props, ref) => {
           </div>
         </div>
       </div>
-      {showIframe && (
+      {selectedOption && (
         <div className="flex justify-center items-center pt-10">
           <div className="w-[1140px] h-[551px] bg-white rounded-xl shadow">
             <iframe
-              src="http://localhost:3000/embed/?chatbot_id=f96b2937-5f5e-4b87-97e4-de4a9e02118b&modeltype=gpt-3.5-turbo&mode=false&logo=ZmFsc2U="
+              src={`http://localhost:3000/embed/?chatbot_id=${
+                selectedOption === "1"
+                  ? "f96b2937-5f5e-4b87-97e4-de4a9e02118b"
+                  : selectedOption === "2"
+                  ? "another-chatbot-id"
+                  : "yet-another-chatbot-id"
+              }&modeltype=gpt-3.5-turbo&mode=false&logo=ZmFsc2U=`}
               allow="clipboard-write; *;microphone *"
               width="100%"
               height="950"

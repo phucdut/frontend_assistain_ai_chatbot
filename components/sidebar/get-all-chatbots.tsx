@@ -102,7 +102,7 @@ const AllChatbots = () => {
       <div
         className={cn(
           isMinimal && "px-3",
-          "justify-between overflow-y-auto custom-scroll h-[180px] py-3"
+          "justify-between overflow-y-auto custom-scroll h-[180px] py-3" //chiều cao của khung chatbot
         )}
         onClick={handleClose}
       >

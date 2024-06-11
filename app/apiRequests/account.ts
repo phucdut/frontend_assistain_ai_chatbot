@@ -11,8 +11,7 @@ import {
 const accountApiRequest = {
   accountClient: () => http.get<AccountResType>(`/api/v1/user/profile`),
 
-  accountListClient: () =>
-    http.get<AccountResListType>("/api/v1/account/get-all"),
+  accountListClient: () => http.get<AccountResListType>("/api/v1/user/get-all"),
 
   updateAccount: (body: UpdateAccountBodyType, id: string) =>
     http.put<AccountResType>(`/api/v1/user/edit/${id}`, body),
@@ -21,6 +20,8 @@ const accountApiRequest = {
     http.post<ChangPasswordRes>(`/api/v1/user/${id}/change-password`, body),
 
   userSubscriptionIdClient: (id: string) =>
-    http.get<UserSubscriptionResType>(`/api/v1/user/${id}/get-user-subscription`),
+    http.get<UserSubscriptionResType>(
+      `/api/v1/user/${id}/get-user-subscription`
+    ),
 };
 export default accountApiRequest;

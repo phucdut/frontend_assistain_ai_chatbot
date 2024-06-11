@@ -23,29 +23,46 @@ import accountApiRequest from "@/app/apiRequests/account";
 import { AccountResType } from "@/schemas/account.schema";
 import { handleErrorApi } from "@/lib/utils";
 import Head from "next/head";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import authApiRequest from "@/app/apiRequests/auth";
 
 export function HomeForm() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
+  const router = useRouter();
   const [account, setAccount] = useState<AccountResType | null>(null);
 
+  // useEffect(() => {
+  //   const fetchAuthAndAccount = async () => {
+  //     if (token) {
+  //       try {
+  //         await authApiRequest.auth({ sessionToken: token });
+  //         const result = await accountApiRequest.accountClient();
+  //         setAccount(result.payload);
+  //       } catch (error) {
+  //         handleErrorApi({ error });
+  //       }
+  //     }
+  //   };
+
+  //   fetchAuthAndAccount();
+  // }, [token]);
+
   useEffect(() => {
-    const fetchAuthAndAccount = async () => {
-      if (token) {
-        try {
-          await authApiRequest.auth({ sessionToken: token });
-          const result = await accountApiRequest.accountClient();
-          setAccount(result.payload);
-        } catch (error) {
-          handleErrorApi({ error });
-        }
+    const fetchRequest = async () => {
+      try {
+        const result = await accountApiRequest.accountClient();
+        setAccount(result.payload);
+      } catch (error: any) {
+        handleErrorApi({
+          error,
+        });
+        router.push("/");
+        router.refresh(); // Chuyển hướng người dùng về trang landing
       }
     };
-  
-    fetchAuthAndAccount();
-  }, [token]);
+    fetchRequest();
+  }, [router]);
 
   return (
     <Drawer>

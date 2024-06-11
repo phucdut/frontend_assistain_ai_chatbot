@@ -135,7 +135,7 @@ const Section1 = () => {
         <div className="text-center font-medium pt-[160px] leading-[36px] text-[24px] flex justify-center items-center">
           Trusted by forward-thinking pioneers
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center pb-[111.18px]">
           <div className="overflow-x-hidden  pt-10 w-[900px]" ref={emblaRef}>
             <div className="flex space-x-10 pr-10">
               {" "}
