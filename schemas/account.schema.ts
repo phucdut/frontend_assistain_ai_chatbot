@@ -86,8 +86,6 @@ export const ChangPasswordRes = z.object({
 
 export type ChangPasswordRes = z.TypeOf<typeof ChangPasswordRes>;
 
-
-
 export const UserSubscriptionRes = z
   .object({
     id: z.string(),
@@ -102,3 +100,5 @@ export const UserSubscriptionRes = z
   .strict();
 
 export type UserSubscriptionResType = z.TypeOf<typeof UserSubscriptionRes>;
+
+

@@ -14,8 +14,11 @@ const toolItemColorVariants = cva("absolute inset-0 opacity-20 rounded-xl", {
       audio: "bg-orange-500",
       video: "bg-amber-500",
       photo: "bg-violet-500",
-      conversation: "bg-blue-500",
+      conversation: "bg-green-500",
       dashboard: "bg-blue-500",
+      liveChat: "bg-orange-500",
+      userManagement: "bg-amber-500",
+      supscriptionManagement: "bg-violet-500",
     },
   },
   defaultVariants: {
@@ -28,7 +31,7 @@ export interface ToolItemProps {
   title: string;
   url: string;
   color?: string;
-  slug: "code" | "audio" | "video" | "photo" | "conversation" | "dashboard";
+  slug: "code" | "audio" | "video" | "photo" | "conversation" | "dashboard" | "liveChat" | "userManagement" | "supscriptionManagement";
 }
 
 const ToolItem: React.FC<ToolItemProps> = ({ icon, title, url, slug }) => {

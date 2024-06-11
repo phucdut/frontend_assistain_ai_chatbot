@@ -81,15 +81,15 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
     }
   }, [latestMessages]);
 
-  useEffect(() => {
-    if (id) {
-      // console.log("Chatbot ID:", id);
-      if (!initialMessagesLoaded) {
-        setLatestMessages(initialBotMessages);
-        setInitialMessagesLoaded(true);
-      }
-    }
-  }, [id, initialMessagesLoaded]);
+  // useEffect(() => {
+  //   if (id) {
+  //     // console.log("Chatbot ID:", id);
+  //     if (!initialMessagesLoaded) {
+  //       setLatestMessages(initialBotMessages);
+  //       setInitialMessagesLoaded(true);
+  //     }
+  //   }
+  // }, [id, initialMessagesLoaded]);
 
   const form = useForm<ChatbotMessageBodyType>({
     resolver: zodResolver(ChatbotMessageSchema),
@@ -234,7 +234,7 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
             </div>
           ))}
         </div>
-        <div ref={messagesEndRef} />
+        {/* <div ref={messagesEndRef} /> */}
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

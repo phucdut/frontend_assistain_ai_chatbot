@@ -62,7 +62,7 @@ const Section3 = () => {
           </div>
         </div>
         <div className="relative">
-          <div className="w-[370px] h-[572px] max-w-full max-h-full overflow-y-auto bg-gray-50 rounded-xl shadow border border-slate-300">
+          <div className="w-[370px] h-[572px] max-w-full max-h-full overflow-y-auto overflow-x-hidden bg-gray-50 rounded-xl shadow border border-slate-300">
             <div className="flex items-center justify-between px-4 pt-2 h-[60px] rounded-xl bg-white w-full">
               <Image
                 src="/Horizontal-logo.png"

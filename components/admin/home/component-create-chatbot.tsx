@@ -355,7 +355,7 @@ const ComponentCreateChatbot = React.forwardRef<
                     }
                     className="w-6 h-6 gap-[10px] checkbox-set"
                   ></input>
-                  <p className="pl-[10px] pr-6">Set as default brain</p>
+                  <p className="pl-[10px] pr-6">Set as default chatbot</p>
                 </div>
               </div>
               <div className="pb-3 pt-3">

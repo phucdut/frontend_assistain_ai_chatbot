@@ -8,18 +8,14 @@ import { SignUpButton } from "../auth/sign-up/sign-up-button";
 
 const menuLinks = [
   { name: "Live demo", href: "#live-demo" },
-  { name: "Features", href: "#" },
-  { name: "Case Studies", href: "#" },
-  { name: "FAQ", href: "#" },
-  { name: "Pricing", href: "#" },
-  { name: "Affiliate", href: "#" },
+  { name: "Pricing", href: "/upgrade-membership" },
   { name: "Contact", href: "#" },
 ];
 
 const Header = () => {
   return (
     <header className="fixed top-0 left-0 w-full z-10 bg-white">
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center gap-44">
         <div className="pt-[30px] flex items-center justify-center gap-2">
           <Image
             src="/logo/2.png"

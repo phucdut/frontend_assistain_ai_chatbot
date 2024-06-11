@@ -84,7 +84,7 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ id }) => {
           const result = await knowledgeBaseApiRequest.getAllKnowledgeBase(id);
           toast({
             title: "Success",
-            description: "Update successfully!",
+            description: "Delete successfully!",
           });
           router.refresh();
         } catch (error) {
@@ -184,8 +184,10 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ id }) => {
             <TableBody>
               {filteredKnowledgeBase?.map((knowledgeBaseItem) => (
                 <TableRow key={knowledgeBaseItem.chatbot_id}>
-                  <TableCell className="font-medium">
-                    {knowledgeBaseItem.title}
+                  <TableCell className="font-medium ">
+                    <div className="uppercase w-[144px] overflow-hidden whitespace-nowrap text-ellipsis">
+                      {knowledgeBaseItem.title}
+                    </div>
                   </TableCell>
                   <TableCell className="font-medium">
                     {knowledgeBaseItem.content_type}

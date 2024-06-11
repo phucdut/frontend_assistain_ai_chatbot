@@ -4,7 +4,14 @@ import z from "zod";
 
 export const CreateChatbotSchema = z
   .object({
-    chatbot_name: z.string(),
+    chatbot_name: z
+      .string()
+      .min(6, {
+        message: "Password must be at least 6 characters long.",
+      })
+      .max(100, {
+        message: "Password must be at most 100 characters long.",
+      }),
     description: z.string(),
     model: z.string(),
     temperature: z.string(),

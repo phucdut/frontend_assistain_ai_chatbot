@@ -141,7 +141,7 @@ const HomeViewCreateBrain: React.FC = () => {
             Customize
           </div>
           <div className="w-[250px] text-center text:custom-gray text-sm font-normal leading-snug">
-            Share your AI brain’s link
+            Share your AI chatbot’s link
           </div>
         </div>
       </div>

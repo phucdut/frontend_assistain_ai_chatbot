@@ -53,14 +53,14 @@ import accountApiRequest from "@/app/apiRequests/account";
 import { AccountResType } from "@/schemas/account.schema";
 import { FilePenLine } from "lucide-react";
 
-type ComponentEditChatbotProps = {
+type ComponentEditSubPlanProps = {
   id: string;
 };
 
 const ComponentEditChatbot = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> &
-    ComponentEditChatbotProps
+  ComponentEditSubPlanProps
 >(({ className, onValueChange, id, ...props }, ref) => {
   const [isPending, startTransition] = useTransition();
   const [isChecked, setIsChecked] = useState(false);
@@ -171,7 +171,7 @@ const ComponentEditChatbot = React.forwardRef<
         const result = await chatbotApiRequest.updateChatbot(values, id);
         toast({
           title: "Success",
-          description: "Chatbot added successfully!",
+          description: "Chatbot update successfully!",
         });
         // router.push("/info-chatbot");
         // router.push(`/chatbots/${result.payload.id}`);
@@ -419,7 +419,7 @@ const ComponentEditChatbot = React.forwardRef<
                     }
                     className="w-6 h-6 gap-[10px] checkbox-set"
                   ></input>
-                  <p className="pl-[10px] pr-6">Set as default brain</p>
+                  <p className="pl-[10px] pr-6">Set as default chatbot</p>
                 </div>
               </div>
               <div className="pb-3 pt-3">
