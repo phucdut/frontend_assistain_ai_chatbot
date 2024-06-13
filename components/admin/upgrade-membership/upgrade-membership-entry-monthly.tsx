@@ -1,7 +1,16 @@
+import accountApiRequest from "@/app/apiRequests/account";
+import subscriptionPlanApiRequest from "@/app/apiRequests/subscription-plan";
+import envConfig from "@/app/config";
+import { handleErrorApi } from "@/lib/utils";
+import { UserSubscriptionResType } from "@/schemas/account.schema";
+import {
+  EditSubscriptionPlanResType,
+  SubscriptionPlanResType,
+} from "@/schemas/subscription-plan.schema";
 import { Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type ProfileProps = {
   account_id: string;
@@ -22,12 +31,46 @@ const UpgradeMembershipEntryMonthly: React.FC<ProfileProps> = ({
   plan_price,
 }) => {
   const randomNumber = getRandomInt(0, 9999);
+  const [userSubscription, setUserSubscription] =
+    useState<UserSubscriptionResType | null>(null);
+  const [subPlan, setSubPlan] = useState<SubscriptionPlanResType | null>(null);
+
+  useEffect(() => {
+    const fetchUserSubscription = async () => {
+      try {
+        const result = await accountApiRequest.userSubscriptionIdClient(
+          account_id
+        );
+        setUserSubscription(result.payload);
+      } catch (error) {
+        handleErrorApi({ error });
+      }
+    };
+    fetchUserSubscription();
+  }, [account_id]);
+
+  useEffect(() => {
+    if (!userSubscription?.plan_id) return;
+
+    const fetchSubscriptionPlan = async () => {
+      try {
+        const result = await subscriptionPlanApiRequest.subscriptionPlanDetail(
+          userSubscription.plan_id
+        );
+        setSubPlan(result.payload);
+      } catch (error) {
+        handleErrorApi({ error });
+      }
+    };
+    fetchSubscriptionPlan();
+  }, [userSubscription?.plan_id]);
+
   return (
     <div>
-      {/* <div>{ account_id}{membership_id}</div> */}
+      {/* <div>{membership_id}</div> */}
       <div className="w-full h-[614px] bg-white rounded-xl border border-slate-300">
         <div className="w-full h-[184px] bg-zinc-900 rounded-xl border border-slate-300 pl-6 py-6">
-          <div className="text-white text-sm font-bold  uppercase leading-snug">
+          <div className="text-white text-sm font-bold uppercase leading-snug">
             Entry
           </div>
           <div className="relative pt-1 pb-4">
@@ -38,18 +81,28 @@ const UpgradeMembershipEntryMonthly: React.FC<ProfileProps> = ({
               per month
             </div>
           </div>
-          <Link
-            href={`http://localhost:8000/api/v1/payment/payment?vnp_Amount=76372500&vnp_TxnRef=${randomNumber}&vnp_OrderInfo=user_id=${account_id} subscription_plan_id=${membership_id}`}
-          >
-            <div className="w-[273px] h-11 px-[15px] py-3 bg-white rounded-xl justify-center items-center gap-1.5 inline-flex">
+          {subPlan &&
+          (subPlan.number_of_chatbots < 3 &&
+            subPlan.plan_title !== "yearly_entry") ? (
+            <Link
+              href={`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/payment/payment?vnp_Amount=76372500&vnp_TxnRef=${randomNumber}&vnp_OrderInfo=user_id=${account_id} subscription_plan_id=${membership_id}`}
+            >
+              <div className="w-[273px] h-11 px-[15px] py-3 bg-white rounded-xl justify-center items-center gap-1.5 inline-flex">
+                <div className="text-zinc-900 text-sm font-semibold leading-tight">
+                  1 month free trial
+                </div>
+              </div>
+            </Link>
+          ) : (
+            <div className="w-[273px] h-11 px-[15px] py-3 bg-gray-300 rounded-xl justify-center items-center gap-1.5 inline-flex cursor-not-allowed">
               <div className="text-zinc-900 text-sm font-semibold leading-tight">
                 1 month free trial
               </div>
             </div>
-          </Link>
+          )}
         </div>
         <div className="pl-6 pt-7">
-          <div className="flex justify-start items-center gap-2 ">
+          <div className="flex justify-start items-center gap-2">
             <Check className="w-3 h-3" />
             <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
               GPT-4 LLM
@@ -69,7 +122,7 @@ const UpgradeMembershipEntryMonthly: React.FC<ProfileProps> = ({
           </div>
           <div className="flex justify-start items-center gap-2 pt-4 pb-6">
             <Check className="w-3 h-3" />
-            <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight ">
+            <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
               800,000 characters per chatbot
             </div>
           </div>
@@ -82,31 +135,31 @@ const UpgradeMembershipEntryMonthly: React.FC<ProfileProps> = ({
             </div>
             <div className="flex justify-start items-center gap-2">
               <Check className="w-3 h-3" />
-              <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight ">
+              <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
                 Upload websites
               </div>
             </div>
             <div className="flex justify-start items-center gap-2 pt-4">
               <Check className="w-3 h-3" />
-              <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight ">
+              <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
                 Voice to text
               </div>
             </div>
             <div className="flex justify-start items-center gap-2 pt-4">
               <Check className="w-3 h-3" />
-              <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight ">
+              <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
                 Save conversations
               </div>
             </div>
             <div className="flex justify-start items-center gap-2 pt-4">
               <Check className="w-3 h-3" />
-              <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight ">
+              <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
                 Share conversations
               </div>
             </div>
             <div className="flex justify-start items-center gap-2 pt-4">
               <Check className="w-3 h-3" />
-              <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight ">
+              <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
                 Edit knowledge base
               </div>
             </div>

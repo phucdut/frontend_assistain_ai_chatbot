@@ -19,7 +19,7 @@ export const TOOLS: ToolItemProps[] = [
 export const NAVIGATIONS = [
   {
     title: "HOME",
-    icon: "/icons/Fill - Home.svg",
+    icon: "/icons/pngaaa.com-7520093.png",
     url: "/home",
     color: "bg-blue-500",
     slug: "home",

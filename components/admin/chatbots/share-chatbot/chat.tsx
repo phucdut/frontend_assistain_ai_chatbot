@@ -110,21 +110,28 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
     },
   });
 
+  const { isValid } = form.formState;
+
   async function onSubmit(values: ChatbotMessageBodyType) {
+    const trimmedMessage = values.message.trim();
+    if (!trimmedMessage) {
+      return;
+    }
+
     try {
       // Add user's message to the chat
       setLatestMessages((prevMessages) => [
         ...prevMessages,
         {
           sender_type: "user",
-          message: values.message,
+          message: trimmedMessage,
           created_at: new Date(),
         },
       ]);
 
       // Call the API with the current conversation ID
       const response = await chatbotApiRequest.sentMessage(
-        values,
+        { message: trimmedMessage },
         id,
         conversationId
       );
@@ -164,7 +171,10 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
-      form.handleSubmit(onSubmit)();
+      const trimmedMessage = form.getValues("message").trim();
+      if (isValid && trimmedMessage) {
+        form.handleSubmit(onSubmit)();
+      }
     }
   };
 
@@ -207,7 +217,7 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
           {/* Hiển thị nội dung khi click vào ảnh */}
           <div className="flex items-center justify-between px-4 h-[60px] rounded-xl bg-white w-full">
             <Image
-              src="/Horizontal-logo.png"
+              src="/logo/Horizontal 2.svg"
               alt="logo"
               width={36}
               height={36}
@@ -333,7 +343,15 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
                                 disabled={isPending}
                                 onKeyDown={handleKeyDown}
                               />
-                              <Button type="submit" className="w-11 h-11">
+                              <Button
+                                type="submit"
+                                className="w-11 h-11"
+                                disabled={
+                                  !isValid ||
+                                  isPending ||
+                                  !form.watch("message").trim()
+                                }
+                              >
                                 <Image
                                   src="/paper-plane 1.svg"
                                   alt="send"

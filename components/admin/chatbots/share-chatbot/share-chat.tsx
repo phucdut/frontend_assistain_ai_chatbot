@@ -98,19 +98,26 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
     },
   });
 
+  const { isValid } = form.formState;
+
   async function onSubmit(values: ChatbotMessageBodyType) {
+    const trimmedMessage = values.message.trim();
+    if (!trimmedMessage) {
+      return;
+    }
+
     try {
       setLatestMessages((prevMessages) => [
         ...prevMessages,
         {
           sender_type: "user",
-          message: values.message,
+          message: trimmedMessage,
           created_at: new Date(),
         },
       ]);
 
       const response = await chatbotApiRequest.sentMessage(
-        values,
+        { message: trimmedMessage },
         id,
         conversationId
       );
@@ -142,13 +149,16 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
-      form.handleSubmit(onSubmit)();
+      const trimmedMessage = form.getValues("message").trim();
+      if (isValid && trimmedMessage) {
+        form.handleSubmit(onSubmit)();
+      }
     }
   };
 
   return (
-    <div className={cn(" h-full w-full bg-gray-50 shadow ", "lg:rounded-lg")}>
-      <div className="chat-container w-full h-[400px] max-w-full max-h-full overflow-y-auto custom-scroll border border-gray-300 p-4 rounded-lg">
+    <div className={cn("h-full w-full pt-[50px]", "lg:rounded-lg")}>
+      <div className="chat-container w-full h-[400px] max-w-full max-h-full overflow-y-auto custom-scroll border border-gray-300 p-4 rounded-lg bg-gray-50">
         {/* Thay đổi cách hiển thị tin nhắn để chỉ hiển thị tin nhắn mới nhất */}
         <div className="chat-messages space-y-4">
           {initialBotMessages.map((msg, index) => (
@@ -245,7 +255,7 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <div className="text-[16px] font-normal leading-[18px] w-full flex items-center justify-center border border-input rounded-lg px-5">
+                    <div className="text-[16px] font-normal leading-[18px] w-full flex items-center justify-center border border-input rounded-lg px-5 bg-gray-50">
                       <Textarea
                         placeholder="Write your message"
                         {...field}
@@ -256,10 +266,13 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
                       <Button
                         type="submit"
                         className="flex items-center justify-between w-[44px] h-[44px] bg-black"
+                        disabled={
+                          !isValid || isPending || !form.watch("message").trim()
+                        }
                       >
                         <Image
                           src={
-                            form.watch("message")
+                            form.watch("message").trim()
                               ? "/paper-plane 1.svg"
                               : "/icons/Fill - Voice - Mic.svg"
                           }

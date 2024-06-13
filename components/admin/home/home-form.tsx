@@ -25,6 +25,7 @@ import { handleErrorApi } from "@/lib/utils";
 import Head from "next/head";
 import { useRouter, useSearchParams } from "next/navigation";
 import authApiRequest from "@/app/apiRequests/auth";
+import { Separator } from "@/components/ui/separator";
 
 export function HomeForm() {
   const searchParams = useSearchParams();
@@ -74,8 +75,8 @@ export function HomeForm() {
           </DrawerTrigger>
         </div>
       </div>
-      <DrawerContent className="overflow-y-auto custom-scroll hide-scrollbar">
-        <div className="max-w-lg overflow-y-auto custom-scroll">
+      <DrawerContent className="overflow-y-hidden">
+        <div className="max-w-lg overflow-y-hidden">
           <DrawerHeader>
             <div className="flex items-center justify-between text-[20px] leading-[30px]  gap-[10px]">
               <span className=" text-custom-gray font-semibold text-right">
@@ -92,6 +93,8 @@ export function HomeForm() {
               </DrawerClose>
             </div>
           </DrawerHeader>
+          <Separator className="opacity-50 border border-slate-300" />
+
           {account && <ComponentCreateChatbot id={account.id} />}
           <DrawerFooter>
             <DrawerClose asChild>

@@ -13,6 +13,7 @@ import Footer from "@/components/landing/footer";
 import Header from "@/components/landing/header";
 import UnderForm from "./under-form";
 import UpgradeMembershipLandingForm from "./upgrade-membership/upgrade-mebership-form";
+import LiveDemo from "./live-demo";
 
 const LandingForm = () => {
   const [activeTab, setActiveTab] = useState<string | null>(null);
@@ -75,9 +76,9 @@ const LandingForm = () => {
           </div>
         </div>
       </header>
-      <div className="pt-[20px] justify-center overflow-y-hidden custom-scroll">
+      <div className="pt-[20px] justify-center overflow-y-hidden">
         {activeTab === null && <UnderForm />}
-        {activeTab === "liveDemo" && <Section2 />}
+        {activeTab === "liveDemo" && <LiveDemo />}
         {activeTab === "pricing" && <UpgradeMembershipLandingForm />}
         {activeTab === "contact" && <Footer />}
       </div>

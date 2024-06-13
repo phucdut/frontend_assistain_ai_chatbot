@@ -44,16 +44,16 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
+import { Button } from "@/components/ui/button";
 
 type ComponentCreateChatbotProps = {
   id: string;
 };
 
-
 const ComponentCreateChatbot = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> &
-  ComponentCreateChatbotProps
+    ComponentCreateChatbotProps
 >(({ className, onValueChange, id, ...props }, ref) => {
   const [isPending, startTransition] = useTransition();
   const [isChecked, setIsChecked] = useState(false);
@@ -124,8 +124,7 @@ const ComponentCreateChatbot = React.forwardRef<
   }
   return (
     <div>
-      <div className="px-3 overflow-y-auto custom-scroll">
-        <Separator className="opacity-50 border border-slate-300" />
+      <div className="px-3 overflow-y-auto custom-scroll h-[800px]">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -362,7 +361,7 @@ const ComponentCreateChatbot = React.forwardRef<
                 <FormError message={error} />
                 <FormSuccess message={success} />
               </div>
-              <div className=" flex items-center justify-between pt-5 text-[14px] leading-[22px] ">
+              <div className=" flex items-center justify-between pt-5 pb-32 text-[14px] leading-[22px] ">
                 <BuildButton
                   type="submit"
                   className="btn-container font-semibold w-[400px] h-[50px]"

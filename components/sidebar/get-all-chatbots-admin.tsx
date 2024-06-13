@@ -15,6 +15,7 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerFooter,
   DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
@@ -25,6 +26,7 @@ import accountApiRequest from "@/app/apiRequests/account";
 import { useRouter } from "next/navigation";
 import { toast } from "../ui/use-toast";
 import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 
 const AllChatbotAdmin = () => {
   const { isMinimal, handleClose } = useSidebarStore();
@@ -155,7 +157,7 @@ const AllChatbotAdmin = () => {
                                 onClick={() => setEditChatbotId(chatbotItem.id)}
                               />
                             </DrawerTrigger>
-                            <DrawerContent className="lg:overflow-y-auto custom-scroll ">
+                            <DrawerContent className="lg:overflow-y-hidden rounded-lg">
                               <div className="max-w-lg">
                                 <DrawerHeader>
                                   <div className="flex items-center justify-between text-[20px] leading-[30px] gap-[10px]">
@@ -173,9 +175,17 @@ const AllChatbotAdmin = () => {
                                     </DrawerClose>
                                   </div>
                                 </DrawerHeader>
+                                <Separator className="opacity-50 border border-slate-300" />
+
                                 {editChatbotId && (
                                   <ComponentEditChatbot id={editChatbotId} />
                                 )}
+
+                                <DrawerFooter>
+                                  <DrawerClose asChild>
+                                    {/* <Button variant="outline">Cancel</Button> */}
+                                  </DrawerClose>
+                                </DrawerFooter>
                               </div>
                             </DrawerContent>
                           </Drawer>

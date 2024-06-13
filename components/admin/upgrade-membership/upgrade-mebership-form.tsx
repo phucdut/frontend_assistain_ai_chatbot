@@ -24,16 +24,17 @@ const UpgradeMembershipForm = () => {
           <div className="w-[270px] h-[60px] bg-zinc-800 rounded-xl flex items-center justify-center">
             <SwitchUpgradeMembership onSwitch={handleSwitch} />
           </div>
-          <div className="w-[270px] relative"></div>
-          <Link href="/home" className="absolute right-20">
-            <Image
-              src="/x 1.svg"
-              alt="x"
-              width={24}
-              height={24}
-              className=" transition duration-500 ease-in-out hover:opacity-100 hover:scale-125"
-            />
-          </Link>
+          <div className="w-[270px] relative flex justify-end items-center">
+            <Link href="/home" className="absolute ">
+              <Image
+                src="/x 1.svg"
+                alt="x"
+                width={24}
+                height={24}
+                className=" transition duration-500 ease-in-out hover:opacity-100 hover:scale-125"
+              />
+            </Link>
+          </div>
         </div>
         <div className="p-4">
           {isYearly ? (
