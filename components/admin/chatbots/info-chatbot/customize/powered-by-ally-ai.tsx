@@ -10,7 +10,7 @@ const PoweredByAllyAI = () => {
     <div>
       <div className="w-[370px] h-[500px] max-w-full max-h-full overflow-y-auto custom-scroll bg-gray-50 rounded-xl shadow border border-slate-300 ">
         <div className="flex items-center justify-between px-4 pt-2 h-[60px] rounded-xl bg-white w-full">
-          <Image src="/Horizontal-logo.png" alt="logo" width={36} height={36} />
+          <Image src="/logo/Horizontal 2.svg" alt="logo" width={36} height={36} />
           <div className="opacity-50 text-center text-neutral-900 text-[13px] font-normal leading-[18px]">
             Powered by AllyBy AI
           </div>

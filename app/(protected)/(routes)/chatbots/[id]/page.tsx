@@ -33,13 +33,13 @@ export default async function ChatbotPage({ params, searchParams }: Props) {
         <h1>{chatbot && chatbot.chatbot_name}</h1>
       </div>
       <Tabs defaultValue="chatGPT" className="w-full">
-        <TabsList className="grid w-[600px] grid-cols-3 pl-10 ">
-          <TabsTrigger value="chatGPT">
+        <TabsList className="grid w-[600px] grid-cols-3">
+          <TabsTrigger value="chatGPT" className="py-3">
             Chat
             {/* <AllVersionChatGPTs /> */}
           </TabsTrigger>
-          <TabsTrigger value="knowledgeBase">Knowledge base</TabsTrigger>
-          <TabsTrigger value="customize">Customize</TabsTrigger>
+          <TabsTrigger value="knowledgeBase" className="py-3">Knowledge base</TabsTrigger>
+          <TabsTrigger value="customize" className="py-3">Customize</TabsTrigger>
         </TabsList>
         <div className="pt-[13px]">
           <Separator className=" bg-slate-300 " />

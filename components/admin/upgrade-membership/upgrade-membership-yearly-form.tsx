@@ -47,34 +47,77 @@ const UpgradeMembershipYearlyForm = () => {
   }, []);
 
   return (
-    <div className="flex justify-between pt-[30px] w-full">
-      {membership?.results.map(
-        (
-          membershipItem: UpgradeMembershipListType["results"][0],
-          index: number
-        ) => (
-          <div key={index} className="pl-10">
-            {index === 0 && account && account.id && <UpgradeMembershipFree />}
-            {index === 1 && account && account.id && (
-              <UpgradeMembershipEntryYearly
-                membership_id={membershipItem.id}
-                plan_price={membershipItem.plan_price}
-                account_id={account?.id}
-              />
-            )}
-            {index === 2 && account && account.id && (
-              <UpgradeMembershipPremiumYearly
-                membership_id={membershipItem.id}
-                plan_price={membershipItem.plan_price}
-                account_id={account?.id}
-              />
-            )}
-            {index === 3 && account && account.id && (
-              <UpgradeMembershipEnterprise />
-            )}
-          </div>
-        )
-      )}
+    // <div className="flex justify-between pt-[30px] w-full">
+    //   {membership?.results.map(
+    //     (
+    //       membershipItem: UpgradeMembershipListType["results"][0],
+    //       index: number
+    //     ) => (
+    //       <div key={index} className="pl-10">
+    //         {index === 0 && account && account.id && <UpgradeMembershipFree />}
+    //         {index === 1 && account && account.id && (
+    //           <UpgradeMembershipEntryYearly
+    //             membership_id={membershipItem.id}
+    //             plan_price={membershipItem.plan_price}
+    //             account_id={account?.id}
+    //           />
+    //         )}
+    //         {index === 2 && account && account.id && (
+    //           <UpgradeMembershipPremiumYearly
+    //             membership_id={membershipItem.id}
+    //             plan_price={membershipItem.plan_price}
+    //             account_id={account?.id}
+    //           />
+    //         )}
+    //         {index === 3 && account && account.id && (
+    //           <UpgradeMembershipEnterprise />
+    //         )}
+    //       </div>
+    //     )
+    //   )}
+    // </div>
+    <div className="flex justify-center pt-[30px] gap-10">
+      <div className="w-[1440px] flex justify-center gap-16 pr-[200px]">
+        {membership?.results
+          .sort((a, b) => {
+            // Sắp xếp các thành phần theo thứ tự ưu tiên: free, entry, premium, enterprise
+            const order = [
+              "yearly_free",
+              "yearly_entry",
+              "yearly_premium",
+              "enterprise",
+            ];
+            return order.indexOf(a.plan_title) - order.indexOf(b.plan_title);
+          })
+          .map((membershipItem, index) => (
+            <div key={index} className="">
+              {membershipItem.plan_title === "yearly_free" &&
+                account &&
+                account.id && <UpgradeMembershipFree />}
+              {membershipItem.plan_title === "yearly_entry" &&
+                account &&
+                account.id && (
+                  <UpgradeMembershipEntryYearly
+                    membership_id={membershipItem.id}
+                    plan_price={membershipItem.plan_price}
+                    account_id={account?.id}
+                  />
+                )}
+              {membershipItem.plan_title === "yearly_premium" &&
+                account &&
+                account.id && (
+                  <UpgradeMembershipPremiumYearly
+                    membership_id={membershipItem.id}
+                    plan_price={membershipItem.plan_price}
+                    account_id={account?.id}
+                  />
+                )}
+              {membershipItem.plan_title === "enterprise" &&
+                account &&
+                account.id && <UpgradeMembershipEnterprise />}
+            </div>
+          ))}
+      </div>
     </div>
   );
 };

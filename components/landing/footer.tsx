@@ -50,12 +50,12 @@ const Footer = () => {
             </div>
             <div className="w-[400px]"></div>
           </div>
-          <div className="flex justify-center items-center gap-[370px] pt-[10px]">
-            <div className="opacity-50 text-white text-base font-normal leading-relaxed">
+          <div className="flex justify-center items-center gap-[120px] pt-[10px] ">
+            <div className="opacity-50 text-white text-base font-normal leading-relaxed pr-5">
               AllyBy AI Inc. Suite 201, 651 N Broad St, Delaware, 19709, United
               States
             </div>
-            <div className="flex justify-end items-center gap-5">
+            <div className="flex justify-end items-center gap-5 w-[480px]">
               <div className="text-white text-base font-normal leading-relaxed">
                 Term of Service
               </div>

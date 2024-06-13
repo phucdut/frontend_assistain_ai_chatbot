@@ -195,7 +195,7 @@ const Profile = () => {
         </div>
       </div>
       <DrawerContent>
-        <div className="max-w-lg overflow-y-auto custom-scroll">
+        <div className="max-w-lg overflow-y-hidden">
           <DrawerHeader>
             <div className="relative text-[20px] leading-[30px] w-[440px] h-[170px] mb-20">
               <Image
@@ -216,22 +216,15 @@ const Profile = () => {
               </DrawerClose>
               <div>
                 <Image
-                  src="/Horizontal-logo.png"
+                  src="/logo/Horizontal 2.svg"
                   alt="x"
                   width={26}
                   height={28}
                   className="transition duration-500 ease-in-out hover:opacity-100 hover:scale-125 absolute inset-x-[210px]  inset-y-1/3 "
                 ></Image>
-                <h1 className="text-white text-[21px] transition duration-500 ease-in-out hover:opacity-100 hover:scale-125 absolute inset-x-[190px] inset-y-1/2 ">
+                <h1 className="text-white text-[21px] transition duration-500 ease-in-out hover:opacity-100 hover:scale-125 absolute inset-x-[190px] inset-y-[80px] ">
                   ALLYBY
                 </h1>
-                {/* <Image
-                  src="/Horizontal-name.png"
-                  alt="x"
-                  width={64}
-                  height={18}
-                  className="transition duration-500 ease-in-out hover:opacity-100 hover:scale-125 absolute inset-x-48 inset-y-1/2 "
-                ></Image> */}
               </div>
               <div className="w-[110px] h-[110px] rounded-full bg-custom-gray-6 absolute inset-y-32 inset-x-5">
                 <div className="w-[110px] h-[110px] rounded-full bg-custom-gray-6 relative pt-5">
@@ -325,21 +318,12 @@ const Profile = () => {
               </Form>
             </div>
           </DrawerHeader>
+          <div className="px-5">
+            <Separator className=" bg-slate-300" />
+          </div>
           {account && <ProfileForm id={account?.id} />}
           {/* <ProfileForm id={"3e352cd0-17f7-4754-b721-39ac08cff7ce"} /> */}
-          <DrawerFooter>
-            <div className="flex justify-center">
-              <UpgradeMembershipButton>
-                <Button
-                  type="button"
-                  className=" w-[400px] h-[50px] bg-zinc-900 rounded-md border-2 border-zinc-800 gap-2 text-custom-gray-6"
-                >
-                  <Image src="/Group (3).svg" alt="x" width={24} height={22} />
-                  Upgrade membership
-                </Button>
-              </UpgradeMembershipButton>
-            </div>
-          </DrawerFooter>
+          <DrawerFooter></DrawerFooter>
         </div>
       </DrawerContent>
     </DrawerProfile>

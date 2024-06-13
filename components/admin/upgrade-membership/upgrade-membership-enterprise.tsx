@@ -5,7 +5,7 @@ import React from "react";
 
 const UpgradeMembershipEnterprise = () => {
   return (
-    <div>
+    <div className="">
       <div className="w-full h-[574px] bg-white rounded-xl border border-slate-300">
         <div className="w-full h-[184px] bg-zinc-900 rounded-xl border border-slate-300 pl-6 py-6 ">
           <div className="text-white text-sm font-bold  uppercase leading-snug">

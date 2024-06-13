@@ -1,5 +1,27 @@
 import z from "zod";
 
+export const SubscriptionPlanRes = z
+  .object({
+    id: z.string(),
+    plan_title: z.string(),
+    plan_price: z.string(),
+    message_credits: z.string(),
+    max_character_per_chatbot: z.string(),
+    number_of_chatbots: z.number(),
+    available_model: z.string(),
+    is_active: z.boolean(),
+    live_agent_takeover: z.boolean(),
+    remove_label: z.boolean(),
+    updated_at: z.date(),
+    deleted_at: z.date(),
+    created_at: z.date(),
+  })
+  .strict();
+
+export type SubscriptionPlanResType = z.TypeOf<
+  typeof SubscriptionPlanRes
+>;
+
 export const SubscriptionPlanSchema = z
   .object({
     id: z.string(),

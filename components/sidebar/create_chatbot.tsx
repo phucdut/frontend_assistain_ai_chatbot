@@ -19,6 +19,7 @@ import "@/app/globals.css";
 import accountApiRequest from "@/app/apiRequests/account";
 import { AccountResType } from "@/schemas/account.schema";
 import { useRouter } from "next/navigation";
+import { Separator } from "@radix-ui/react-separator";
 
 const CreateChatbot = () => {
   const { isMinimal, handleClose } = useSidebarStore();
@@ -73,7 +74,7 @@ const CreateChatbot = () => {
           )}
         </div>
       </div>
-      <DrawerContent className="lg:overflow-y-auto custom-scroll">
+      <DrawerContent className="lg:overflow-y-hidden">
         <div className="max-w-lg">
           <DrawerHeader>
             <div className="flex items-center justify-between text-[20px] leading-[30px]  gap-[10px]">
@@ -91,12 +92,10 @@ const CreateChatbot = () => {
               </DrawerClose>
             </div>
           </DrawerHeader>
+          <Separator className="opacity-50 border border-slate-300" />
+
           {account && <ComponentCreateChatbot id={account.id} />}
-          <DrawerFooter>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
-          </DrawerFooter>
+          <DrawerFooter></DrawerFooter>
         </div>
       </DrawerContent>
     </Drawer>

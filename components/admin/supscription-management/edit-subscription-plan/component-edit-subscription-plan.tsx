@@ -171,8 +171,7 @@ const ComponentEditSubPlan = React.forwardRef<
   }
   return (
     <div>
-      <div className="px-3">
-        <Separator className="opacity-50 border border-slate-300" />
+      <div className="px-3 h-[800px] overflow-y-auto custom-scroll">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -353,7 +352,7 @@ const ComponentEditSubPlan = React.forwardRef<
                 <FormError message={error} />
                 <FormSuccess message={success} />
               </div>
-              <div className=" flex items-center justify-between pt-5 text-[14px] leading-[22px] ">
+              <div className=" flex items-center justify-between pt-5 pb-32 text-[14px] leading-[22px] ">
                 <BuildButton
                   type="submit"
                   className="btn-container font-semibold w-[400px] h-[50px]"

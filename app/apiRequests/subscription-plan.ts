@@ -4,6 +4,7 @@ import {
   EditSubscriptionPlanResType,
   SubscriptionPlanDeleteResType,
   SubscriptionPlanResListType,
+  SubscriptionPlanResType,
 } from "@/schemas/subscription-plan.schema";
 const subscriptionPlanApiRequest = {
   createSubscriptionPlan: (body: EditSubscriptionPlanBodyType) =>
@@ -24,6 +25,11 @@ const subscriptionPlanApiRequest = {
     http.get<EditSubscriptionPlanResType>(
       `/api/v1/subscription_plan/sub-plan-detail/${id}`
     ),
+
+  subscriptionPlanDetail: (id: string) =>
+      http.get<SubscriptionPlanResType>(
+        `/api/v1/subscription_plan/sub-plan-detail/${id}`
+      ),
 
   deleteSubscriptionPlan: (id: string) =>
     http.delete<SubscriptionPlanDeleteResType>(

@@ -16,6 +16,7 @@ import { toast } from "@/components/ui/use-toast";
 import { ChatbotResType } from "@/schemas/chatbot.schema";
 import { handleErrorApi } from "@/lib/utils";
 import chatbotApiRequest from "@/app/apiRequests/chatbot";
+import envConfig from "@/app/config";
 
 type ComponentShareChatbotProps = {
   id: string;
@@ -88,16 +89,12 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
                 ref={embedCodeRef}
                 className="grow shrink basis-0 text-zinc-800 text-sm font-normal leading-tight text-left w-[100px] pr-5"
               >
-                {/* &lt;script&gt;window.danteEmbed =
-                &quot;https://chat.ally-ai.com/embed/?chatbot_id={id}
+                &lt;script&gt;window.allyByEmbed = &quot;
+                {envConfig.NEXT_PUBLIC_EMBED}/embed/?chatbot_id={id}
                 &amp;modeltype={chatbot?.model}
                 &amp;mode=false&amp;bubble=true&amp;bubbleopen=false&quot;&lt;/script&gt;&lt;script
-                src=&quot;https://chat.ally-ai.com/bubble-embed.js&quot;&gt;&lt;/script&gt; */}
-                &lt;script&gt;window.allyByEmbed =
-                &quot;http://localhost:3000/embed/?chatbot_id={id}
-                &amp;modeltype={chatbot?.model}
-                &amp;mode=false&amp;bubble=true&amp;bubbleopen=false&quot;&lt;/script&gt;&lt;script
-                src=&quot;http://localhost:3000/bubble-embed.js&quot;&gt;&lt;/script&gt;
+                src=&quot;{envConfig.NEXT_PUBLIC_EMBED}
+                /bubble-embed.js&quot;&gt;&lt;/script&gt;
               </div>
               <Image
                 src="/icons/Fill - Copy.svg"
@@ -121,17 +118,8 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
                 ref={embedCodeRef}
                 className="grow shrink basis-0 text-zinc-800 text-sm font-normal leading-tight text-left "
               >
-                {/* &lt;iframe
-                &nbsp;&nbsp;src=&quot;https://chat.ally-ai.com/embed/?chatbot_id=
-                {id}
-                &amp;modeltype={chatbot?.model}
-                &amp;mode=false&amp;logo=ZmFsc2U=&quot;
-                &nbsp;&nbsp;allow=&quot;clipboard-write; *;microphone *&quot;
-                &nbsp;&nbsp;width=&quot;100%&quot;
-                &nbsp;&nbsp;height=&quot;950&quot;
-                &nbsp;&nbsp;frameborder=&quot;0&quot; &gt;&lt;/iframe&gt; */}
-                &lt;iframe
-                &nbsp;&nbsp;src=&quot;http://localhost:3000/embed/?chatbot_id=
+                &lt;iframe &nbsp;&nbsp;src=&quot;
+                {`${envConfig.NEXT_PUBLIC_EMBED}`}/embed/?chatbot_id=
                 {id}
                 &amp;modeltype={chatbot?.model}
                 &amp;mode=false&amp;logo=ZmFsc2U=&quot;
@@ -162,10 +150,7 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
                 ref={embedCodeRef}
                 className="grow shrink basis-0 text-zinc-800 text-sm font-normal leading-tight text-left  pr-5"
               >
-                {/* https://chat.ally-ai.com/embed/?chatbot_id={id}
-                &amp;modeltype={chatbot?.model}
-                &amp;logo=ZmFsc2U=&amp;smode=false */}
-                http://localhost:3000/embed/?chatbot_id={id}
+                {envConfig.NEXT_PUBLIC_EMBED}/embed/?chatbot_id={id}
                 &amp;modeltype={chatbot?.model}
                 &amp;logo=ZmFsc2U=&amp;smode=false
               </div>

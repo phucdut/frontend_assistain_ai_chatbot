@@ -111,7 +111,7 @@ const SupscriptionManagementForm = () => {
                     className="transition duration-500 ease-in-out hover:opacity-100 hover:scale-125"
                   />
                 </DrawerTrigger>
-                <DrawerContent className="lg:overflow-y-auto custom-scroll">
+                <DrawerContent className="lg:overflow-y-hidden">
                   <div className="max-w-lg">
                     <DrawerHeader>
                       <div className="flex items-center justify-between text-[20px] leading-[30px]  gap-[10px]">
@@ -129,10 +129,13 @@ const SupscriptionManagementForm = () => {
                         </DrawerClose>
                       </div>
                     </DrawerHeader>
+                    <div>
+                      <Separator className="opacity-50 border border-slate-300" />
+                    </div>
                     <ComponentCreateSubPlan />
                     <DrawerFooter>
                       <DrawerClose asChild>
-                        <Button variant="outline">Cancel</Button>
+                        {/* <Button variant="outline">Cancel</Button> */}
                       </DrawerClose>
                     </DrawerFooter>
                   </div>
@@ -190,7 +193,7 @@ const SupscriptionManagementForm = () => {
                           className="w-6 h-6 left-0 top-0 bg-white rounded-md border border-slate-300"
                           checked={subscriptionPlanItem?.live_agent_takeover}
                         ></input>
-                        <div className="text-zinc-900 text-[13px] font-medium leading-tight">
+                        <div className="text-zinc-900 text-[13px] font-semibold leading-tight uppercase">
                           {subscriptionPlanItem?.plan_title}
                         </div>
                       </TableCell>
@@ -227,7 +230,7 @@ const SupscriptionManagementForm = () => {
                               }
                             />
                           </DrawerTrigger>
-                          <DrawerContent className="lg:overflow-y-auto custom-scroll ">
+                          <DrawerContent className="lg:overflow-y-hidden ">
                             <div className="max-w-lg">
                               <DrawerHeader>
                                 <div className="flex items-center justify-between text-[20px] leading-[30px] gap-[10px]">
@@ -245,12 +248,15 @@ const SupscriptionManagementForm = () => {
                                   </DrawerClose>
                                 </div>
                               </DrawerHeader>
+                              <div>
+                                <Separator className="opacity-50 border border-slate-300" />
+                              </div>
                               {editSubPlanId && (
                                 <ComponentEditSubPlan id={editSubPlanId} />
                               )}
                               <DrawerFooter>
                                 <DrawerClose asChild>
-                                  <Button variant="outline">Cancel</Button>
+                                  {/* <Button variant="outline">Cancel</Button> */}
                                 </DrawerClose>
                               </DrawerFooter>
                             </div>
@@ -262,7 +268,13 @@ const SupscriptionManagementForm = () => {
                           variant="edit"
                           onClick={() => handleDelete(subscriptionPlanItem.id)}
                         >
-                          <Trash2 />
+                          <Image
+                            src="/remove_icon 12.svg"
+                            alt="x"
+                            width={43}
+                            height={43}
+                            className="transition duration-500 ease-in-out hover:opacity-100 hover:scale-125"
+                          />
                         </Button>
                       </TableCell>
                     </TableRow>

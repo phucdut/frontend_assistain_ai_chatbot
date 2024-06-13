@@ -117,8 +117,13 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ id }) => {
         <div className="flex items-center justify-start gap-3 w-full overflow-hidden">
           <div className="w-[879px] h-[50px] px-[15px] py-3.5 rounded-md border border-slate-300 inline-flex items-center gap-[15px]">
             <div className="flex items-center justify-between gap-4">
-              <div className="w-4 h-6 relative ">
-                <Search />
+              <div className="w-4 h-6 flex items-center justify-between ">
+                <Image
+                  src="/icons/search-normal.svg"
+                  alt="x"
+                  width={16}
+                  height={16}
+                ></Image>
               </div>
             </div>
             <input
@@ -163,6 +168,11 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ id }) => {
                 </div>
               </DrawerHeader>
               <ComponentCreateKnowledgeBase id={id} />
+              <DrawerFooter>
+                <DrawerClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DrawerClose>
+              </DrawerFooter>
             </div>
           </DrawerContent>
         </div>
@@ -207,7 +217,13 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ id }) => {
                       variant="edit"
                       onClick={() => handleDelete(id, knowledgeBaseItem.id)}
                     >
-                      <Trash2 />
+                      <Image
+                        src="/remove_icon 12.svg"
+                        alt="x"
+                        width={43}
+                        height={43}
+                        className="transition duration-500 ease-in-out hover:opacity-100 hover:scale-125"
+                      />
                     </Button>
                   </TableCell>
                 </TableRow>

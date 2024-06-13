@@ -99,9 +99,9 @@ const ComponentCreateKnowledgeBaseCopy: React.FC<
         title: "Success",
         description: "Knowledge base added successfully!",
       });
-      router.push(`/chatbots/${id}`);
-      router.refresh();
-      console.log("result:", result);
+      // router.push(`/chatbots/${id}`);
+      // router.refresh();
+      // console.log("result:", result);
     } catch (error: any) {
       handleErrorApi({
         error,
@@ -123,7 +123,44 @@ const ComponentCreateKnowledgeBaseCopy: React.FC<
             className="space-y-6 space-x-6"
           >
             {/* <div className="px-3"> */}
-            <div className="pt-3 ">
+            <div className="pt-3 px-3 pr-3">
+              <div className="">
+                <div className="text-zinc-900 text-sm font-semibold leading-normal pb-3">
+                  Name your knowledge base
+                </div>
+                <Input
+                  placeholder="Knowledge base name"
+                  className="w-[400px] h-11 pl-[20px] text-[14px] font-normal leading-[20px] "
+                />
+              </div>
+
+              <div className="text-zinc-900 text-sm font-semibold leading-normal pt-3">
+                Upload URL or Video
+              </div>
+              <div className="relative flex items-center justify-center pt-3 gap-3">
+                <div className="relative">
+                  <Input
+                    placeholder="Add your URL"
+                    className="w-[340px] h-11 pl-[50px] text-[14px] font-normal leading-[20px] relative"
+                  />
+                  <Image
+                    src="/Outline - Link.svg"
+                    alt="Outline - Link"
+                    width={20}
+                    height={20}
+                    className="absolute inset-x-4 inset-y-2.5"
+                  />
+                </div>
+                <div className=" flex items-center justify-between text-[14px] leading-[22px] ">
+                  <Button
+                    type="button"
+                    className="text-[#161616]  font-semibold w-[44px] h-[44px]"
+                    variant="outline"
+                  >
+                    1
+                  </Button>
+                </div>
+              </div>
               {/* <FormField
                   control={form.control}
                   // name="nameKnowledgeBase"
@@ -217,7 +254,7 @@ const ComponentCreateKnowledgeBaseCopy: React.FC<
               <div className="text-[14px] leading-6 pt-2 text-custom-gray-5 font-normal">
                 <FormLabel>Enter each URL on a new line</FormLabel>
               </div>
-              <div className="pt-3 ">
+              <div className="pt-10 ">
                 <FormField
                   control={form.control}
                   name="uploadFiles"
