@@ -1,13 +1,14 @@
-import PaymentSuccess from '@/components/auth/form-payment-success'
-import PaymentFailure from '@/components/auth/form-payment-failure '
-import React from 'react'
+import PaymentSuccess from "@/components/auth/form-payment-success";
+import PaymentFailure from "@/components/auth/form-payment-failure ";
+import React from "react";
+import ErrorForm from "@/components/auth/form-error";
 
-const pageError = () => {
+const ErrorPage = () => {
   return (
     <div>
-      <PaymentSuccess />
+      <ErrorForm />
     </div>
-  )
-}
+  );
+};
 
-export default pageError
+export default ErrorPage;

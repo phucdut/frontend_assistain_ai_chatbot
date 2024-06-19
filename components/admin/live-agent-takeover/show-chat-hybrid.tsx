@@ -162,7 +162,7 @@ const ShowChatHybrid = () => {
     <div className="w-full h-full bg-gray-50 shadow rounded-3xl">
       <div className="w-full h-[70px] bg-white flex justify-start items-center rounded-t-3xl">
         <div className="text-[24px] font-semibold leading-[141.667%] max-w-full px-7">
-          <h1>Live Agent Takeover</h1>
+          <h1>Live Agent</h1>
         </div>
       </div>
       <Separator className=" bg-slate-300 " />
@@ -227,44 +227,46 @@ const ShowChatHybrid = () => {
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div className="relative px-7">
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <div className="text-[16px] font-normal leading-[18px] w-full flex items-center justify-center border border-input rounded-xl px-5">
-                          <Textarea
-                            placeholder="Write your message"
-                            {...field}
-                            className=" text-[18px] resize-none overflow-y-auto custom-scroll pt-6 w-full bg-gray-50"
-                            disabled={isPending || !isTextareaEnabled}
-                            onKeyDown={handleKeyDown}
-                          />
-                          <Button
-                            type="submit"
-                            className="flex items-center justify-between w-[44px] h-[44px] bg-black"
-                          >
-                            <Image
-                              src={
-                                form.watch("message")
-                                  ? "/paper-plane 1.svg"
-                                  : "/icons/Fill - Voice - Mic.svg"
-                              }
-                              alt="send"
-                              width={20}
-                              height={20}
-                              className="flex-shrink-0"
+              <div className="pb-7">
+                <div className="relative px-7 ">
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="text-[16px] font-normal leading-[18px] w-full flex items-center justify-center border border-input rounded-xl px-5">
+                            <Textarea
+                              placeholder="Write your message"
+                              {...field}
+                              className=" text-[18px] resize-none overflow-y-auto custom-scroll pt-6 w-full bg-gray-50"
+                              disabled={isPending || !isTextareaEnabled}
+                              onKeyDown={handleKeyDown}
                             />
-                          </Button>
-                        </div>
-                      </FormControl>
-                      <FormDescription />
-                      <FormMessage className="text-red-500 text-[14px] font-normal leading-[26px]" />
-                    </FormItem>
-                  )}
-                />
+                            <Button
+                              type="submit"
+                              className="flex items-center justify-between w-[44px] h-[44px] bg-black"
+                            >
+                              <Image
+                                src={
+                                  form.watch("message")
+                                    ? "/paper-plane 1.svg"
+                                    : "/icons/Fill - Voice - Mic.svg"
+                                }
+                                alt="send"
+                                width={20}
+                                height={20}
+                                className="flex-shrink-0"
+                              />
+                            </Button>
+                          </div>
+                        </FormControl>
+                        <FormDescription />
+                        <FormMessage className="text-red-500 text-[14px] font-normal leading-[26px]" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
             </form>
           </Form>

@@ -93,7 +93,13 @@ const UpgradeMembershipYearlyForm = () => {
             <div key={index} className="">
               {membershipItem.plan_title === "yearly_free" &&
                 account &&
-                account.id && <UpgradeMembershipFree />}
+                account.id && (
+                  <UpgradeMembershipFree
+                    membership_id={membershipItem.id}
+                    plan_price={membershipItem.plan_price}
+                    account_id={account?.id}
+                  />
+                )}
               {membershipItem.plan_title === "yearly_entry" &&
                 account &&
                 account.id && (
@@ -114,7 +120,13 @@ const UpgradeMembershipYearlyForm = () => {
                 )}
               {membershipItem.plan_title === "enterprise" &&
                 account &&
-                account.id && <UpgradeMembershipEnterprise />}
+                account.id && (
+                  <UpgradeMembershipEnterprise
+                    membership_id={membershipItem.id}
+                    plan_price={membershipItem.plan_price}
+                    account_id={account?.id}
+                  />
+                )}
             </div>
           ))}
       </div>

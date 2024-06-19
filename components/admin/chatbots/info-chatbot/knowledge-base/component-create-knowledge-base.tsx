@@ -124,7 +124,7 @@ const ComponentCreateKnowledgeBaseCopy: React.FC<
           >
             {/* <div className="px-3"> */}
             <div className="pt-3 px-3 pr-3">
-              <div className="">
+              {/* <div className="">
                 <div className="text-zinc-900 text-sm font-semibold leading-normal pb-3">
                   Name your knowledge base
                 </div>
@@ -230,7 +230,7 @@ const ComponentCreateKnowledgeBaseCopy: React.FC<
                   )}
                 />
               </div>  */}
-              <div className=" flex items-center justify-between pt-3 text-[14px] leading-[22px] ">
+              {/* <div className=" flex items-center justify-between pt-3 text-[14px] leading-[22px] ">
                 <LgButton
                   type="button"
                   className="text-[#161616]  font-semibold w-[400px] h-[50px]"
@@ -253,37 +253,18 @@ const ComponentCreateKnowledgeBaseCopy: React.FC<
               </div>
               <div className="text-[14px] leading-6 pt-2 text-custom-gray-5 font-normal">
                 <FormLabel>Enter each URL on a new line</FormLabel>
-              </div>
-              <div className="pt-10 ">
+              </div> */}
+              <div className="pt-5 ">
+              {/* <div className="pt-10 "> */}
                 <FormField
                   control={form.control}
                   name="uploadFiles"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                        Upload file (PDF)
+                      </FormLabel>
                       <FormControl>
-                        {/* <div className="relative flex items-center justify-between">
-                          <Input
-                            placeholder="Drag and drop files here"
-                            {...field}
-                            disabled={isPending}
-                            className="inputUpload w-[400px] h-[92px] pl-[20px] text-[14px] font-normal leading-[20px]"
-                          />
-                          <div className="absolute flex items-center justify-between text-[14px] leading-[22px] inset-x-[290px]  inset-y-2.5">
-                            <Button
-                              className="text-[#161616]  font-semibold w-[170px] h-[44px]"
-                              variant="outline"
-                            >
-                              <Image
-                                src="/Group (2).svg"
-                                alt="x"
-                                width={14}
-                                height={14}
-                                className="mr-2"
-                              />
-                              Upload
-                            </Button>
-                          </div>
-                        </div> */}
                         <Dropzone onFileDrop={onDrop} />
                       </FormControl>
                       <FormDescription>
@@ -295,7 +276,8 @@ const ComponentCreateKnowledgeBaseCopy: React.FC<
                 />
               </div>
               <div>{/* <LoadFile /> */}</div>
-              <div className=" flex items-center justify-between py-16 text-[14px] leading-6 ">
+              <div className=" flex items-center justify-between py-5 text-[14px] leading-6 ">
+              {/* <div className=" flex items-center justify-between py-16 text-[14px] leading-6 "> */}
                 <BuildButton
                   type="submit"
                   className="btn-container font-semibold w-[400px] h-[50px]"

@@ -86,7 +86,7 @@ export const SignUpSchema = z
     if (confirmPassword !== password) {
       ctx.addIssue({
         code: "custom",
-        message: "Mật khẩu không khớp",
+        message: "Password and confirm password do not match",
         path: ["confirmPassword"],
       });
     }

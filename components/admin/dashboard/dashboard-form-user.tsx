@@ -1,6 +1,11 @@
 "use client";
+
+import React, { useEffect, useState } from "react";
+import "@/app/globals.css";
 import { Separator } from "@/components/ui/separator";
-import React, { useEffect, useState, useTransition } from "react";
+import DashboardTableForm from "./dashboard-table";
+
+import LatencySecondDashboardForm from "./latency-second-dashboard-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -8,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { cn, handleErrorApi } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
@@ -23,15 +29,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
-import accountApiRequest from "@/app/apiRequests/account";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import chatbotApiRequest from "@/app/apiRequests/chatbot";
+import { toast } from "@/components/ui/use-toast";
+import VisitorForm from "./visitors-dashboard-form";
+import InboxesDashboardForm from "./inboxes-dashboard-form";
+import { AccountResType } from "@/schemas/account.schema";
 import { ChatbotResListType } from "@/schemas/chatbot.schema";
-import DashboardTableAdminForm from "./dashboard-table-admin";
-import { Button } from "@/components/ui/button";
+import chatbotApiRequest from "@/app/apiRequests/chatbot";
+import accountApiRequest from "@/app/apiRequests/account";
+import conversationApiRequest from "@/app/apiRequests/conversation";
+import { useRouter } from "next/navigation";
+import { ConversationResListType } from "@/schemas/conversation.schema";
+import RatingCoreDashboardFrom from "./rating-dashboard-from";
 
 const FormSchema = z.object({
   dob: z.date({
@@ -39,17 +47,20 @@ const FormSchema = z.object({
   }),
 });
 
-
-const ChatbotListOfUserForm = () => {
-  const searchParams = useSearchParams();
-  const userId = searchParams.get("user_id");
-  const userName = searchParams.get("user_name");
+const DashBoardUserForm = () => {
   const [selectedOption, setSelectedOption] = useState("Hourly");
+  const [selectedChatbotId, setSelectedChatbotId] = useState<string>("");
+  const [selectedConversationId, setSelectedConversationId] = useState<string>("");
+  const [chatbot, setChatbot] = useState<ChatbotResListType | null>(null);
+  const [account, setAccount] = useState<AccountResType | null>(null);
+  const router = useRouter();
   const [newState, setNewState] = useState<{ type: string; date: string }>({
     type: "day",
     date: new Date().toISOString().split("T")[0],
   });
-  const [chatbot, setChatbot] = useState<ChatbotResListType | null>(null);
+  const [conversation, setConversation] =
+    useState<ConversationResListType | null>(null);
+  // console.log(selectedChatbotId);
 
   const handleClick = (option: "Hourly" | "Daily" | "Monthly") => {
     setSelectedOption(option);
@@ -86,16 +97,26 @@ const ChatbotListOfUserForm = () => {
   useEffect(() => {
     const fetchRequest = async () => {
       try {
-        if (userId) {
-          const result = await chatbotApiRequest.chatbotClient(userId);
-          // Sắp xếp danh sách cuộc trò chuyện theo thời gian cập nhật mới nhất
-          const sortedChatbots = result.payload.results.sort(
-            (a, b) =>
-              new Date(b.updated_at).getTime() -
-              new Date(a.updated_at).getTime()
-          );
-          setChatbot(result.payload);
+        const result = await accountApiRequest.accountClient();
+        setAccount(result.payload);
+        // console.log(result);
+      } catch (error) {
+        handleErrorApi({
+          error,
+        });
+        router.push("/");
+        router.refresh(); // Chuyển hướng người dùng về trang landing
+      }
+    };
+    fetchRequest();
+  }, [router]);
 
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        if (account?.id) {
+          const result = await chatbotApiRequest.chatbotClient(account?.id);
+          setChatbot(result.payload);
           // console.log(result.payload);
         }
       } catch (error) {
@@ -103,19 +124,39 @@ const ChatbotListOfUserForm = () => {
       }
     };
     fetchRequest();
-  }, [userId]);
+  }, [account?.id]);
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        if (selectedChatbotId) {
+          const result = await conversationApiRequest.conversationClientWithChatbot(
+            selectedChatbotId
+          );
+          // Sắp xếp danh sách cuộc trò chuyện theo thời gian cập nhật mới nhất
+          const sortedConversations = result.payload.results.sort(
+            (a, b) =>
+              new Date(b.updated_at).getTime() -
+              new Date(a.updated_at).getTime()
+          );
+          setConversation(result.payload);
+          // console.log(result.payload);
+        }
+      } catch (error) {
+        handleErrorApi({ error });
+      }
+    };
+    fetchRequest();
+  }, [selectedChatbotId]);
 
   return (
     <div>
-      <div className="w-full h-full bg-gray-50 shadow rounded-3xl">
+      <div className="w-full h-full bg-gray-50 shadow rounded-3xl ">
         <div className="w-full h-[70px] bg-white flex justify-start items-center rounded-t-3xl relative">
-          <div className="text-[24px] font-semibold leading-[141.667%] max-w-full px-7">
-            <h1>Managing Chatbots with User</h1>
+          <div className=" text-[24px] font-semibold leading-[141.667%] max-w-full px-7 ">
+            <h1>Dashboard</h1>
           </div>
-          <h1 className="absolute right-10 text-[20px] font-semibold leading-[141.667%] text-sky-600 uppercase w-[244px] overflow-hidden whitespace-nowrap text-ellipsis flex justify-end">
-            {userName}
-          </h1>
-          <div className="absolute right-64">
+          <div className="absolute right-14">
             <Form {...form}>
               <form className="space-y-8">
                 <FormField
@@ -186,7 +227,7 @@ const ChatbotListOfUserForm = () => {
               </form>
             </Form>
           </div>
-          <div className="w-[268px] h-11 bg-gray-100 rounded-xl absolute left-[450px] flex justify-center items-center">
+          <div className="w-[268px] h-11 bg-gray-100 rounded-xl absolute right-64 flex justify-center items-center">
             <div
               className={`w-20 h-[30px] px-4 py-[5px] ${
                 selectedOption === "Hourly" ? "bg-zinc-900" : ""
@@ -230,14 +271,69 @@ const ChatbotListOfUserForm = () => {
               </div>
             </div>
           </div>
+          <div className="absolute left-56 text-sm">
+            <select
+              onChange={(e) => setSelectedChatbotId(e.target.value)}
+              value={selectedChatbotId}
+              className="rounded-sm"
+            >
+              <option value="" disabled>
+                Select a chatbot
+              </option>
+              {chatbot?.results.map(
+                (
+                  chatbotItem: ChatbotResListType["results"][0],
+                  index: number
+                ) => (
+                  <option key={index} value={chatbotItem.id}>
+                    {chatbotItem.chatbot_name}
+                  </option>
+                )
+              )}
+            </select>
+          </div>
+          <div className="absolute left-96 text-sm">
+            <select
+              onChange={(e) => setSelectedConversationId(e.target.value)}
+              value={selectedConversationId}
+              className="rounded-sm"
+            >
+              <option value="" disabled>
+                Select a conversation
+              </option>
+              {conversation?.results.map(
+                (
+                  conversationItem: ConversationResListType["results"][0],
+                  index: number
+                ) => (
+                  <option key={index} value={conversationItem.id}>
+                    {conversationItem.conversation_name}
+                  </option>
+                )
+              )}
+            </select>
+          </div>
         </div>
         <Separator className=" bg-slate-300 " />
-        <div className="w-full h-[660px] justify-center overflow-y-auto custom-scroll rounded-b-3xl">
+        <div className="w-full h-[660px] justify-center overflow-y-auto custom-scroll">
+          <div className="flex justify-center items-center gap gap-12 pt-8">
+            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+              <VisitorForm formData={newState} chatbot_id={selectedChatbotId} />
+            </div>
+            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+              <InboxesDashboardForm formData={newState} conversation_id={selectedConversationId}/>
+            </div>
+          </div>
+          <div className="flex justify-center items-center gap gap-12 py-8">
+            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+              <LatencySecondDashboardForm formData={newState} conversation_id={selectedConversationId}/>
+            </div>
+            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+              <RatingCoreDashboardFrom formData={newState} chatbot_id={selectedChatbotId}/>
+            </div>
+          </div>
           <div className=" flex justify-center items-center">
-            <DashboardTableAdminForm
-              formData={newState}
-              user_id={userId || ""}
-            />
+            <DashboardTableForm formData={newState} />
           </div>
         </div>
       </div>
@@ -245,4 +341,4 @@ const ChatbotListOfUserForm = () => {
   );
 };
 
-export default ChatbotListOfUserForm;
+export default DashBoardUserForm;

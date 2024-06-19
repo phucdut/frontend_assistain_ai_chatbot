@@ -22,7 +22,7 @@ export const TOOLS: ToolItemProps[] = [
     slug: "userManagement",
   },
   {
-    title: "Subscription Management",
+    title: "Package Management",
     icon: "/Group (3).svg",
     url: "/supscription-management",
     color: "bg-blue-500",
@@ -32,7 +32,7 @@ export const TOOLS: ToolItemProps[] = [
 
 export const NAVIGATIONADMIN = [
   {
-    title: "HOME",
+    title: "Home",
     icon: "/icons/pngaaa.com-7520093.png",
     url: "/home",
     color: "bg-blue-500",

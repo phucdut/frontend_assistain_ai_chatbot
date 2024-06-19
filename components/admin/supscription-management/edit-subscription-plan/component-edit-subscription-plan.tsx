@@ -156,8 +156,7 @@ const ComponentEditSubPlan = React.forwardRef<
           title: "Success",
           description: "Subscription plan update successfully!",
         });
-        // router.push("/info-chatbot");
-        // router.push(`/chatbots/${result.payload.id}`);
+        router.push(`/chatbots/${result.payload.id}`);
         router.refresh();
       }
     } catch (error: any) {

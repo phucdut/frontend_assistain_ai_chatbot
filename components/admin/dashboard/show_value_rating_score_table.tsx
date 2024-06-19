@@ -78,8 +78,6 @@ const ShowValueRatingScoreTable = ({ formData, chatbot_id }: Props) => {
         handleErrorApi({
           error,
         });
-        router.push("/");
-        router.refresh(); // Chuyển hướng người dùng về trang landing
       }
     };
     fetchRequest();

@@ -66,11 +66,11 @@ const LandingForm = () => {
           </Tabs>
           <div className="w-[400px] flex items-center justify-center gap-4 pl-[65px] text-[14px] font-medium leading-[24px]">
             <SignInButton>
-              <LgButton className="text-[#161616] max-w-[68px]">Login</LgButton>
+              <LgButton className="text-[#161616] max-w-[80px]">Sign in</LgButton>
             </SignInButton>
             <SignUpButton>
-              <BuildButton className="p-[8px] px-[15px] max-w-[173px]">
-                Build a Brain for free
+              <BuildButton className="p-[8px] px-[15px] max-w-[200px]">
+                Build a Chatbot for free
               </BuildButton>
             </SignUpButton>
           </div>

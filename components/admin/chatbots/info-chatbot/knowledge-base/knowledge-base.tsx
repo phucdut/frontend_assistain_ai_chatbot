@@ -154,7 +154,7 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ id }) => {
               <DrawerHeader>
                 <div className="flex items-center justify-between text-[20px] leading-[30px]  gap-[10px]">
                   <span className=" text-custom-gray font-semibold text-right">
-                    New Knowledge Base
+                    Create new Knowledge Base
                   </span>
                   <DrawerClose asChild>
                     <Image
@@ -168,11 +168,7 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ id }) => {
                 </div>
               </DrawerHeader>
               <ComponentCreateKnowledgeBase id={id} />
-              <DrawerFooter>
-                <DrawerClose asChild>
-                  <Button variant="outline">Cancel</Button>
-                </DrawerClose>
-              </DrawerFooter>
+              <DrawerFooter></DrawerFooter>
             </div>
           </DrawerContent>
         </div>

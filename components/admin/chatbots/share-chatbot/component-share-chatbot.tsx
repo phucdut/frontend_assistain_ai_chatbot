@@ -77,36 +77,36 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
 
   const renderContent = () => {
     switch (selectedOption) {
-      case "bubble":
-        return (
-          <div>
-            <div className="text-stone-500 text-sm font-normal leading-normal pt-6 pb-2">
-              To display the chatbot as a convenient popup bubble, insert this
-              code into the <code>&lt;header&gt;</code> section of your website:
-            </div>
-            <div className="w-full h-full px-[15px] py-3 bg-gray-100 rounded-md justify-between items-start inline-flex relative">
-              <div
-                ref={embedCodeRef}
-                className="grow shrink basis-0 text-zinc-800 text-sm font-normal leading-tight text-left w-[100px] pr-5"
-              >
-                &lt;script&gt;window.allyByEmbed = &quot;
-                {envConfig.NEXT_PUBLIC_EMBED}/embed/?chatbot_id={id}
-                &amp;modeltype={chatbot?.model}
-                &amp;mode=false&amp;bubble=true&amp;bubbleopen=false&quot;&lt;/script&gt;&lt;script
-                src=&quot;{envConfig.NEXT_PUBLIC_EMBED}
-                /bubble-embed.js&quot;&gt;&lt;/script&gt;
-              </div>
-              <Image
-                src="/icons/Fill - Copy.svg"
-                alt="Twitter"
-                width={16}
-                height={16}
-                onClick={handleCopy}
-                className="transition duration-500 ease-in-out hover:opacity-100 hover:scale-125 absolute inset-y-3 right-4"
-              />
-            </div>
-          </div>
-        );
+      // case "bubble":
+      //   return (
+      //     <div>
+      //       <div className="text-stone-500 text-sm font-normal leading-normal pt-6 pb-2">
+      //         To display the chatbot as a convenient popup bubble, insert this
+      //         code into the <code>&lt;header&gt;</code> section of your website:
+      //       </div>
+      //       <div className="w-full h-full px-[15px] py-3 bg-gray-100 rounded-md justify-between items-start inline-flex relative">
+      //         <div
+      //           ref={embedCodeRef}
+      //           className="grow shrink basis-0 text-zinc-800 text-sm font-normal leading-tight text-left w-[100px] pr-5"
+      //         >
+      //           &lt;script&gt;window.allyByEmbed = &quot;
+      //           {envConfig.NEXT_PUBLIC_EMBED}/embed/?chatbot_id={id}
+      //           &amp;modeltype={chatbot?.model}
+      //           &amp;mode=false&amp;bubble=true&amp;bubbleopen=false&quot;&lt;/script&gt;&lt;script
+      //           src=&quot;{envConfig.NEXT_PUBLIC_EMBED}
+      //           /bubble-embed.js&quot;&gt;&lt;/script&gt;
+      //         </div>
+      //         <Image
+      //           src="/icons/Fill - Copy.svg"
+      //           alt="Twitter"
+      //           width={16}
+      //           height={16}
+      //           onClick={handleCopy}
+      //           className="transition duration-500 ease-in-out hover:opacity-100 hover:scale-125 absolute inset-y-3 right-4"
+      //         />
+      //       </div>
+      //     </div>
+      //   );
       case "iFrame":
         return (
           <div>
@@ -184,7 +184,7 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Deploy chatbot</SelectLabel>
-            <SelectItem value="bubble">Bubble</SelectItem>
+            {/* <SelectItem value="bubble">Bubble</SelectItem> */}
             <SelectItem value="iFrame">iFrame (Embed)</SelectItem>
             <SelectItem value="directLink">Direct link</SelectItem>
           </SelectGroup>

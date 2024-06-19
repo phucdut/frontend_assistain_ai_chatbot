@@ -22,9 +22,10 @@ import accountApiRequest from "@/app/apiRequests/account";
 import { handleErrorApi } from "@/lib/utils";
 import chatbotApiRequest from "@/app/apiRequests/chatbot";
 import dashboardApiRequest from "@/app/apiRequests/dashboard";
-import { ConversationAndChatbotResType } from "@/schemas/dashboard.schema";
+import { ConversationAndChatbotResType, RvenueResType } from "@/schemas/dashboard.schema";
 import ShowValueVisitorTable from "./show_value_visitor_table";
 import ShowValueRatingScoreTable from "./show_value_rating_score_table";
+import adminApiRequest from "@/app/apiRequests/admin";
 
 type FormData = {
   type: string;
@@ -35,14 +36,16 @@ type Props = {
   formData: FormData;
 };
 
-const DashboardTableForm = ({ formData }: Props) => {
+const DashboardTableAdminForm = ({ formData }: Props) => {
   const [chatbot, setChatbot] = useState<ChatbotResListType | null>(null);
   const [selectedChatbotId, setSelectedChatbotId] = useState<string | null>(
     null
   );
   const [account, setAccount] = useState<AccountResType | null>(null);
+  const [revenueDashboard, setRevenueDashboard] =
+  useState<ConversationAndChatbotResType | null>(null);
   const [conversationDashboard, setConversationDashboard] =
-    useState<ConversationAndChatbotResType | null>(null);
+    useState<RvenueResType | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -65,27 +68,52 @@ const DashboardTableForm = ({ formData }: Props) => {
   useEffect(() => {
     const fetchRequest = async () => {
       try {
-        if (account?.id) {
-          const result = await chatbotApiRequest.chatbotClient(account?.id);
-          setChatbot(result.payload);
-          // console.log(result.payload);
-        }
+        const result =
+          await dashboardApiRequest.dashboardRevenueValueClient(
+            formData.type,
+            formData.date,
+          );
+        setConversationDashboard(result.payload);
+        // console.log(result);
+      } catch (error) {
+        handleErrorApi({
+          error,
+        });
+      }
+    };
+    fetchRequest();
+  }, [router, formData.type, formData.date]);
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const result = await adminApiRequest.chatbotClient();
+        setChatbot(result.payload);
+        // console.log(result.payload);
       } catch (error) {
         handleErrorApi({ error });
       }
     };
     fetchRequest();
-  }, [account?.id]);
+  }, []);
 
   return (
     <div className="w-[1050px] h-[500px] bg-white rounded-xl border border-slate-300">
-      <div className="w-full flex justify-start gap-14 py-5 pl-5">
+      <div className="w-full flex justify-start py-5 pl-5 gap-24">
         <div className="flex justify-start relative">
           <div className="text-zinc-900 text-[13px] font-normal leading-tight pl-2 w-14">
             Chatbots
           </div>
           <div className="text-zinc-900 text-2xl font-semibold leading-[34px] absolute left-20 top-[-8px]">
             {chatbot?.total}
+          </div>
+        </div>
+        <div className="flex justify-start relative">
+          <div className="text-zinc-900 text-[13px] font-normal leading-tight pl-2 w-14">
+            Revenue
+          </div>
+          <div className="text-zinc-900 text-2xl font-semibold leading-[34px] absolute left-20 top-[-8px] w-full">
+            {conversationDashboard?.revenue || 0} $
           </div>
         </div>
       </div>
@@ -178,4 +206,4 @@ const DashboardTableForm = ({ formData }: Props) => {
   );
 };
 
-export default DashboardTableForm;
+export default DashboardTableAdminForm;

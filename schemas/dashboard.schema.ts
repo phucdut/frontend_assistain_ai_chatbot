@@ -9,6 +9,13 @@ export const ConversationAndChatbotRes = z
 
 export type ConversationAndChatbotResType = z.TypeOf<typeof ConversationAndChatbotRes>;
 
+export const RvenueRes = z
+  .object({
+    revenue: z.number(),
+  })
+  .strict();
+
+export type RvenueResType = z.TypeOf<typeof RvenueRes>;
 
 
 export type InboxesAndLatencyListType = {

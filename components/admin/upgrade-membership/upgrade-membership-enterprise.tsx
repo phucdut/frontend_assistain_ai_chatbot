@@ -1,9 +1,43 @@
+import subscriptionPlanApiRequest from "@/app/apiRequests/subscription-plan";
+import { handleErrorApi } from "@/lib/utils";
+import { SubscriptionPlanResType } from "@/schemas/subscription-plan.schema";
 import { Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const UpgradeMembershipEnterprise = () => {
+type SubPlanProps = {
+  account_id: string;
+  membership_id: string;
+  plan_price: number;
+};
+
+const UpgradeMembershipEnterprise: React.FC<SubPlanProps> = ({
+  account_id,
+  membership_id,
+  plan_price,
+}) => {
+  const [subPlan, setSubPlan] = useState<SubscriptionPlanResType | null>(
+    null
+  );
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        if (membership_id) {
+          const result =
+            await subscriptionPlanApiRequest.subscriptionPlanDetail(membership_id);
+          setSubPlan(result.payload);
+          
+        }
+      } catch (error) {
+        handleErrorApi({
+          error,
+        });
+      }
+    };
+    fetchRequest();
+  }, [membership_id]);
   return (
     <div className="">
       <div className="w-full h-[574px] bg-white rounded-xl border border-slate-300">
@@ -28,7 +62,7 @@ const UpgradeMembershipEnterprise = () => {
           <div className="flex justify-start items-center gap-2 ">
             <Check className="w-3 h-3" />
             <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
-              GPT-4 LLM
+              {/* GPT-4 LLM */} {subPlan?.available_model}
             </div>
           </div>
           <div className="flex justify-start items-center gap-2 pt-4">
