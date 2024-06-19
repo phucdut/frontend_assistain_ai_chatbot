@@ -74,7 +74,7 @@ const Section2 = forwardRef<HTMLDivElement>((props) => {
         <div className="flex justify-center items-center pt-10">
           <div className="w-[1140px] h-[571px] bg-white rounded-xl">
             <iframe
-              src="http://localhost:3000/embed/?chatbot_id=d9e40b70-c0c1-4c23-aa06-ad8323a01482&modeltype=gpt-3.5-turbo&mode=false&logo=ZmFsc2U="
+              src="http://localhost:3000/embed/?chatbot_id=9f40fa03-7a04-431e-ab24-3cede5ce6657&modeltype=gpt-3.5-turbo&mode=false&logo=ZmFsc2U="
               allow="clipboard-write; *;microphone *"
               width="100%"
               height="950"

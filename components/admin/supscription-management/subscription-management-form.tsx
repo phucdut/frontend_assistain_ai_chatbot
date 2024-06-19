@@ -68,7 +68,7 @@ const SupscriptionManagementForm = () => {
   const handleDelete = async (id: string) => {
     MySwal.fire({
       title: "Are you sure?",
-      text: "You will not be able to recover this imaginary file!",
+      text: "You will not be able to recover this subscription plan!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
@@ -235,7 +235,7 @@ const SupscriptionManagementForm = () => {
                               <DrawerHeader>
                                 <div className="flex items-center justify-between text-[20px] leading-[30px] gap-[10px]">
                                   <div className="text-zinc-900 text-xl font-semibold leading-[30px]">
-                                    Edit your chatbot
+                                    Edit your Subscription Plan
                                   </div>
                                   <DrawerClose asChild>
                                     <Image

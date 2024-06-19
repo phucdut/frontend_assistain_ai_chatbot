@@ -28,7 +28,7 @@ export default function AuthLayout({
       <body className={poppins.className}>
         <Toaster />
         {children}
-        <ChatEmbed id="d9e40b70-c0c1-4c23-aa06-ad8323a01482"></ChatEmbed>
+        <ChatEmbed id="9f40fa03-7a04-431e-ab24-3cede5ce6657"></ChatEmbed>
       </body>
     </html>
   );

@@ -84,7 +84,7 @@ export const ChangPasswordRes = z.object({
   // user_role: z.string(),
 });
 
-export type ChangPasswordRes = z.TypeOf<typeof ChangPasswordRes>;
+export type ChangPasswordResType = z.TypeOf<typeof ChangPasswordRes>;
 
 export const UserSubscriptionRes = z
   .object({
@@ -102,3 +102,14 @@ export const UserSubscriptionRes = z
 export type UserSubscriptionResType = z.TypeOf<typeof UserSubscriptionRes>;
 
 
+export const BanRes = z.object({
+  status: z.number(),
+  message: z.string(),
+});
+export type BanResType = z.TypeOf<typeof BanRes>;
+
+export const UnBanRes = z.object({
+  status: z.number(),
+  message: z.string(),
+});
+export type UnBanResType = z.TypeOf<typeof UnBanRes>;

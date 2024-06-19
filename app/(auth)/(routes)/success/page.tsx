@@ -1,7 +1,7 @@
 import FormSuccess from "@/components/auth/form-success";
 import React from "react";
 
-const page = () => {
+const SuccessPage = () => {
   return (
     <div>
       <FormSuccess />
@@ -9,4 +9,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SuccessPage;

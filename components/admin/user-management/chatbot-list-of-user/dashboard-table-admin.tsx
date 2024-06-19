@@ -77,14 +77,14 @@ const DashboardTableAdminForm = ({ formData, user_id }: Props) => {
               <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
                 Visitors
               </TableHead>
-              {/* <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
-                Inboxes
-              </TableHead>
-              <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
-                Latency
-              </TableHead> */}
               <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
                 Rating
+              </TableHead>
+              <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+                Total messages
+              </TableHead>
+              <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+                Total tokens
               </TableHead>
               <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
                 Date create
@@ -105,7 +105,7 @@ const DashboardTableAdminForm = ({ formData, user_id }: Props) => {
                     ></input>
                     <Link
                       className="flex justify-start items-center gap-3 font-medium"
-                      href={`/user-management/chatbots-list/conversation?&user_id=${user_id}`}
+                      href={`/user-management/chatbots-list/conversation?&chatbot_id=${chatbotItem.id}`}
                     >
                       <div className="text-zinc-900 text-[13px] font-semibold leading-tight">
                         {chatbotItem.chatbot_name}
@@ -130,6 +130,12 @@ const DashboardTableAdminForm = ({ formData, user_id }: Props) => {
                         chatbot_id={chatbotItem?.id}
                       />
                     )}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {chatbotItem.total_messages}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {chatbotItem.total_tokens}
                   </TableCell>
                   <TableCell className="flex justify-center">
                     {new Date(chatbotItem.created_at).toLocaleString()}

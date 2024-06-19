@@ -9,7 +9,7 @@ import UpgradeMembershipLandingFree from "./upgrade-membership-free";
 
 const UpgradeMembershipLandingMonthlyForm = () => {
   return (
-    <div className="flex justify-between pt-[30px] overflow-y-auto custom-scroll">
+    <div className="flex justify-center gap-12 pt-[30px] overflow-y-auto custom-scroll">
       <UpgradeMembershipLandingFree />
       <UpgradeMembershipLandingEntryMonthly />
       <UpgradeMembershipLandingPremiumMonthly />

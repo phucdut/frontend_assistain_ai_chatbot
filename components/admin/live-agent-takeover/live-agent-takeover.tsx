@@ -106,7 +106,8 @@ const LiveAgentTakeover = () => {
         );
         setSubPlan(result.payload);
         if (
-          ["monthly_free", "yearly_free"].includes(result.payload.plan_title)
+          ["monthly_free", "yearly_free"].includes(result.payload.plan_title) ||
+          result.payload.live_agent_takeover === false
         ) {
           toast({
             title: "error",

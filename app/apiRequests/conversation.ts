@@ -3,7 +3,9 @@ import { ConversationResListType, JoinResType, LiveAgentMessageBodyType, LiveAge
 
 const conversationApiRequest = {
     conversationClient: (id: string) =>
-        http.get<ConversationResListType>(`/api/v1/conversation/${id}`),
+        http.get<ConversationResListType>(`/api/v1/conversation/user/${id}`),
+    conversationClientWithChatbot: (id: string) =>
+      http.get<ConversationResListType>(`/api/v1/conversation/chatbot/${id}`),
     joinConversationClient: (id: string) =>
         http.get<JoinResType>(`/api/v1/conversation/${id}/join`),
     sentMessageLiveAgent: (

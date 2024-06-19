@@ -12,7 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-type ProfileProps = {
+type SubPlanProps = {
   account_id: string;
   membership_id: string;
   plan_price: number;
@@ -25,7 +25,7 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min; // Sinh số nguyên ngẫu nhiên
 }
 
-const UpgradeMembershipEntryMonthly: React.FC<ProfileProps> = ({
+const UpgradeMembershipEntryMonthly: React.FC<SubPlanProps> = ({
   account_id,
   membership_id,
   plan_price,
@@ -105,25 +105,25 @@ const UpgradeMembershipEntryMonthly: React.FC<ProfileProps> = ({
           <div className="flex justify-start items-center gap-2">
             <Check className="w-3 h-3" />
             <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
-              GPT-4 LLM
+              {/* GPT-4 LLM */}{subPlan?.available_model}
             </div>
           </div>
           <div className="flex justify-start items-center gap-2 pt-4">
             <Check className="w-3 h-3" />
             <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
-              2,000 message credits
+              {/* 2,000 message credits */}{subPlan?.message_credits} message credits
             </div>
           </div>
           <div className="flex justify-start items-center gap-2 pt-4">
             <Check className="w-3 h-3" />
             <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
-              3 chatbot
+              {/* 3 chatbot */}{subPlan?.number_of_chatbots} chatbot
             </div>
           </div>
           <div className="flex justify-start items-center gap-2 pt-4 pb-6">
             <Check className="w-3 h-3" />
             <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
-              800,000 characters per chatbot
+              {/* 800,000 characters per chatbot */} {subPlan?.max_character_per_chatbot} characters per chatbot
             </div>
           </div>
         </div>

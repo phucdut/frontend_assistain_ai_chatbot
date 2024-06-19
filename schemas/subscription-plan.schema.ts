@@ -22,7 +22,7 @@ export type SubscriptionPlanResType = z.TypeOf<
   typeof SubscriptionPlanRes
 >;
 
-export const SubscriptionPlanSchema = z
+export const SubscriptionPlanSchema = z 
   .object({
     id: z.string(),
     plan_title: z.string(),

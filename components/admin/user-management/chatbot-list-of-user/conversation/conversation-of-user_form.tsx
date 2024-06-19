@@ -52,7 +52,7 @@ import ShowChatbot from "@/components/admin/live-agent-takeover/show-chatbot";
 
 const ConversationOfUserForm = () => {
   const searchParams = useSearchParams();
-  const userId = searchParams.get("user_id");
+  const chatbotId = searchParams.get("chatbot_id");
   const [conversation, setConversation] =
     useState<ConversationResListType | null>(null);
   const [loading, setLoading] = useState(false);
@@ -64,9 +64,9 @@ const ConversationOfUserForm = () => {
   useEffect(() => {
     const fetchRequest = async () => {
       try {
-        if (userId) {
-          const result = await conversationApiRequest.conversationClient(
-            userId
+        if (chatbotId) {
+          const result = await conversationApiRequest.conversationClientWithChatbot(
+            chatbotId
           );
           // Sắp xếp danh sách cuộc trò chuyện theo thời gian cập nhật mới nhất
           const sortedConversations = result.payload.results.sort(
@@ -82,7 +82,7 @@ const ConversationOfUserForm = () => {
       }
     };
     fetchRequest();
-  }, [userId]);
+  }, [chatbotId]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -99,7 +99,7 @@ const ConversationOfUserForm = () => {
     <div className="w-full h-full bg-gray-50 shadow rounded-3xl">
       <div className="w-full h-[70px] bg-white flex justify-start items-center rounded-t-3xl">
         <div className="text-[24px] font-semibold leading-[141.667%] max-w-full px-7">
-          <h1>Chatbot Name</h1>
+          <h1>Managing Conversations with Chatbot</h1>
         </div>
       </div>
       <Separator className=" bg-slate-300 " />

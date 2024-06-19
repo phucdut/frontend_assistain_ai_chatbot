@@ -29,7 +29,7 @@ export default async function ChatbotPage({ params, searchParams }: Props) {
   return (
     <div>
       {!chatbot && <div>Không tìm thấy chat bot</div>}
-      <div className="text-[24px] font-semibold leading-[141.667%] max-w-full pt-7 pl-7">
+      <div className="text-[24px] font-semibold leading-[141.667%] max-w-full pt-7 pl-7 ">
         <h1>{chatbot && chatbot.chatbot_name}</h1>
       </div>
       <Tabs defaultValue="chatGPT" className="w-full">
@@ -38,8 +38,10 @@ export default async function ChatbotPage({ params, searchParams }: Props) {
             Chat
             {/* <AllVersionChatGPTs /> */}
           </TabsTrigger>
-          <TabsTrigger value="knowledgeBase" className="py-3">Knowledge base</TabsTrigger>
-          <TabsTrigger value="customize" className="py-3">Customize</TabsTrigger>
+          <TabsTrigger value="knowledgeBase" className="py-3">
+            Knowledge base
+          </TabsTrigger>
+          {/* <TabsTrigger value="customize" className="py-3">Customize</TabsTrigger> */}
         </TabsList>
         <div className="pt-[13px]">
           <Separator className=" bg-slate-300 " />
@@ -47,7 +49,12 @@ export default async function ChatbotPage({ params, searchParams }: Props) {
         <TabsContent value="chatGPT">
           <div className="h-full w-full">
             {/* <Chat params={{ id: chatbot ? chatbot.id : "" }} /> */}
-            {chatbot && <Chat id={chatbot.id} conversation_id="99bc0984-f8de-407a990c-41651230e539" />}
+            {chatbot && (
+              <Chat
+                id={chatbot.id}
+                conversation_id="99bc0984-f8de-407a990c-41651230e539"
+              />
+            )}
           </div>
         </TabsContent>
         <TabsContent value="knowledgeBase">
@@ -55,11 +62,11 @@ export default async function ChatbotPage({ params, searchParams }: Props) {
             {chatbot && <KnowledgeBase id={chatbot.id} />}
           </div>
         </TabsContent>
-        <TabsContent value="customize">
+        {/* <TabsContent value="customize">
           <div className="h-full w-full">
             {chatbot && <Customize id={chatbot.id} />}
           </div>
-        </TabsContent>
+        </TabsContent> */}
       </Tabs>
     </div>
   );

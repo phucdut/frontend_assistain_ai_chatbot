@@ -75,7 +75,7 @@ const Profile = () => {
 
       toast({
         title: "Success",
-        description: "Logout in successfully!",
+        description: "Sign out in successfully!",
       });
 
       // Sau khi logout thành công, có thể thực hiện các thao tác khác như xóa token, đưa người dùng về trang đăng nhập, vv.

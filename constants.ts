@@ -18,7 +18,7 @@ export const TOOLS: ToolItemProps[] = [
 
 export const NAVIGATIONS = [
   {
-    title: "HOME",
+    title: "Home",
     icon: "/icons/pngaaa.com-7520093.png",
     url: "/home",
     color: "bg-blue-500",

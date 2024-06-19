@@ -47,6 +47,8 @@ export type ChatbotResListType = {
     prompt: string;
     created_at: Date;
     is_active: boolean;
+    total_messages: number;
+    total_tokens: number;
   }[];
 };
 
