@@ -4,14 +4,12 @@ import React, { useEffect, useState } from "react";
 import "@/app/globals.css";
 import { Separator } from "@/components/ui/separator";
 import DashboardTableForm from "./dashboard-table";
-
 import LatencySecondDashboardForm from "./latency-second-dashboard-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { cn, handleErrorApi } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -50,17 +48,25 @@ const FormSchema = z.object({
 const DashBoardUserForm = () => {
   const [selectedOption, setSelectedOption] = useState("Hourly");
   const [selectedChatbotId, setSelectedChatbotId] = useState<string>("");
-  const [selectedConversationId, setSelectedConversationId] = useState<string>("");
+  const [selectedConversationId, setSelectedConversationId] =
+    useState<string>("");
   const [chatbot, setChatbot] = useState<ChatbotResListType | null>(null);
   const [account, setAccount] = useState<AccountResType | null>(null);
   const router = useRouter();
   const [newState, setNewState] = useState<{ type: string; date: string }>({
     type: "day",
-    date: new Date().toISOString().split("T")[0],
+    date: new Date()
+      .toLocaleDateString("vi-VN", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .split("/")
+      .reverse()
+      .join("-"),
   });
   const [conversation, setConversation] =
     useState<ConversationResListType | null>(null);
-  // console.log(selectedChatbotId);
 
   const handleClick = (option: "Hourly" | "Daily" | "Monthly") => {
     setSelectedOption(option);
@@ -99,13 +105,10 @@ const DashBoardUserForm = () => {
       try {
         const result = await accountApiRequest.accountClient();
         setAccount(result.payload);
-        // console.log(result);
       } catch (error) {
-        handleErrorApi({
-          error,
-        });
+        handleErrorApi({ error });
         router.push("/");
-        router.refresh(); // Chuyển hướng người dùng về trang landing
+        router.refresh();
       }
     };
     fetchRequest();
@@ -116,8 +119,16 @@ const DashBoardUserForm = () => {
       try {
         if (account?.id) {
           const result = await chatbotApiRequest.chatbotClient(account?.id);
+          const chatbots = result.payload.results;
+          if (chatbots.length > 0) {
+            chatbots.sort(
+              (a, b) =>
+                new Date(a.updated_at).getTime() -
+                new Date(b.updated_at).getTime()
+            );
+            setSelectedChatbotId(chatbots[0].id);
+          }
           setChatbot(result.payload);
-          // console.log(result.payload);
         }
       } catch (error) {
         handleErrorApi({ error });
@@ -130,17 +141,20 @@ const DashBoardUserForm = () => {
     const fetchRequest = async () => {
       try {
         if (selectedChatbotId) {
-          const result = await conversationApiRequest.conversationClientWithChatbot(
-            selectedChatbotId
-          );
-          // Sắp xếp danh sách cuộc trò chuyện theo thời gian cập nhật mới nhất
-          const sortedConversations = result.payload.results.sort(
-            (a, b) =>
-              new Date(b.updated_at).getTime() -
-              new Date(a.updated_at).getTime()
-          );
+          const result =
+            await conversationApiRequest.conversationClientWithChatbot(
+              selectedChatbotId
+            );
+          const conversations = result.payload.results;
+          if (conversations.length > 0) {
+            conversations.sort(
+              (a, b) =>
+                new Date(a.updated_at).getTime() -
+                new Date(b.updated_at).getTime()
+            );
+            setSelectedConversationId(conversations[0].id);
+          }
           setConversation(result.payload);
-          // console.log(result.payload);
         }
       } catch (error) {
         handleErrorApi({ error });
@@ -164,7 +178,6 @@ const DashBoardUserForm = () => {
                   name="dob"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      {/* <FormLabel>Date of birth</FormLabel> */}
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -173,7 +186,7 @@ const DashBoardUserForm = () => {
                               className={cn(
                                 "w-[170px] text-left font-normal",
                                 !field.value && "text-muted-foreground",
-                                "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" // Lớp để làm cho nút nổi bật khi được chọn
+                                "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                               )}
                             >
                               {field.value ? (
@@ -188,14 +201,11 @@ const DashBoardUserForm = () => {
                           </FormControl>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0 bg-white border border-gray-200 shadow-lg rounded-lg">
-                          {" "}
-                          {/* Thay đổi màu sắc và kiểu dáng của nội dung Popover */}
                           <Calendar
                             mode="single"
                             selected={field.value}
                             onSelect={(date) => {
                               if (date) {
-                                // Cập nhật newState thành 'day' và ngày được chọn
                                 setNewState({
                                   type: "day",
                                   date: new Date(
@@ -205,7 +215,6 @@ const DashBoardUserForm = () => {
                                     .toISOString()
                                     .split("T")[0],
                                 });
-                                // Cập nhật field.value (giá trị của trường ngày tháng) khi người dùng chọn một ngày
                                 field.onChange(date);
                               }
                             }}
@@ -216,14 +225,10 @@ const DashBoardUserForm = () => {
                           />
                         </PopoverContent>
                       </Popover>
-                      {/* <FormDescription>
-                        Your date of birth is used to calculate your age.
-                      </FormDescription> */}
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                {/* <Button type="submit">Submit</Button> */}
               </form>
             </Form>
           </div>
@@ -321,15 +326,24 @@ const DashBoardUserForm = () => {
               <VisitorForm formData={newState} chatbot_id={selectedChatbotId} />
             </div>
             <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
-              <InboxesDashboardForm formData={newState} conversation_id={selectedConversationId}/>
+              <InboxesDashboardForm
+                formData={newState}
+                conversation_id={selectedConversationId}
+              />
             </div>
           </div>
           <div className="flex justify-center items-center gap gap-12 py-8">
             <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
-              <LatencySecondDashboardForm formData={newState} conversation_id={selectedConversationId}/>
+              <LatencySecondDashboardForm
+                formData={newState}
+                conversation_id={selectedConversationId}
+              />
             </div>
             <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
-              <RatingCoreDashboardFrom formData={newState} chatbot_id={selectedChatbotId}/>
+              <RatingCoreDashboardFrom
+                formData={newState}
+                chatbot_id={selectedChatbotId}
+              />
             </div>
           </div>
           <div className=" flex justify-center items-center">
