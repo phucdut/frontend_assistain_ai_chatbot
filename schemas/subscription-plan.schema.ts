@@ -4,7 +4,7 @@ export const SubscriptionPlanRes = z
   .object({
     id: z.string(),
     plan_title: z.string(),
-    plan_price: z.string(),
+    plan_price: z.number(),
     message_credits: z.string(),
     max_character_per_chatbot: z.string(),
     number_of_chatbots: z.number(),

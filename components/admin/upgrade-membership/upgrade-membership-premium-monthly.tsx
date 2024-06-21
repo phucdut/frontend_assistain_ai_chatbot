@@ -84,7 +84,7 @@ const UpgradeMembershipPremiumMonthly: React.FC<SubPlanProps> = ({
           </div>
           <div className="relative pt-1 pb-4">
             <span className="text-white text-4xl font-bold font-['Oswald'] leading-[50px]">
-              $90
+              ${plan_price}
             </span>
             <div className="text-white text-sm font-normal leading-tight absolute inset-y-7 inset-x-14">
               per month
@@ -94,7 +94,11 @@ const UpgradeMembershipPremiumMonthly: React.FC<SubPlanProps> = ({
           subPlan.number_of_chatbots < 5 &&
           subPlan.plan_title !== "yearly_premium" ? (
             <Link
-              href={`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/payment/payment?vnp_Amount=229117500&vnp_TxnRef=${randomNumber}&vnp_OrderInfo=user_id=${account_id} subscription_plan_id=${membership_id}`}
+              href={`${
+                envConfig.NEXT_PUBLIC_API_ENDPOINT
+              }/api/v1/payment/payment?vnp_Amount=${Math.floor(
+                plan_price * 2500000
+              )}&vnp_TxnRef=${randomNumber}&vnp_OrderInfo=user_id=${account_id} subscription_plan_id=${membership_id} date=month`}
             >
               <div className="w-[273px] h-11 px-[15px] py-3 bg-white rounded-xl justify-center items-center gap-1.5 inline-flex">
                 <div className="text-zinc-900 text-sm font-semibold leading-tight">
@@ -120,7 +124,8 @@ const UpgradeMembershipPremiumMonthly: React.FC<SubPlanProps> = ({
           <div className="flex justify-start items-center gap-2 pt-4">
             <Check className="w-3 h-3" />
             <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
-              {/* 6,000 message credits */} {subPlan?.message_credits} message credits
+              {/* 6,000 message credits */} {subPlan?.message_credits} message
+              credits
             </div>
           </div>
           <div className="flex justify-start items-center gap-2 pt-4">
@@ -132,7 +137,8 @@ const UpgradeMembershipPremiumMonthly: React.FC<SubPlanProps> = ({
           <div className="flex justify-start items-center gap-2 pt-4 pb-6">
             <Check className="w-3 h-3" />
             <div className="w-[253px] text-zinc-800 text-[13px] font-normal leading-tight">
-              {/* 2,000,000 characters per chatbot */} {subPlan?.max_character_per_chatbot} characters per chatbot
+              {/* 2,000,000 characters per chatbot */}{" "}
+              {subPlan?.max_character_per_chatbot} characters per chatbot
             </div>
           </div>
         </div>

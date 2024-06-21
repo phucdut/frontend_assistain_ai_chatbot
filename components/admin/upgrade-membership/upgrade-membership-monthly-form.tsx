@@ -29,9 +29,7 @@ const UpgradeMembershipMonthlyForm = () => {
         const result = await accountApiRequest.accountClient();
         setAccount(result.payload);
       } catch (error: any) {
-        handleErrorApi({
-          error,
-        });
+        handleErrorApi({ error });
       }
     };
     fetchRequest();
@@ -42,7 +40,6 @@ const UpgradeMembershipMonthlyForm = () => {
       try {
         const result = await membershipApiRequest.membershipClient();
         setMembership(result.payload);
-        // console.log(result.payload);
       } catch (error) {
         handleErrorApi({ error });
       }
@@ -50,12 +47,21 @@ const UpgradeMembershipMonthlyForm = () => {
     fetchRequest();
   }, []);
 
+  const plansToShow = [
+    "monthly_free",
+    "monthly_entry",
+    "monthly_premium",
+    "enterprise",
+  ];
+
   return (
-    <div className="flex justify-center pt-[30px] gap-10">
-      <div className="w-[1440px] flex justify-center gap-16 pr-[200px]">
+    <div className="">
+      <div className="w-full flex justify-center gap-16 ">
         {membership?.results
+          .filter((membershipItem) =>
+            plansToShow.includes(membershipItem.plan_title)
+          )
           .sort((a, b) => {
-            // Sắp xếp các thành phần theo thứ tự ưu tiên: free, entry, premium, enterprise
             const order = [
               "monthly_free",
               "monthly_entry",
@@ -66,45 +72,45 @@ const UpgradeMembershipMonthlyForm = () => {
           })
           .map((membershipItem, index) => (
             <div key={index} className="">
-              {membershipItem.plan_title === "monthly_free" &&
-                account &&
-                account.id && (
-                  <UpgradeMembershipFree
-                    membership_id={membershipItem.id}
-                    plan_price={membershipItem.plan_price}
-                    account_id={account?.id}
-                  />
-                )}
-              {membershipItem.plan_title === "monthly_entry" &&
-                account &&
-                account.id && (
-                  <UpgradeMembershipEntryMonthly
-                    membership_id={membershipItem.id}
-                    plan_price={membershipItem.plan_price}
-                    account_id={account?.id}
-                  />
-                )}
+              {membershipItem.plan_title === "monthly_free" && account?.id && (
+                <UpgradeMembershipFree
+                  membership_id={membershipItem.id}
+                  plan_price={membershipItem.plan_price}
+                  account_id={account?.id}
+                />
+              )}
+              {membershipItem.plan_title === "monthly_entry" && account?.id && (
+                <UpgradeMembershipEntryMonthly
+                  membership_id={membershipItem.id}
+                  plan_price={membershipItem.plan_price}
+                  account_id={account?.id}
+                />
+              )}
               {membershipItem.plan_title === "monthly_premium" &&
-                account &&
-                account.id && (
+                account?.id && (
                   <UpgradeMembershipPremiumMonthly
                     membership_id={membershipItem.id}
                     plan_price={membershipItem.plan_price}
                     account_id={account?.id}
                   />
                 )}
-              {membershipItem.plan_title === "enterprise" &&
-                account &&
-                account.id && (
-                  <UpgradeMembershipEnterprise
-                    membership_id={membershipItem.id}
-                    plan_price={membershipItem.plan_price}
-                    account_id={account?.id}
-                  />
-                )}
+              {membershipItem.plan_title === "enterprise" && account?.id && (
+                <UpgradeMembershipEnterprise
+                  membership_id={membershipItem.id}
+                  plan_price={membershipItem.plan_price}
+                  account_id={account?.id}
+                />
+              )}
             </div>
           ))}
       </div>
+      {/* <div>
+        {membership?.results.map((membershipItem, index) => (
+          <div key={index} className="">
+            <div>{index}</div>
+          </div>
+        ))}
+      </div> */}
     </div>
   );
 };

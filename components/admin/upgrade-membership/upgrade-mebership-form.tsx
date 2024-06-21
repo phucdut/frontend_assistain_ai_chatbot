@@ -36,7 +36,7 @@ const UpgradeMembershipForm = () => {
             </Link>
           </div>
         </div>
-        <div className="p-4">
+        <div className="p-4 h-[700px] overflow-auto custom-scroll">
           {isYearly ? (
             <UpgradeMembershipMonthlyForm />
           ) : (

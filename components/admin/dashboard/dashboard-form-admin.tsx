@@ -134,14 +134,22 @@ const DashBoardAdminForm = () => {
     const fetchRequest = async () => {
       try {
         const result = await adminApiRequest.chatbotClient();
+        const chatbots = result.payload.results;
+        if (chatbots.length > 0) {
+          chatbots.sort(
+            (a, b) =>
+              new Date(a.updated_at).getTime() -
+              new Date(b.updated_at).getTime()
+          );
+          setSelectedChatbotId(chatbots[0].id);
+        }
         setChatbot(result.payload);
-        // console.log(result.payload);
       } catch (error) {
         handleErrorApi({ error });
       }
     };
     fetchRequest();
-  }, []);
+  }, [account?.id]);
 
   useEffect(() => {
     const fetchRequest = async () => {
@@ -151,14 +159,16 @@ const DashBoardAdminForm = () => {
             await conversationApiRequest.conversationClientWithChatbot(
               selectedChatbotId
             );
-          // Sắp xếp danh sách cuộc trò chuyện theo thời gian cập nhật mới nhất
-          const sortedConversations = result.payload.results.sort(
-            (a, b) =>
-              new Date(b.updated_at).getTime() -
-              new Date(a.updated_at).getTime()
-          );
+          const conversations = result.payload.results;
+          if (conversations.length > 0) {
+            conversations.sort(
+              (a, b) =>
+                new Date(a.updated_at).getTime() -
+                new Date(b.updated_at).getTime()
+            );
+            setSelectedConversationId(conversations[0].id);
+          }
           setConversation(result.payload);
-          // console.log(result.payload);
         }
       } catch (error) {
         handleErrorApi({ error });

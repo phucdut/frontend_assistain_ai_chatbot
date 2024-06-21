@@ -5,12 +5,11 @@ import accountApiRequest from "@/app/apiRequests/account";
 import { AccountResType } from "@/schemas/account.schema";
 import "@/app/globals.css";
 
-import { useRouter } from "next/navigation";
 import UpgradeMembershipFree from "./upgrade-membership-free";
 import UpgradeMembershipEnterprise from "./upgrade-membership-enterprise";
 import UpgradeMembershipEntryYearly from "./upgrade-membership-entry-yearly";
 import UpgradeMembershipPremiumYearly from "./upgrade-membership-premium-yearly";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import membershipApiRequest from "@/app/apiRequests/upgrade-membership";
 import { UpgradeMembershipListType } from "@/schemas/upgrade-membership.schema";
 
@@ -38,7 +37,6 @@ const UpgradeMembershipYearlyForm = () => {
       try {
         const result = await membershipApiRequest.membershipClient();
         setMembership(result.payload);
-        // console.log(result.payload);
       } catch (error) {
         handleErrorApi({ error });
       }
@@ -46,41 +44,21 @@ const UpgradeMembershipYearlyForm = () => {
     fetchRequest();
   }, []);
 
+  const plansToShow = [
+    "yearly_free",
+    "yearly_entry",
+    "yearly_premium",
+    "enterprise",
+  ];
+
   return (
-    // <div className="flex justify-between pt-[30px] w-full">
-    //   {membership?.results.map(
-    //     (
-    //       membershipItem: UpgradeMembershipListType["results"][0],
-    //       index: number
-    //     ) => (
-    //       <div key={index} className="pl-10">
-    //         {index === 0 && account && account.id && <UpgradeMembershipFree />}
-    //         {index === 1 && account && account.id && (
-    //           <UpgradeMembershipEntryYearly
-    //             membership_id={membershipItem.id}
-    //             plan_price={membershipItem.plan_price}
-    //             account_id={account?.id}
-    //           />
-    //         )}
-    //         {index === 2 && account && account.id && (
-    //           <UpgradeMembershipPremiumYearly
-    //             membership_id={membershipItem.id}
-    //             plan_price={membershipItem.plan_price}
-    //             account_id={account?.id}
-    //           />
-    //         )}
-    //         {index === 3 && account && account.id && (
-    //           <UpgradeMembershipEnterprise />
-    //         )}
-    //       </div>
-    //     )
-    //   )}
-    // </div>
     <div className="flex justify-center pt-[30px] gap-10">
-      <div className="w-[1440px] flex justify-center gap-16 pr-[200px]">
+      <div className="w-full flex justify-center gap-16">
         {membership?.results
+          .filter((membershipItem) =>
+            plansToShow.includes(membershipItem.plan_title)
+          )
           .sort((a, b) => {
-            // Sắp xếp các thành phần theo thứ tự ưu tiên: free, entry, premium, enterprise
             const order = [
               "yearly_free",
               "yearly_entry",
@@ -91,42 +69,35 @@ const UpgradeMembershipYearlyForm = () => {
           })
           .map((membershipItem, index) => (
             <div key={index} className="">
-              {membershipItem.plan_title === "yearly_free" &&
-                account &&
-                account.id && (
-                  <UpgradeMembershipFree
-                    membership_id={membershipItem.id}
-                    plan_price={membershipItem.plan_price}
-                    account_id={account?.id}
-                  />
-                )}
-              {membershipItem.plan_title === "yearly_entry" &&
-                account &&
-                account.id && (
-                  <UpgradeMembershipEntryYearly
-                    membership_id={membershipItem.id}
-                    plan_price={membershipItem.plan_price}
-                    account_id={account?.id}
-                  />
-                )}
+              {membershipItem.plan_title === "yearly_free" && account?.id && (
+                <UpgradeMembershipFree
+                  membership_id={membershipItem.id}
+                  plan_price={membershipItem.plan_price}
+                  account_id={account?.id}
+                />
+              )}
+              {membershipItem.plan_title === "yearly_entry" && account?.id && (
+                <UpgradeMembershipEntryYearly
+                  membership_id={membershipItem.id}
+                  plan_price={membershipItem.plan_price}
+                  account_id={account?.id}
+                />
+              )}
               {membershipItem.plan_title === "yearly_premium" &&
-                account &&
-                account.id && (
+                account?.id && (
                   <UpgradeMembershipPremiumYearly
                     membership_id={membershipItem.id}
                     plan_price={membershipItem.plan_price}
                     account_id={account?.id}
                   />
                 )}
-              {membershipItem.plan_title === "enterprise" &&
-                account &&
-                account.id && (
-                  <UpgradeMembershipEnterprise
-                    membership_id={membershipItem.id}
-                    plan_price={membershipItem.plan_price}
-                    account_id={account?.id}
-                  />
-                )}
+              {membershipItem.plan_title === "enterprise" && account?.id && (
+                <UpgradeMembershipEnterprise
+                  membership_id={membershipItem.id}
+                  plan_price={membershipItem.plan_price}
+                  account_id={account?.id}
+                />
+              )}
             </div>
           ))}
       </div>

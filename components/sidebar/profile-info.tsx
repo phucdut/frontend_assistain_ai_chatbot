@@ -34,6 +34,7 @@ import {
   AccountResType,
   AccountSchema,
   UpdateAccountBodyType,
+  UserSubscriptionResType,
 } from "@/schemas/account.schema";
 import { LogOut } from "lucide-react";
 import "@/app/globals.css";
@@ -48,11 +49,25 @@ import { useForm } from "react-hook-form";
 const Profile = () => {
   const { isMinimal, handleClose } = useSidebarStore();
   const [account, setAccount] = useState<AccountResType | null>(null);
+  const [userSubscription, setUserSubscription] =
+    useState<UserSubscriptionResType | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const router = useRouter();
+  const [newState, setNewState] = useState({
+    type: "day",
+    date: new Date()
+      .toLocaleDateString("vi-VN", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .split("/")
+      .reverse()
+      .join("-"),
+  });
 
   const {
     handleSubmit,
@@ -70,63 +85,82 @@ const Profile = () => {
 
   const handleLogout = async () => {
     try {
-      // Gọi API logout
       await authApiRequest.logoutFromNextClientToNextServer();
-
       toast({
         title: "Success",
-        description: "Sign out in successfully!",
+        description: "Sign out successfully!",
       });
-
-      // Sau khi logout thành công, có thể thực hiện các thao tác khác như xóa token, đưa người dùng về trang đăng nhập, vv.
-      // Ví dụ: Xóa token khỏi bộ nhớ và chuyển hướng người dùng về trang đăng nhập
-      // localStorage.removeItem("accessToken");
       router.push("/");
-      router.refresh(); // Chuyển hướng người dùng về trang landing
+      router.refresh();
     } catch (error) {
-      handleErrorApi({
-        error,
-      });
+      handleErrorApi({ error });
     }
   };
-  const handleEdit = async () => {
-    try {
-      setIsEditing(true);
-    } catch (error) {
-      handleErrorApi({
-        error,
-      });
-    }
+
+  const handleEdit = () => {
+    setIsEditing(true);
   };
-  const handleSave = async () => {
-    try {
-      setIsEditing(false);
-    } catch (error: any) {
-      handleErrorApi({
-        error,
-      });
-    }
+
+  const handleSave = () => {
+    setIsEditing(false);
   };
 
   useEffect(() => {
-    const fetchRequest = async () => {
+    const fetchAccount = async () => {
       try {
         const result = await accountApiRequest.accountClient();
         setAccount(result.payload);
-
-        // Update form values with fetched chatbot data
         form.setValue("email", result.payload.email || "");
         form.setValue("display_name", result.payload.display_name || "");
-      } catch (error: any) {
-        handleErrorApi({
-          error,
-        });
+        if (account?.is_active === false) {
+          toast({
+            title: "Error",
+            description: "The user has been banned from using the service!",
+            variant: "destructive",
+          });
+          router.push("/");
+        }
+      } catch (error) {
+        handleErrorApi({ error });
         router.push("/");
-        router.refresh(); // Chuyển hướng người dùng về trang landing
+        router.refresh();
       }
     };
-    fetchRequest();
-  }, [form, router]);
+    fetchAccount();
+  }, [form, router, account?.is_active, toast]);
+
+  useEffect(() => {
+    const fetchUserSubscription = async () => {
+      try {
+        if (account?.id) {
+          const result = await accountApiRequest.userSubscriptionIdClient(
+            account.id
+          );
+          setUserSubscription(result.payload);
+        }
+      } catch (error) {
+        handleErrorApi({ error });
+      }
+    };
+    fetchUserSubscription();
+  }, [router, account?.id]);
+
+  useEffect(() => {
+    const checkAndResetPlanId = async () => {
+      try {
+        if (
+          userSubscription?.expire_at &&
+          new Date(userSubscription.expire_at) >= new Date()
+        ) {
+          const result = await accountApiRequest.resetPlanId(account?.id || "");
+          // setAccount(result.payload);
+        }
+      } catch (error) {
+        handleErrorApi({ error });
+      }
+    };
+    checkAndResetPlanId();
+  }, [account?.id, userSubscription?.expire_at]);
 
   async function onSubmit(values: UpdateAccountBodyType) {
     if (loading) return;
@@ -135,14 +169,15 @@ const Profile = () => {
       if (account?.id) {
         const result = await accountApiRequest.updateAccount(
           values,
-          account?.id
+          account.id
         );
         toast({
           title: "Success",
-          description: "Update in successfully!",
+          description: "Update successfully!",
         });
       }
-    } catch (error: any) {
+      setIsEditing(false);
+    } catch (error) {
       handleErrorApi({
         error,
         setError: form.setError,
