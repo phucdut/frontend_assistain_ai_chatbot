@@ -255,14 +255,14 @@ const ComponentCreateKnowledgeBaseCopy: React.FC<
                 <FormLabel>Enter each URL on a new line</FormLabel>
               </div> */}
               <div className="pt-5 ">
-              {/* <div className="pt-10 "> */}
+                {/* <div className="pt-10 "> */}
                 <FormField
                   control={form.control}
                   name="uploadFiles"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
-                        Upload file (PDF)
+                        Upload file (PDF, CSV, DOCX)
                       </FormLabel>
                       <FormControl>
                         <Dropzone onFileDrop={onDrop} />
@@ -277,7 +277,7 @@ const ComponentCreateKnowledgeBaseCopy: React.FC<
               </div>
               <div>{/* <LoadFile /> */}</div>
               <div className=" flex items-center justify-between py-5 text-[14px] leading-6 ">
-              {/* <div className=" flex items-center justify-between py-16 text-[14px] leading-6 "> */}
+                {/* <div className=" flex items-center justify-between py-16 text-[14px] leading-6 "> */}
                 <BuildButton
                   type="submit"
                   className="btn-container font-semibold w-[400px] h-[50px]"
