@@ -150,7 +150,7 @@ const Profile = () => {
       try {
         if (
           userSubscription?.expire_at &&
-          new Date(userSubscription.expire_at) >= new Date()
+          new Date(userSubscription.expire_at) <= new Date()
         ) {
           const result = await accountApiRequest.resetPlanId(account?.id || "");
           // setAccount(result.payload);
