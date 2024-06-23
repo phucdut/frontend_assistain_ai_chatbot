@@ -185,8 +185,8 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
           <SelectGroup>
             <SelectLabel>Deploy chatbot</SelectLabel>
             {/* <SelectItem value="bubble">Bubble</SelectItem> */}
-            <SelectItem value="iFrame">iFrame (Embed)</SelectItem>
             <SelectItem value="directLink">Direct link</SelectItem>
+            <SelectItem value="iFrame">iFrame (Embed)</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

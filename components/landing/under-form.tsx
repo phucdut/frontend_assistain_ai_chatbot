@@ -4,6 +4,7 @@ import Section1 from "./section1";
 import Section2 from "./section2";
 import Section3 from "./section3";
 import Footer from "./footer";
+import LiveDemo from "./live-demo";
 
 const UnderForm = () => {
   return (
@@ -11,7 +12,7 @@ const UnderForm = () => {
       <div className="h-full justify-center overflow-y-auto custom-scroll">
         <Section1 />
         <div>
-          <Section2 />
+          <LiveDemo />
         </div>
         <Section3 />
         <Footer />

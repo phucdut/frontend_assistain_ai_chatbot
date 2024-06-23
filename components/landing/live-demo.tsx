@@ -14,7 +14,7 @@ const LiveDemo = forwardRef<HTMLDivElement>((props) => {
   };
 
   return (
-    <div className="overflow-y-auto custom-scroll">
+    <div className="overflow-auto custom-scroll">
       <div className="flex justify-center h-[250px] overflow-y-hidden">
         <div>
           <div className="font-medium pt-[41.18px] leading-[24px] text-[16px] flex justify-center items-center relative">
@@ -74,7 +74,7 @@ const LiveDemo = forwardRef<HTMLDivElement>((props) => {
         <div className="flex justify-center items-center">
           <div className="w-[1140px] h-[571px] bg-white rounded-xl ">
             <iframe
-              src="http://localhost:3000/embed/?chatbot_id=d9e40b70-c0c1-4c23-aa06-ad8323a01482&modeltype=gpt-3.5-turbo&mode=false&logo=ZmFsc2U="
+              src="https://frontend-assistain-ai-chatbot.vercel.app/embed/?chatbot_id=9f40fa03-7a04-431e-ab24-3cede5ce6657&modeltype=gpt-3.5-turbo&mode=false&logo=ZmFsc2U="
               allow="clipboard-write; *;microphone *"
               width="100%"
               height="950"
