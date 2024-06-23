@@ -150,7 +150,7 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
       }
 
       // Add the bot's response to the chat
-      setMessages((prevMessages) => [
+      setLatestMessages((prevMessages) => [
         ...prevMessages,
         {
           sender_type: "bot",
@@ -161,7 +161,7 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
       // setMessages((prevMessages) => [...prevMessages, botOrAgentMessage]);
 
       form.setValue("message", "");
-      console.log("API Response:", response);
+      // console.log("API Response:", response);
     } catch (error) {
       setMessages(errorBotMessages);
       console.error("API Error:", error);

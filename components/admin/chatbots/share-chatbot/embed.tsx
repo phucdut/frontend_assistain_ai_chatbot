@@ -10,6 +10,7 @@ const ChatbotEmbedPage = () => {
   const chatbotId = searchParams.get("chatbot_id");
   const model = searchParams.get("modeltype");
   const smode = searchParams.get("smode");
+  // console.log(chatbotId, model, smode);
 
   return (
     <>
