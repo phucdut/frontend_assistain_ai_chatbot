@@ -56,24 +56,6 @@ const Profile = () => {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const router = useRouter();
-  const [newState, setNewState] = useState({
-    type: "day",
-    date: new Date()
-      .toLocaleDateString("vi-VN", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })
-      .split("/")
-      .reverse()
-      .join("-"),
-  });
-
-  const {
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm<UpdateAccountBodyType>();
 
   const form = useForm<UpdateAccountBodyType>({
     resolver: zodResolver(AccountSchema),
@@ -101,9 +83,17 @@ const Profile = () => {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async (event: React.FormEvent) => {
+    event.preventDefault(); // Ngăn form submit mặc định
     setIsEditing(false);
+    await onSubmit(form.getValues());
   };
+
+  useEffect(() => {
+    if (!isEditing) {
+      setLoading(false);
+    }
+  }, [isEditing]);
 
   useEffect(() => {
     const fetchAccount = async () => {
@@ -162,6 +152,12 @@ const Profile = () => {
     checkAndResetPlanId();
   }, [account?.id, userSubscription?.expire_at]);
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
+
   async function onSubmit(values: UpdateAccountBodyType) {
     if (loading) return;
     setLoading(true);
@@ -175,8 +171,8 @@ const Profile = () => {
           title: "Success",
           description: "Update successfully!",
         });
+        
       }
-      setIsEditing(false);
     } catch (error) {
       handleErrorApi({
         error,
@@ -211,7 +207,6 @@ const Profile = () => {
                 <DrawerTrigger asChild>
                   {account?.avatar_url && (
                     <Image
-                      // src="/Ellipse 1.svg"
                       src={account.avatar_url}
                       alt="x"
                       width={24}
@@ -265,7 +260,6 @@ const Profile = () => {
                 <div className="w-[110px] h-[110px] rounded-full bg-custom-gray-6 relative pt-5">
                   {account?.avatar_url && (
                     <Image
-                      // src="/Ellipse 1.svg"
                       src={account.avatar_url}
                       alt="x"
                       width={100}
@@ -295,6 +289,7 @@ const Profile = () => {
                                     {...field}
                                     disabled={isPending}
                                     className="text-zinc-900 text-sm font-semibold leading-[30px] w-40 h-8"
+                                    onKeyDown={handleKeyDown}
                                   />
                                 </FormControl>
                                 <FormDescription>
@@ -307,12 +302,11 @@ const Profile = () => {
                         ) : (
                           <div className="text-zinc-900 text-xl font-semibold leading-[30px] ">
                             {account?.display_name}
-                            {/* David */}
                           </div>
                         )}
                         <div>
                           {isEditing ? (
-                            <Button type="submit" variant="edit">
+                            <Button  onClick={handleSave} variant="edit">
                               <Image
                                 src="/icons/Fill - Save.svg"
                                 alt="x"
@@ -340,7 +334,6 @@ const Profile = () => {
                       </div>
                       <div className="text-zinc-900 text-sm font-normal leading-tight w-40 overflow-hidden whitespace-nowrap text-ellipsis">
                         {account?.email}
-                        {/* davidman@gmail.com */}
                       </div>
                     </div>
                     <Skeleton className="bg-primary text-primary-foreground hover:bg-primary/90 flex justify-center items-center absolute right-5 ">
@@ -357,7 +350,6 @@ const Profile = () => {
             <Separator className=" bg-slate-300" />
           </div>
           {account && <ProfileForm id={account?.id} />}
-          {/* <ProfileForm id={"3e352cd0-17f7-4754-b721-39ac08cff7ce"} /> */}
           <DrawerFooter></DrawerFooter>
         </div>
       </DrawerContent>
