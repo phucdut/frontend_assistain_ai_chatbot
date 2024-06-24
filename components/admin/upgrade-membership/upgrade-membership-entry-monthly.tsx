@@ -85,7 +85,7 @@ const UpgradeMembershipEntryMonthly: React.FC<SubPlanProps> = ({
           (subPlan.number_of_chatbots < 3 &&
             subPlan.plan_title !== "yearly_entry") ? (
             <Link
-              href={`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/api/v1/payment/payment?vnp_Amount=${Math.floor(
+              href={`${envConfig.NEXT_PUBLIC_UP}/api/v1/payment/payment?vnp_Amount=${Math.floor(
                 plan_price * 2500000
               )}&vnp_TxnRef=${randomNumber}&vnp_OrderInfo=user_id=${account_id} subscription_plan_id=${membership_id} date=month`}
             >

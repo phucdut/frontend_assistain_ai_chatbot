@@ -95,7 +95,7 @@ const UpgradeMembershipPremiumYearly: React.FC<SubPlanProps> = ({
             subPlan.plan_title === "monthly_premium") ? (
             <Link
               href={`${
-                envConfig.NEXT_PUBLIC_API_ENDPOINT
+                envConfig.NEXT_PUBLIC_UP
               }/api/v1/payment/payment?vnp_Amount=${Math.floor(
                 plan_price * 2500000
               )}&vnp_TxnRef=${randomNumber}&vnp_OrderInfo=user_id=${account_id} subscription_plan_id=${membership_id} date=year`}
