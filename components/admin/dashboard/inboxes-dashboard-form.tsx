@@ -47,8 +47,8 @@ const DatapointDashboardForm = ({ formData, conversation_id }: Props) => {
   }, [formData?.type, formData?.date, conversation_id]);
 
   return (
-    <div className="w-full h-full shadow rounded-xl relative">
-      <div className="text-zinc-900 text-base font-semibold leading-normal py-5 pl-5">
+    <div className="w-full h-full shadow rounded-xl relative bg:white">
+      <div className=" text-base font-semibold leading-normal py-5 pl-5">
         Inboxes
       </div>
       <div className="absolute right-6 top-6">

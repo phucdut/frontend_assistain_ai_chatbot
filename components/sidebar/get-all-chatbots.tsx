@@ -161,7 +161,7 @@ const AllChatbots = () => {
                               <div className="max-w-lg">
                                 <DrawerHeader>
                                   <div className="flex items-center justify-between text-[20px] leading-[30px] gap-[10px]">
-                                    <div className="text-zinc-900 text-xl font-semibold leading-[30px]">
+                                    <div className=" text-xl font-semibold leading-[30px]">
                                       Edit your chatbot
                                     </div>
                                     <DrawerClose asChild>
@@ -205,7 +205,7 @@ const AllChatbots = () => {
                               <div className="max-w-lg h-[820px]">
                                 <DrawerHeader>
                                   <div className="flex items-center justify-between text-[20px] leading-[30px] gap-[10px]">
-                                    <div className="text-zinc-900 text-xl font-semibold leading-[30px]">
+                                    <div className="text-xl font-semibold leading-[30px]">
                                       Share your chatbot
                                     </div>
                                     <DrawerClose asChild>

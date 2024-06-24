@@ -300,7 +300,7 @@ const Profile = () => {
                             )}
                           />
                         ) : (
-                          <div className="text-zinc-900 text-xl font-semibold leading-[30px] ">
+                          <div className="text-xl font-semibold leading-[30px] ">
                             {account?.display_name}
                           </div>
                         )}
@@ -332,7 +332,7 @@ const Profile = () => {
                           )}
                         </div>
                       </div>
-                      <div className="text-zinc-900 text-sm font-normal leading-tight w-40 overflow-hidden whitespace-nowrap text-ellipsis">
+                      <div className="text-sm font-normal leading-tight w-40 overflow-hidden whitespace-nowrap text-ellipsis">
                         {account?.email}
                       </div>
                     </div>

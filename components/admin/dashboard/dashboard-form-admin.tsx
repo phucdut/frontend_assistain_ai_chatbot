@@ -179,8 +179,8 @@ const DashBoardAdminForm = () => {
 
   return (
     <div>
-      <div className="w-full h-full bg-gray-50 shadow rounded-3xl ">
-        <div className="w-full h-[70px] bg-white flex justify-start items-center rounded-t-3xl relative">
+      <div className="w-full h-full bg:gray-50 shadow rounded-3xl ">
+        <div className="w-full h-[70px] bg:white flex justify-start items-center rounded-t-3xl relative">
           <div className=" text-[24px] font-semibold leading-[141.667%] max-w-full px-7 ">
             <h1>Dashboard</h1>
           </div>
@@ -199,7 +199,7 @@ const DashBoardAdminForm = () => {
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-[170px] text-left font-normal",
+                                "w-[170px] text-left font-normal bg:white",
                                 !field.value && "text-muted-foreground",
                                 "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" // Lớp để làm cho nút nổi bật khi được chọn
                               )}
@@ -207,7 +207,7 @@ const DashBoardAdminForm = () => {
                               {field.value ? (
                                 format(field.value, "PPP")
                               ) : (
-                                <span className="grow shrink basis-0 text-zinc-800 text-sm font-normal leading-tight">
+                                <span className="grow shrink basis-0  text-sm font-normal leading-tight">
                                   Pick a date
                                 </span>
                               )}
@@ -215,7 +215,7 @@ const DashBoardAdminForm = () => {
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-white border border-gray-200 shadow-lg rounded-lg">
+                        <PopoverContent className="w-auto p-0 bg:white border border-gray-200 shadow-lg rounded-lg">
                           {" "}
                           {/* Thay đổi màu sắc và kiểu dáng của nội dung Popover */}
                           <Calendar
@@ -345,10 +345,10 @@ const DashBoardAdminForm = () => {
         <Separator className=" bg-slate-300 " />
         <div className="w-full h-[660px] justify-center overflow-y-auto custom-scroll">
           <div className="flex justify-center items-center gap gap-12 pt-8">
-            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+            <div className="w-[502px] h-[222px] bg:white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
               <VisitorForm formData={newState} chatbot_id={selectedChatbotId} />
             </div>
-            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+            <div className="w-[502px] h-[222px] bg:white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
               <InboxesDashboardForm
                 formData={newState}
                 conversation_id={selectedConversationId}
@@ -356,13 +356,13 @@ const DashBoardAdminForm = () => {
             </div>
           </div>
           <div className="flex justify-center items-center gap gap-12 py-8">
-            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+            <div className="w-[502px] h-[222px] bg:white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
               <LatencySecondDashboardForm
                 formData={newState}
                 conversation_id={selectedConversationId}
               />
             </div>
-            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+            <div className="w-[502px] h-[222px] bg:white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
               <RatingCoreDashboardFrom
                 formData={newState}
                 chatbot_id={selectedChatbotId}

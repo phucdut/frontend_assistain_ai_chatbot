@@ -201,7 +201,7 @@ const ComponentEditChatbot = React.forwardRef<
                   name="chatbot_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold">
                         Chatbot name
                       </FormLabel>
                       <FormControl>
@@ -226,7 +226,7 @@ const ComponentEditChatbot = React.forwardRef<
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold">
                         Description
                       </FormLabel>
                       <FormControl>
@@ -251,14 +251,14 @@ const ComponentEditChatbot = React.forwardRef<
                   name="model"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold ">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold ">
                         Model
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
-                        <FormControl className="text-[14px] font-normal leading-[20px] pl-5 text-custom-gray-2 ">
+                        <FormControl className="text-[14px] font-normal leading-[20px] pl-5 -2 ">
                           <SelectTrigger>
                             <SelectValue placeholder="Select" />
                           </SelectTrigger>
@@ -289,10 +289,10 @@ const ComponentEditChatbot = React.forwardRef<
                   name="temperature"
                   render={({ field }, disabled = { isPending }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold">
                         Temperature
                       </FormLabel>
-                      <FormControl className="text-[14px] font-normal leading-[20px] text-custom-gray-2">
+                      <FormControl className="text-[14px] font-normal leading-[20px] -2">
                         <SliderPrimitive.Root
                           ref={ref}
                           className={cn(
@@ -338,10 +338,10 @@ const ComponentEditChatbot = React.forwardRef<
                   name="max_tokens"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold">
                         Max tokens
                       </FormLabel>
-                      <FormControl className="text-[14px] font-normal leading-[20px]  text-custom-gray-2">
+                      <FormControl className="text-[14px] font-normal leading-[20px]  -2">
                         <SliderPrimitive.Root
                           ref={ref}
                           className={cn(
@@ -387,7 +387,7 @@ const ComponentEditChatbot = React.forwardRef<
                   name="prompt"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold ">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold ">
                         Prompt title
                       </FormLabel>
                       <FormControl>
@@ -396,7 +396,7 @@ const ComponentEditChatbot = React.forwardRef<
                           defaultValue="You are a helpful assistant. The first prompt will be a long text, and any messages that you get be regarding that. Please answer any questions and requests having in mind the first prompt."
                           {...field}
                           disabled={isPending}
-                          className="w-[400px] h-[108px] px-[15px] py-3 bg-white rounded-md border border-slate-300 text-[14px] font-normal leading-[20px] text-slate-900  "
+                          className="w-[400px] h-[108px] px-[15px] py-3 bg:white rounded-md border border-slate-300 text-[14px] font-normal leading-[20px]   "
                         />
                       </FormControl>
                       <FormDescription>
@@ -407,7 +407,7 @@ const ComponentEditChatbot = React.forwardRef<
                   )}
                 />
               </div>
-              <div className="flex items-center justify-between pt-5 text-[14px] font-normal leading-[24px] text-custom-gray-2">
+              <div className="flex items-center justify-between pt-5 text-[14px] font-normal leading-[24px] -2">
                 <div className="flex items-center justify-between">
                   <input
                     type="checkbox"

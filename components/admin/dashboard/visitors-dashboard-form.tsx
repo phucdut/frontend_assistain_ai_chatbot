@@ -67,7 +67,7 @@ const VisitorForm = ({ formData, chatbot_id }: Props) => {
     <div className="w-full h-full shadow rounded-xl ">
       {/* <div>{formData.date}</div> */}
       <div className="flex justify-start items-center relative">
-        <div className="text-zinc-900 text-base font-semibold leading-normal py-5 pl-5">
+        <div className=" text-base font-semibold leading-normal py-5 pl-5">
           Visitors
         </div>
         <div className="absolute right-6 top-6">

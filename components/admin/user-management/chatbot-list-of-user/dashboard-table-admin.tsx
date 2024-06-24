@@ -64,29 +64,29 @@ const DashboardTableAdminForm = ({ formData, user_id }: Props) => {
   return (
     <div className="w-full h-[660px] justify-center overflow-y-auto custom-scroll rounded-b-3xl">
       <div className="pt-0 w-full h-[400px] lg:pb-7 overflow-auto custom-scroll ">
-        <TableDashboard className="border border-slate-300">
+        <TableDashboard className="">
           <TableCaption></TableCaption>
-          <TableHeader className="bg-gray-50 ">
+          <TableHeader className="bg:gray-50 ">
             <TableRow>
-              <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+              <TableHead className=" text-[13px] font-semibold leading-tight">
                 Chatbot Name
               </TableHead>
-              <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+              <TableHead className=" text-[13px] font-semibold leading-tight">
                 Model
               </TableHead>
-              <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+              <TableHead className=" text-[13px] font-semibold leading-tight">
                 Visitors
               </TableHead>
-              <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+              <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                 Rating
               </TableHead>
-              <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+              <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                 Total messages
               </TableHead>
-              <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+              <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                 Total tokens
               </TableHead>
-              <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+              <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                 Date create
               </TableHead>
             </TableRow>
@@ -101,13 +101,14 @@ const DashboardTableAdminForm = ({ formData, user_id }: Props) => {
                   <TableCell className="flex justify-start items-center gap-3">
                     <input
                       type="checkbox"
-                      className="w-6 h-6 left-0 top-0 bg-white rounded-md border border-slate-300"
+                      className="w-6 h-6 left-0 top-0 bg:white rounded-md border border-slate-300"
+                      checked={chatbotItem?.is_active || false}
                     ></input>
                     <Link
                       className="flex justify-start items-center gap-3 font-medium"
                       href={`/user-management/chatbots-list/conversation?&chatbot_id=${chatbotItem.id}`}
                     >
-                      <div className="text-zinc-900 text-[13px] font-semibold leading-tight">
+                      <div className=" text-[13px] font-semibold leading-tight">
                         {chatbotItem.chatbot_name}
                       </div>
                     </Link>

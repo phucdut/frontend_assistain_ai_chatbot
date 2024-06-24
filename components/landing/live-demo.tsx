@@ -73,8 +73,15 @@ const LiveDemo = forwardRef<HTMLDivElement>((props) => {
       {selectedOption && (
         <div className="flex justify-center items-center">
           <div className="w-[1140px] h-[571px] bg-white rounded-xl ">
-            <iframe
+            {/* <iframe
               src="https://frontend-assistain-ai-chatbot.vercel.app/embed/?chatbot_id=9f40fa03-7a04-431e-ab24-3cede5ce6657&modeltype=gpt-3.5-turbo&mode=false&logo=ZmFsc2U="
+              allow="clipboard-write; *;microphone *"
+              width="100%"
+              height="950"
+              frameBorder="0"
+            ></iframe> */}
+            <iframe
+              src="http://localhost:3000/embed/?chatbot_id=9f40fa03-7a04-431e-ab24-3cede5ce6657&modeltype=gpt-3.5-turbo&mode=false&logo=ZmFsc2U="
               allow="clipboard-write; *;microphone *"
               width="100%"
               height="950"

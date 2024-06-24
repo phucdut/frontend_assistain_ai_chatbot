@@ -120,7 +120,7 @@ const Dropzone = ({ onFileDrop }: { onFileDrop: (files: File[]) => void }) => {
           )}
         </div>
         <Button
-          className="text-[#161616]  font-semibold w-[100px] h-[44px] absolute right-5"
+          className=" font-semibold w-[100px] h-[44px] absolute right-5"
           variant="outline"
           type="button"
           onClick={() => {

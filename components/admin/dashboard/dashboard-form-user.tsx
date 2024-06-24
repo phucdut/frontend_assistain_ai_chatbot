@@ -165,26 +165,26 @@ const DashBoardUserForm = () => {
 
   return (
     <div>
-      <div className="w-full h-full bg-gray-50 shadow rounded-3xl ">
-        <div className="w-full h-[70px] bg-white flex justify-start items-center rounded-t-3xl relative">
+      <div className="w-full h-full bg:gray-50 shadow rounded-3xl ">
+        <div className="w-full h-[70px] bg:gray-50 flex justify-start items-center rounded-t-3xl relative">
           <div className=" text-[24px] font-semibold leading-[141.667%] max-w-full px-7 ">
             <h1>Dashboard</h1>
           </div>
-          <div className="absolute right-14">
+          <div className="absolute right-14 ">
             <Form {...form}>
               <form className="space-y-8">
                 <FormField
                   control={form.control}
                   name="dob"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
+                    <FormItem className="flex flex-col ">
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-[170px] text-left font-normal",
+                                "w-[170px] text-left font-normal bg:white",
                                 !field.value && "text-muted-foreground",
                                 "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                               )}
@@ -192,7 +192,7 @@ const DashBoardUserForm = () => {
                               {field.value ? (
                                 format(field.value, "PPP")
                               ) : (
-                                <span className="grow shrink basis-0 text-zinc-800 text-sm font-normal leading-tight">
+                                <span className="grow  shrink basis-0 text-zinc-800 text-sm font-normal leading-tight">
                                   Pick a date
                                 </span>
                               )}
@@ -322,10 +322,10 @@ const DashBoardUserForm = () => {
         <Separator className=" bg-slate-300 " />
         <div className="w-full h-[660px] justify-center overflow-y-auto custom-scroll">
           <div className="flex justify-center items-center gap gap-12 pt-8">
-            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+            <div className="w-[502px] h-[222px] bg:white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
               <VisitorForm formData={newState} chatbot_id={selectedChatbotId} />
             </div>
-            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+            <div className="w-[502px] h-[222px] bg:white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
               <InboxesDashboardForm
                 formData={newState}
                 conversation_id={selectedConversationId}
@@ -333,13 +333,13 @@ const DashBoardUserForm = () => {
             </div>
           </div>
           <div className="flex justify-center items-center gap gap-12 py-8">
-            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+            <div className="w-[502px] h-[222px] bg:white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
               <LatencySecondDashboardForm
                 formData={newState}
                 conversation_id={selectedConversationId}
               />
             </div>
-            <div className="w-[502px] h-[222px] bg-white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
+            <div className="w-[502px] h-[222px] bg:white rounded-xl border border-slate-300 overflow-y-auto custom-scroll">
               <RatingCoreDashboardFrom
                 formData={newState}
                 chatbot_id={selectedChatbotId}

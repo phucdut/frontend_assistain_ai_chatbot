@@ -261,7 +261,7 @@ const ComponentCreateKnowledgeBaseCopy: React.FC<
                   name="uploadFiles"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px] font-semibold">
                         Upload file (PDF, CSV, DOCX)
                       </FormLabel>
                       <FormControl>
