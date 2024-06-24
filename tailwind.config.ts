@@ -27,6 +27,7 @@ const config = {
         'custom-gray-4': '#F8F9FB',
         'custom-gray-5': '#666',
         'custom-gray-6': '#fff',
+        "gray-171": '#0a0a0a',
         gray: {
           170: '#1D1D1F', // your desired color
         },

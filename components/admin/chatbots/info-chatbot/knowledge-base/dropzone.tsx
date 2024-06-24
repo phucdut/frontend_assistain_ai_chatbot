@@ -114,7 +114,7 @@ const Dropzone = ({ onFileDrop }: { onFileDrop: (files: File[]) => void }) => {
           {fileNames.length > 0 ? (
             <div>{fileNames}</div>
           ) : (
-            <p className=" text-zinc-900 text-sm font-normal leading-normal w-48 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+            <p className="  text-sm font-normal leading-normal w-48 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
               Drag and drop files here...
             </p>
           )}

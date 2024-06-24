@@ -16,6 +16,7 @@
 
     --gray-50: rgb(56, 85, 113); /* Thêm màu gray-50 */
     --gray-170: #1D1D1F;
+    --gray-171: #0a0a0a;
 
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -46,7 +47,7 @@
   }
 
   .system {
-    --color-primary: #1D1D1F;
+    --color-primary: #0f0f0f;
 
     --custom-gray: #1D1D1F;
     --custom-gray-1: #2C2C2C;
@@ -167,11 +168,20 @@
     .inputUpload {
       border-radius: 6px;
       border: 1px dashed var(--Admin---Line-White, #D2D9E8);
-      background: #F8F9FB;
+      /* background: #F8F9FB; */
       padding: 24px;
       text-align: center;
       margin: auto;
       min-height: 40px;
+    }
+    .share {
+      border-radius: 6px;
+      border: 1px dashed var(--Admin---Line-White, #D2D9E8);
+      /* background: #F8F9FB; */
+      /* padding: 24px; */
+      text-align: center;
+      margin: auto;
+      /* min-height: 40px; */
     }
 
     .eye-layout {
