@@ -131,13 +131,14 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ id }) => {
               onChange={handleInputChange}
               type="text"
               placeholder="Search"
-              className="w-full text-sm font-normal leading-snug outline-none placeholder-opacity-50"
+              className="w-full text-sm font-normal leading-snug outline-none placeholder-opacity-50 bg:gray-171"
             />
           </div>
           <div className="">
             <div className=" flex items-center justify-between text-[14px] leading-[22px] ">
               <DrawerTrigger asChild>
-                <Button type="submit" className="font-semibold w-36 h-12 gap-2">
+                <div  className="px-3 py-2 bg-gray-171  text-[13px]  rounded-md border border-slate-300 font-semibold 
+                w-40 h-12 gap-2 flex justify-center items-center text-white">
                   <Image
                     src="/Fill - Add - Plus.svg"
                     alt="x"
@@ -145,7 +146,7 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ id }) => {
                     height={16}
                   ></Image>
                   Add content
-                </Button>
+                </div>
               </DrawerTrigger>
             </div>
           </div>

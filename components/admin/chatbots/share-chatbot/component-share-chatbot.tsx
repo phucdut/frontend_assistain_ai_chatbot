@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import "@/app/globals.css";
 import { toast } from "@/components/ui/use-toast";
 import { ChatbotResType } from "@/schemas/chatbot.schema";
 import { handleErrorApi } from "@/lib/utils";
@@ -87,7 +88,7 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
       //       <div className="w-full h-full px-[15px] py-3 bg-gray-100 rounded-md justify-between items-start inline-flex relative">
       //         <div
       //           ref={embedCodeRef}
-      //           className="grow shrink basis-0 text-zinc-800 text-sm font-normal leading-tight text-left w-[100px] pr-5"
+      //           className="grow shrink basis-0  text-sm font-normal leading-tight text-left w-[100px] pr-5"
       //         >
       //           &lt;script&gt;window.allyByEmbed = &quot;
       //           {envConfig.NEXT_PUBLIC_EMBED}/embed/?chatbot_id={id}
@@ -113,10 +114,10 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
             <div className="text-stone-500 text-sm font-normal leading-normal pt-6 pb-2">
               To embed the chatbot using an iframe use the following code:
             </div>
-            <div className="w-full h-full px-[15px] py-3 bg:gray-100 rounded-md justify-between items-start inline-flex relative">
+            <div className="w-full h-full px-[15px] py-3 bg:gray-100 rounded-md justify-between items-start inline-flex relative share">
               <div
                 ref={embedCodeRef}
-                className="grow shrink basis-0 text-zinc-800 text-sm font-normal leading-tight text-left "
+                className="grow shrink basis-0  text-sm font-normal leading-tight text-left "
               >
                 &lt;iframe &nbsp;&nbsp;src=&quot;
                 {`${envConfig.NEXT_PUBLIC_EMBED}`}/embed/?chatbot_id=
@@ -145,10 +146,10 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
             <div className="text-stone-500 text-sm font-normal leading-normal pt-6 pb-2">
               To share a direct link to the chatbot use this url:
             </div>
-            <div className="w-full h-h-full px-[15px] py-3 bg-gray-100 rounded-md justify-between items-start inline-flex relative">
+            <div className="w-full h-h-full px-[15px] py-3 bg:gray-100 rounded-md justify-between items-start inline-flex relative share">
               <div
                 ref={embedCodeRef}
-                className="grow shrink basis-0 text-zinc-800 text-sm font-normal leading-tight text-left  pr-5"
+                className="grow shrink basis-0  text-sm font-normal leading-tight text-left  pr-5"
               >
                 {envConfig.NEXT_PUBLIC_EMBED}/embed/?chatbot_id={id}
                 &amp;modeltype={chatbot?.model}
