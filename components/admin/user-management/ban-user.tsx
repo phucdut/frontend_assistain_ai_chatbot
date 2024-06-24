@@ -15,7 +15,7 @@ type Props = {
 };
 
 const BanUser: React.FC<Props> = ({ user_id }) => {
-  const [isBanting, setIsBanting] = useState(false);
+  const [isBanting, setIsBanting] = useState(true);
   const MySwal = withReactContent(Swal);
   const [user, setUser] = useState<AccountResType | null>(null);
   const { toast } = useToast();
