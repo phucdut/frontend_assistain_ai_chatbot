@@ -122,7 +122,7 @@ const ComponentChangePassword = () => {
                   name="password_old"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold">
                         Password Old
                       </FormLabel>
                       <FormControl>
@@ -162,7 +162,7 @@ const ComponentChangePassword = () => {
                   name="password_new"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold">
                         Password New
                       </FormLabel>
                       <FormControl>

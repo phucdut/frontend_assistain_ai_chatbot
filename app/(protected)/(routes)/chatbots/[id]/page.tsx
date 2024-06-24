@@ -28,9 +28,8 @@ export default async function ChatbotPage({ params, searchParams }: Props) {
 
   return (
     <div>
-      {!chatbot && <div>Không tìm thấy chat bot</div>}
       <div className="text-[24px] font-semibold leading-[141.667%] max-w-full pt-7 pl-7 ">
-        <h1>{chatbot && chatbot.chatbot_name}</h1>
+        <h1>{chatbot && chatbot.chatbot_name}{!chatbot && <div>Chatbot not found</div>}</h1>
       </div>
       <Tabs defaultValue="chatGPT" className="w-full">
         <TabsList className="grid w-[600px] grid-cols-3">

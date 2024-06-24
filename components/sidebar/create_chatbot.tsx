@@ -78,7 +78,7 @@ const CreateChatbot = () => {
         <div className="max-w-lg">
           <DrawerHeader>
             <div className="flex items-center justify-between text-[20px] leading-[30px]  gap-[10px]">
-              <span className=" text-custom-gray font-semibold text-right">
+              <span className=" font-semibold text-right">
                 Create New Chatbot
               </span>
               <DrawerClose asChild>

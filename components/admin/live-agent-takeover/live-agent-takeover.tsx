@@ -156,37 +156,37 @@ const LiveAgentTakeover = () => {
   );
 
   return (
-    <div className="w-full h-full bg-gray-50 shadow rounded-3xl">
-      <div className="w-full h-[70px] bg-white flex justify-start items-center rounded-t-3xl">
+    <div className="w-full h-full bg:gray-50 shadow rounded-3xl">
+      <div className="w-full h-[70px] bg:white flex justify-start items-center rounded-t-3xl">
         <div className="text-[24px] font-semibold leading-[141.667%] max-w-full px-7">
           <h1>Live Agent Takeover</h1>
         </div>
       </div>
-      <Separator className=" bg-slate-300 " />
+      <Separator className=" bg:slate-300 " />
       <div className="w-full h-[660px] justify-center overflow-y-auto custom-scroll rounded-b-3xl">
         <div className="pt-0 w-full h-[660px] lg:pb-7 overflow-auto custom-scroll ">
-          <TableDashboard className="border border-slate-300">
+          <TableDashboard className="">
             <TableCaption></TableCaption>
-            <TableHeader className="bg-gray-50 ">
+            <TableHeader className="bg:gray-50 ">
               <TableRow>
-                <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+                <TableHead className=" text-[13px] font-semibold leading-tight">
                   Name Conversation
                 </TableHead>
-                <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+                <TableHead className=" text-[13px] font-semibold leading-tight">
                   Name Chatbot
                 </TableHead>
-                <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+                <TableHead className=" text-[13px] font-semibold leading-tight">
                   Join message
                 </TableHead>
-                <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+                <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                   Date create
                 </TableHead>
-                <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+                <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                   Date update
                 </TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="bg-white">
+            <TableBody className="bg:white">
               {filteredConversation?.map((conversationItem, index) => (
                 <TableRow key={index}>
                   <TableCell>
@@ -196,10 +196,10 @@ const LiveAgentTakeover = () => {
                     >
                       <input
                         type="checkbox"
-                        className="w-6 h-6 left-0 top-0 bg-white rounded-md border border-slate-300"
+                        className="w-6 h-6 left-0 top-0 bg:white rounded-md border border-slate-300"
                         checked={conversationItem.is_active || false}
                       />
-                      <div className="text-zinc-900 text-[13px] leading-tight">
+                      <div className=" text-[13px] leading-tight">
                         {conversationItem.conversation_name}
                       </div>
                     </Link>

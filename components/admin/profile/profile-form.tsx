@@ -139,11 +139,11 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
                 height={19}
                 className=" "
               ></Image>
-              <div className="text-zinc-800 text-sm font-normal leading-snug ">
+              <div className=" text-sm font-normal leading-snug ">
                 Current Backage
               </div>
             </div>
-            <div className="text-zinc-800 text-sm font-bold leading-snug uppercase">
+            <div className=" text-sm font-bold leading-snug uppercase">
               {subPlan?.plan_title}
             </div>
           </div>
@@ -157,7 +157,7 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
                 height={19}
                 className=" "
               ></Image>
-              <div className="text-zinc-800 text-sm font-normal leading-snug">
+              <div className=" text-sm font-normal leading-snug">
                 Billing dashboard
               </div>
             </div>
@@ -175,15 +175,15 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
                 height={19}
                 className=" "
               ></Image>
-              <div className="text-zinc-800 text-sm font-normal leading-snug">
+              <div className=" text-sm font-normal leading-snug">
                 Change Password
               </div>
             </div>
             <DrawerTrigger asChild>
-              <div className="">
-                <Button className="text-zinc-900 text-[13px] font-medium leading-tight h-9 px-3 py-2 bg-gray-100 rounded-md border">
+              <div className=" px-3 py-2 bg:gray-100 justify-center items-center gap-1.5 inline-flex text-[13px] font-medium rounded-md border">
+                <div className="">
                   Change Password
-                </Button>
+                </div>
               </div>
             </DrawerTrigger>
             <DrawerContent>
@@ -218,8 +218,8 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
                         ALLYBY
                       </h1>
                     </div>
-                    <div className="w-[110px] h-[110px] rounded-full bg-custom-gray-6 absolute inset-y-32 inset-x-5">
-                      <div className="w-[110px] h-[110px] rounded-full bg-custom-gray-6 relative pt-5">
+                    <div className="w-[110px] h-[110px] rounded-full bg:custom-gray-6 absolute inset-y-32 inset-x-5">
+                      <div className="w-[110px] h-[110px] rounded-full bg:custom-gray-6 relative pt-5">
                         {account?.avatar_url && (
                           <Image
                             src={account.avatar_url}
@@ -234,11 +234,11 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
                     <div className="pl-36 pt-3 flex gap-10">
                       <div>
                         <div className="flex items-center justify-start gap-1 ">
-                          <div className="text-zinc-900 text-xl font-semibold leading-[30px] ">
+                          <div className="text-xl font-semibold leading-[30px] ">
                             {account?.display_name}
                           </div>
                         </div>
-                        <div className="text-zinc-900 text-sm font-normal leading-tight">
+                        <div className="text-sm font-normal leading-tight">
                           {account?.email}
                         </div>
                       </div>
@@ -264,12 +264,12 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
                 height={19}
                 className=" "
               ></Image>
-              <div className="text-zinc-800 text-sm font-normal leading-snug">
+              <div className=" text-sm font-normal leading-snug">
                 API Key
               </div>
             </div>
-            <div className="w-[140px] h-9 px-3 py-2 bg-gray-100 rounded-md border justify-center items-center gap-1.5 inline-flex">
-              <div className="text-zinc-900 text-[13px] font-medium leading-tight">
+            <div className="w-[140px] h-9 px-3 py-2 bg:gray-100 rounded-md border justify-center items-center gap-1.5 inline-flex">
+              <div className="text-[13px] font-medium leading-tight">
                 Generate API Key
               </div>
             </div>
@@ -284,30 +284,30 @@ const ProfileForm: React.FC<ProfileProps> = ({ id }) => {
                 height={19}
                 className=" "
               ></Image>
-              <div className="w-[212px] text-zinc-800 text-sm font-normal leading-snug">
+              <div className="w-[212px]  text-sm font-normal leading-snug">
                 Invite a friend and you’ll both receive $20 credit
               </div>
             </div>
             <div
-              className="w-[90px] h-9 px-3 py-2 bg-gray-100 rounded-md border justify-center items-center gap-1.5 inline-flex"
+              className="w-[90px] h-9 px-3 py-2 bg:gray-100 rounded-md border justify-center items-center gap-1.5 inline-flex"
               onClick={handleCopy}
             >
-              <div className="text-zinc-900 text-[13px] font-medium leading-tight">
+              <div className="text-[13px] font-medium leading-tight">
                 Copy link
               </div>
             </div>
           </div>
           <Separator className=" bg-slate-300" />
-          <div className="text-center text-zinc-900 text-xl font-normal leading-[30px] pt-6 ">
+          <div className="text-center text-xl font-normal leading-[30px] pt-6 ">
             95%
           </div>
           <div className="flex justify-center py-2">
             <Progress value={95} className="w-[60%]" />
           </div>
-          <div className="text-center text-zinc-900 text-[50px] font-semibold ">
+          <div className="text-center text-[50px] font-semibold ">
             30
           </div>
-          <div className="text-center text-zinc-800 text-sm font-normal leading-snug">
+          <div className="text-center  text-sm font-normal leading-snug">
             Credits available. Need more?
           </div>
         </div>

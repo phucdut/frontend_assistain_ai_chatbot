@@ -113,7 +113,7 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
             <div className="text-stone-500 text-sm font-normal leading-normal pt-6 pb-2">
               To embed the chatbot using an iframe use the following code:
             </div>
-            <div className="w-full h-full px-[15px] py-3 bg-gray-100 rounded-md justify-between items-start inline-flex relative">
+            <div className="w-full h-full px-[15px] py-3 bg:gray-100 rounded-md justify-between items-start inline-flex relative">
               <div
                 ref={embedCodeRef}
                 className="grow shrink basis-0 text-zinc-800 text-sm font-normal leading-tight text-left "
@@ -173,7 +173,7 @@ const ComponentShareChatbot: React.FC<ComponentShareChatbotProps> = ({
   return (
     <div className="px-5">
       <Separator className="opacity-50 border border-slate-300" />
-      <div className="text-zinc-900 text-sm font-medium leading-normal pt-5 pb-2">
+      <div className=" text-sm font-medium leading-normal pt-5 pb-2">
         Share your chatbot via
       </div>
       <Select onValueChange={setSelectedOption}>

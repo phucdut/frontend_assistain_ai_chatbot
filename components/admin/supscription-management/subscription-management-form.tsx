@@ -96,8 +96,8 @@ const SupscriptionManagementForm = () => {
 
   return (
     <div>
-      <div className="w-full h-full bg-gray-50 shadow rounded-3xl">
-        <div className="w-full h-[70px] bg-white flex justify-start items-center rounded-t-3xl">
+      <div className="w-full h-full bg:gray-50 shadow rounded-3xl">
+        <div className="w-full h-[70px] bg:white flex justify-start items-center rounded-t-3xl">
           <div className="text-[24px] font-semibold leading-[141.667%] max-w-full px-7 flex justify-start items-center gap-10">
             <h1>Subscription Plan</h1>
             <Drawer>
@@ -115,7 +115,7 @@ const SupscriptionManagementForm = () => {
                   <div className="max-w-lg">
                     <DrawerHeader>
                       <div className="flex items-center justify-between text-[20px] leading-[30px]  gap-[10px]">
-                        <span className=" text-custom-gray font-semibold text-right">
+                        <span className="  font-semibold text-right">
                           Create New Subscription Plan
                         </span>
                         <DrawerClose asChild>
@@ -147,40 +147,40 @@ const SupscriptionManagementForm = () => {
         <Separator className=" bg-slate-300 " />
         <div className="w-full h-[660px] justify-center overflow-y-auto custom-scroll rounded-b-3xl">
           <div className="pt-0 w-full h-[660px] lg:pb-7 overflow-auto custom-scroll ">
-            <TableDashboard className="border border-slate-300">
+            <TableDashboard className="">
               <TableCaption></TableCaption>
-              <TableHeader className="bg-gray-50 ">
+              <TableHeader className="bg:gray-50 ">
                 <TableRow>
-                  <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className=" text-[13px] font-semibold leading-tight">
                     Plan title
                   </TableHead>
-                  <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className=" text-[13px] font-semibold leading-tight">
                     Number of chatbots
                   </TableHead>
-                  <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className=" text-[13px] font-semibold leading-tight">
                     Message credits
                   </TableHead>
-                  <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className=" text-[13px] font-semibold leading-tight">
                     Max character per chatbot
                   </TableHead>
-                  <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className=" text-[13px] font-semibold leading-tight">
                     Plan price
                   </TableHead>
-                  <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                     Available model
                   </TableHead>
-                  <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                     Date update
                   </TableHead>
-                  <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                     Edit
                   </TableHead>
-                  <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                     Delete
                   </TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody className="bg-white">
+              <TableBody className="bg:white">
                 {subscriptionPlan?.results.map(
                   (
                     subscriptionPlanItem: SubscriptionPlanResListType["results"][0],
@@ -190,10 +190,10 @@ const SupscriptionManagementForm = () => {
                       <TableCell className="flex justify-start items-center gap-3">
                         <input
                           type="checkbox"
-                          className="w-6 h-6 left-0 top-0 bg-white rounded-md border border-slate-300"
+                          className="w-6 h-6 left-0 top-0 bg:white rounded-md border border-slate-300"
                           checked={subscriptionPlanItem?.live_agent_takeover}
                         ></input>
-                        <div className="text-zinc-900 text-[13px] font-semibold leading-tight uppercase">
+                        <div className=" text-[13px] font-semibold leading-tight uppercase">
                           {subscriptionPlanItem?.plan_title}
                         </div>
                       </TableCell>
@@ -234,7 +234,7 @@ const SupscriptionManagementForm = () => {
                             <div className="max-w-lg">
                               <DrawerHeader>
                                 <div className="flex items-center justify-between text-[20px] leading-[30px] gap-[10px]">
-                                  <div className="text-zinc-900 text-xl font-semibold leading-[30px]">
+                                  <div className=" text-xl font-semibold leading-[30px]">
                                     Edit your Subscription Plan
                                   </div>
                                   <DrawerClose asChild>

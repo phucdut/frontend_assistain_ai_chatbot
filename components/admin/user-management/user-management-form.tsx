@@ -63,8 +63,8 @@ const UserManagementForm = () => {
 
   return (
     <div>
-      <div className="w-full h-full bg-gray-50 shadow rounded-3xl">
-        <div className="w-full h-[70px] bg-white flex justify-start items-center rounded-t-3xl">
+      <div className="w-full h-full bg:gray-50 shadow rounded-3xl">
+        <div className="w-full h-[70px] bg:white flex justify-start items-center rounded-t-3xl">
           <div className="text-[24px] font-semibold leading-[141.667%] max-w-full px-7">
             <h1>User Management</h1>
           </div>
@@ -72,37 +72,37 @@ const UserManagementForm = () => {
         <Separator className=" bg-slate-300 " />
         <div className="w-full h-[660px] justify-center overflow-y-auto custom-scroll rounded-b-3xl">
           <div className="pt-0 w-full h-[660px] lg:pb-7 overflow-auto custom-scroll ">
-            <TableDashboard className="border border-slate-300">
+            <TableDashboard className="">
               <TableCaption></TableCaption>
-              <TableHeader className="bg-gray-50 ">
+              <TableHeader className="bg:gray-50 ">
                 <TableRow>
-                  <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className=" text-[13px] font-semibold leading-tight">
                     Name User
                   </TableHead>
-                  <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className=" text-[13px] font-semibold leading-tight">
                     Email
                   </TableHead>
-                  <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight ">
+                  <TableHead className=" text-[13px] font-semibold leading-tight ">
                     Quantity chatbots
                   </TableHead>
-                  <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight ">
+                  <TableHead className=" text-[13px] font-semibold leading-tight ">
                     Total messages
                   </TableHead>
-                  <TableHead className="text-zinc-900 text-[13px] font-semibold leading-tight ">
+                  <TableHead className=" text-[13px] font-semibold leading-tight ">
                     Total tokens
                   </TableHead>
-                  {/* <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+                  {/* <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                     Date create
                   </TableHead> */}
-                  <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                     Date update
                   </TableHead>
-                  <TableHead className="text-center text-zinc-900 text-[13px] font-semibold leading-tight">
+                  <TableHead className="text-center  text-[13px] font-semibold leading-tight">
                     Action
                   </TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody className="bg-white">
+              <TableBody className="bg:white">
                 {user?.results.map(
                   (
                     userItem: AccountResListType["results"][0],
@@ -116,10 +116,10 @@ const UserManagementForm = () => {
                         >
                           <input
                             type="checkbox"
-                            className="w-6 h-6 left-0 top-0 bg-white rounded-md border border-slate-300"
+                            className="w-6 h-6 left-0 top-0 bg:white rounded-md border border-slate-300"
                             checked={userItem?.is_active || false}
                           ></input>
-                          <div className="text-zinc-900 text-[13px]  leading-tight">
+                          <div className=" text-[13px]  leading-tight">
                             {userItem?.display_name}
                           </div>
                         </Link>
@@ -131,17 +131,17 @@ const UserManagementForm = () => {
                           //   />
                           userItem.email}
                       </TableCell>
-                      <TableCell className="font-normal text-center">
+                      <TableCell className="font-normal ">
                         {userItem && (
                           <ShowQuantityChatbots user_id={userItem?.id} />
                         )}
                       </TableCell>
-                      <TableCell className="font-normal text-center">
+                      <TableCell className="font-normal ">
                         {userItem && (
                           <ShowTotalMessagesChatbot user_id={userItem?.id} />
                         )}
                       </TableCell>
-                      <TableCell className="font-normal text-center">
+                      <TableCell className="font-normal ">
                         {userItem && (
                           <ShowTotalTokensChatbot user_id={userItem?.id} />
                         )}

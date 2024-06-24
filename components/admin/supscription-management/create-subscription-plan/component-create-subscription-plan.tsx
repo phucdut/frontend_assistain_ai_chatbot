@@ -89,7 +89,7 @@ const ComponentCreateSubPlan = React.forwardRef<
       max_character_per_chatbot: "",
       number_of_chatbots: "",
       available_model: "",
-      live_agent_takeover: false,
+      // live_agent_takeover: false,
     },
   });
 
@@ -166,7 +166,7 @@ const ComponentCreateSubPlan = React.forwardRef<
                   name="plan_title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold">
                         Plan Title
                       </FormLabel>
                       <FormControl>
@@ -191,7 +191,7 @@ const ComponentCreateSubPlan = React.forwardRef<
                   name="plan_price"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold">
                         Plan price
                       </FormLabel>
                       <FormControl>
@@ -216,14 +216,14 @@ const ComponentCreateSubPlan = React.forwardRef<
                   name="available_model"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold ">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold ">
                         Available model
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
-                        <FormControl className="text-[14px] font-normal leading-[20px] pl-5 text-custom-gray-2 ">
+                        <FormControl className="text-[14px] font-normal leading-[20px] pl-5 -2 ">
                           <SelectTrigger>
                             <SelectValue placeholder="Select" />
                           </SelectTrigger>
@@ -247,10 +247,10 @@ const ComponentCreateSubPlan = React.forwardRef<
                   name="message_credits"
                   render={({ field }, disabled = { isPending }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold">
                         Message credits
                       </FormLabel>
-                      <FormControl className="text-[14px] font-normal leading-[20px] text-custom-gray-2">
+                      <FormControl className="text-[14px] font-normal leading-[20px] -2">
                         <Input
                           placeholder="Enter"
                           {...field}
@@ -272,10 +272,10 @@ const ComponentCreateSubPlan = React.forwardRef<
                   name="max_character_per_chatbot"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold">
                         Max character per chatbot
                       </FormLabel>
-                      <FormControl className="text-[14px] font-normal leading-[20px]  text-custom-gray-2">
+                      <FormControl className="text-[14px] font-normal leading-[20px]  -2">
                         <Input
                           placeholder="Enter"
                           {...field}
@@ -297,7 +297,7 @@ const ComponentCreateSubPlan = React.forwardRef<
                   name="number_of_chatbots"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[14px] leading-[24px] text-custom-gray font-semibold ">
+                      <FormLabel className="text-[14px] leading-[24px]  font-semibold ">
                         Number of chatbots
                       </FormLabel>
                       <FormControl>
@@ -316,7 +316,7 @@ const ComponentCreateSubPlan = React.forwardRef<
                   )}
                 />
               </div>
-              <div className="flex items-center justify-between pt-5 text-[14px] font-normal leading-[24px] text-custom-gray-2">
+              <div className="flex items-center justify-between pt-5 text-[14px] font-normal leading-[24px] -2">
                 <div className="flex items-center justify-between">
                   <input
                     type="checkbox"

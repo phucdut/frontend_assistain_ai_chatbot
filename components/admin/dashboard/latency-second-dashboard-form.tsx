@@ -49,7 +49,7 @@ const LatencySecondDashboardForm = ({ formData, conversation_id }: Props) => {
 
   return (
     <div className="w-full h-full shadow rounded-xl relative">
-      <div className="text-zinc-900 text-base font-semibold leading-normal py-5 pl-5">
+      <div className=" text-base font-semibold leading-normal py-5 pl-5">
         Latency (seconds)
       </div>
       <div className="absolute right-6 top-6">

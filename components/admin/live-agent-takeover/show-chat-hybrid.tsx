@@ -159,8 +159,8 @@ const ShowChatHybrid = () => {
   };
 
   return (
-    <div className="w-full h-full bg-gray-50 shadow rounded-3xl">
-      <div className="w-full h-[70px] bg-white flex justify-start items-center rounded-t-3xl">
+    <div className="w-full h-full bg:gray-50  rounded-3xl">
+      <div className="w-full h-[70px] bg:white flex justify-start items-center rounded-t-3xl">
         <div className="text-[24px] font-semibold leading-[141.667%] max-w-full px-7">
           <h1>Live Agent</h1>
         </div>
@@ -239,7 +239,7 @@ const ShowChatHybrid = () => {
                             <Textarea
                               placeholder="Write your message"
                               {...field}
-                              className=" text-[18px] resize-none overflow-y-auto custom-scroll pt-6 w-full bg-gray-50"
+                              className=" text-[18px] resize-none overflow-y-auto custom-scroll pt-6 w-full bg:gray-50"
                               disabled={isPending || !isTextareaEnabled}
                               onKeyDown={handleKeyDown}
                             />
