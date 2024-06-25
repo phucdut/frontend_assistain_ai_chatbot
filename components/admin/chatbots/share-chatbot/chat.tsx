@@ -150,7 +150,7 @@ const ChatEmbed: React.FC<ChatProps> = ({ id }) => {
       }
 
       // Add the bot's response to the chat
-      setLatestMessages((prevMessages) => [
+      setMessages((prevMessages) => [
         ...prevMessages,
         {
           sender_type: "bot",

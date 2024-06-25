@@ -129,7 +129,7 @@ const ShareChatbot: React.FC<ChatProps> = ({ id }) => {
         setConversationId(response.payload.conversation_id);
       }
 
-      setLatestMessages((prevMessages) => [
+      setMessages((prevMessages) => [
         ...prevMessages,
         {
           sender_type: "bot",
