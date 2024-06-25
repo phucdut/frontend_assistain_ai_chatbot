@@ -214,7 +214,10 @@ const SupscriptionManagementForm = () => {
                         {subscriptionPlanItem?.available_model}
                       </TableCell>
                       <TableCell className="font-normal">
-                        {subscriptionPlanItem?.updated_at?.toLocaleString()}
+                        {new Date(
+                          subscriptionPlanItem.updated_at
+                        ).toUTCString()}
+                        {/* {subscriptionPlanItem?.updated_at?.toLocaleString()} */}
                       </TableCell>
                       <TableCell className="text-center flex justify-center pt-7">
                         <Drawer>

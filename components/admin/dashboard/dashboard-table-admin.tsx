@@ -22,7 +22,10 @@ import accountApiRequest from "@/app/apiRequests/account";
 import { handleErrorApi } from "@/lib/utils";
 import chatbotApiRequest from "@/app/apiRequests/chatbot";
 import dashboardApiRequest from "@/app/apiRequests/dashboard";
-import { ConversationAndChatbotResType, RvenueResType } from "@/schemas/dashboard.schema";
+import {
+  ConversationAndChatbotResType,
+  RvenueResType,
+} from "@/schemas/dashboard.schema";
 import ShowValueVisitorTable from "./show_value_visitor_table";
 import ShowValueRatingScoreTable from "./show_value_rating_score_table";
 import adminApiRequest from "@/app/apiRequests/admin";
@@ -43,7 +46,7 @@ const DashboardTableAdminForm = ({ formData }: Props) => {
   );
   const [account, setAccount] = useState<AccountResType | null>(null);
   const [revenueDashboard, setRevenueDashboard] =
-  useState<ConversationAndChatbotResType | null>(null);
+    useState<ConversationAndChatbotResType | null>(null);
   const [conversationDashboard, setConversationDashboard] =
     useState<RvenueResType | null>(null);
   const router = useRouter();
@@ -68,11 +71,10 @@ const DashboardTableAdminForm = ({ formData }: Props) => {
   useEffect(() => {
     const fetchRequest = async () => {
       try {
-        const result =
-          await dashboardApiRequest.dashboardRevenueValueClient(
-            formData.type,
-            formData.date,
-          );
+        const result = await dashboardApiRequest.dashboardRevenueValueClient(
+          formData.type,
+          formData.date
+        );
         setConversationDashboard(result.payload);
         // console.log(result);
       } catch (error) {
@@ -191,7 +193,7 @@ const DashboardTableAdminForm = ({ formData }: Props) => {
                     {chatbotItem.total_tokens}
                   </TableCell>
                   <TableCell className="flex justify-center">
-                    {new Date(chatbotItem.created_at).toLocaleString()}
+                    {new Date(chatbotItem.created_at).toUTCString()}
                   </TableCell>
                 </TableRow>
               )

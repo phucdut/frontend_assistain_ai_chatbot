@@ -211,10 +211,10 @@ const LiveAgentTakeover = () => {
                     {conversationItem.is_taken ? "Open" : "Closed"}
                   </TableCell>
                   <TableCell className="text-center">
-                    {new Date(conversationItem.created_at).toLocaleString()}
+                    {new Date(conversationItem.created_at).toUTCString()}
                   </TableCell>
                   <TableCell className="text-center font-normal">
-                    {new Date(conversationItem.updated_at).toLocaleString()}
+                    {new Date(conversationItem.updated_at).toUTCString()}
                   </TableCell>
                 </TableRow>
               ))}

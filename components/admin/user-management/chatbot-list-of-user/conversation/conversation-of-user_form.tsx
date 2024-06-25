@@ -65,9 +65,10 @@ const ConversationOfUserForm = () => {
     const fetchRequest = async () => {
       try {
         if (chatbotId) {
-          const result = await conversationApiRequest.conversationClientWithChatbot(
-            chatbotId
-          );
+          const result =
+            await conversationApiRequest.conversationClientWithChatbot(
+              chatbotId
+            );
           // Sắp xếp danh sách cuộc trò chuyện theo thời gian cập nhật mới nhất
           const sortedConversations = result.payload.results.sort(
             (a, b) =>
@@ -138,11 +139,11 @@ const ConversationOfUserForm = () => {
                         className="flex justify-start items-center gap-3 font-medium"
                         href={`conversation/live-chat-hybrid?conversation_id=${conversationItem?.id}&chatbot_id=${conversationItem?.chatbot_id}`}
                       >
-                        <input
+                        {/* <input
                           type="checkbox"
                           className="w-6 h-6 left-0 top-0 bg:white rounded-md border border-slate-300"
                           checked={conversationItem?.is_active || false}
-                        ></input>
+                        ></input> */}
                         <div className=" text-[13px]  leading-tight">
                           {conversationItem?.conversation_name}
                         </div>
@@ -159,10 +160,12 @@ const ConversationOfUserForm = () => {
                       {conversationItem?.is_taken ? "Open" : "Closes"}
                     </TableCell>
                     <TableCell className="text-center">
-                      {conversationItem?.created_at?.toLocaleString()}
+                      {new Date(conversationItem?.created_at).toUTCString()}
+                      {/* {conversationItem?.created_at?.toLocaleString()} */}
                     </TableCell>
                     <TableCell className="flex justify-center font-normal">
-                      {conversationItem?.updated_at?.toLocaleString()}
+                      {new Date(conversationItem?.updated_at).toUTCString()}
+                      {/* {conversationItem?.updated_at?.toLocaleString()} */}
                     </TableCell>
                   </TableRow>
                 )

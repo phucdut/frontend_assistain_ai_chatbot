@@ -137,8 +137,10 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ id }) => {
           <div className="">
             <div className=" flex items-center justify-between text-[14px] leading-[22px] ">
               <DrawerTrigger asChild>
-                <div  className="px-3 py-2 bg-gray-171  text-[13px]  rounded-md border border-slate-300 font-semibold 
-                w-40 h-12 gap-2 flex justify-center items-center text-white">
+                <div
+                  className="px-3 py-2 bg-gray-171  text-[13px]  rounded-md border border-slate-300 font-semibold 
+                w-40 h-12 gap-2 flex justify-center items-center text-white"
+                >
                   <Image
                     src="/Fill - Add - Plus.svg"
                     alt="x"
@@ -200,10 +202,10 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ id }) => {
                     {knowledgeBaseItem.content_type}
                   </TableCell>
                   <TableCell>
-                    {new Date(knowledgeBaseItem.created_at).toLocaleString()}
+                    {new Date(knowledgeBaseItem.created_at).toUTCString()}
                   </TableCell>
                   <TableCell>
-                    {new Date(knowledgeBaseItem.updated_at).toLocaleString()}
+                    {new Date(knowledgeBaseItem.updated_at).toUTCString()}
                   </TableCell>
                   <TableCell>{knowledgeBaseItem.file_size} KB</TableCell>
                   <TableCell className="text-center">
