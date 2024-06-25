@@ -161,11 +161,11 @@ const DashboardTableAdminForm = ({ formData }: Props) => {
               ) => (
                 <TableRow key={index}>
                   <TableCell className="flex justify-start items-center gap-3">
-                    <input
+                    {/* <input
                       type="checkbox"
                       className="w-6 h-6 left-0 top-0 bg:white rounded-md border border-slate-300"
-                    ></input>
-                    <div className=" text-[13px] font-normal leading-tight">
+                    ></input> */}
+                    <div className=" text-[13px] font-semibold leading-tight">
                       {chatbotItem.chatbot_name}
                     </div>
                   </TableCell>
