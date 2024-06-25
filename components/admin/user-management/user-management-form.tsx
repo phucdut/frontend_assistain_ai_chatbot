@@ -114,11 +114,11 @@ const UserManagementForm = () => {
                           className="flex justify-start items-center gap-3 font-semibold uppercase"
                           href={`user-management/chatbots-list?user_id=${userItem?.id}&user_name=${userItem?.display_name}`}
                         >
-                          <input
+                          {/* <input
                             type="checkbox"
                             className="w-6 h-6 left-0 top-0 bg:white rounded-md border border-slate-300"
                             checked={userItem?.is_active || false}
-                          ></input>
+                          ></input> */}
                           <div className=" text-[13px]  leading-tight">
                             {userItem?.display_name}
                           </div>
@@ -150,12 +150,10 @@ const UserManagementForm = () => {
                         {userItem?.created_at?.toLocaleString()}
                       </TableCell> */}
                       <TableCell className="text-center font-normal">
-                        {userItem?.updated_at?.toLocaleString()}
+                        {new Date(userItem?.updated_at).toUTCString()}
                       </TableCell>
                       <TableCell className="flex justify-center font-normal">
-                        {userItem && (
-                          <BanUser user_id={userItem?.id} />
-                        )}
+                        {userItem && <BanUser user_id={userItem?.id} />}
                       </TableCell>
                     </TableRow>
                   )

@@ -99,11 +99,11 @@ const DashboardTableAdminForm = ({ formData, user_id }: Props) => {
               ) => (
                 <TableRow key={index}>
                   <TableCell className="flex justify-start items-center gap-3">
-                    <input
+                    {/* <input
                       type="checkbox"
                       className="w-6 h-6 left-0 top-0 bg:white rounded-md border border-slate-300"
                       checked={chatbotItem?.is_active || false}
-                    ></input>
+                    ></input> */}
                     <Link
                       className="flex justify-start items-center gap-3 font-medium"
                       href={`/user-management/chatbots-list/conversation?&chatbot_id=${chatbotItem.id}`}
@@ -139,7 +139,7 @@ const DashboardTableAdminForm = ({ formData, user_id }: Props) => {
                     {chatbotItem.total_tokens}
                   </TableCell>
                   <TableCell className="flex justify-center">
-                    {new Date(chatbotItem.created_at).toLocaleString()}
+                    {new Date(chatbotItem.created_at).toUTCString()}
                   </TableCell>
                 </TableRow>
               )

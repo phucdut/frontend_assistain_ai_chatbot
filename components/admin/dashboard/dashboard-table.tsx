@@ -163,7 +163,7 @@ const DashboardTableForm = ({ formData }: Props) => {
                     {chatbotItem.total_tokens}
                   </TableCell>
                   <TableCell className="flex justify-center">
-                    {new Date(chatbotItem.created_at).toLocaleString()}
+                    {new Date(chatbotItem.created_at).toUTCString()}
                   </TableCell>
                 </TableRow>
               )
